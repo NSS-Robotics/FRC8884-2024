@@ -27,6 +27,11 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class GlobalVariables {
+    public static final int outputRangeMax = 1;
+    public static final int outputRangeMin = -1;
+  }
+
   public static class Swerve {
   double wheelDiameter = Units.inchesToMeters(4.0);
         
@@ -143,6 +148,21 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class IntakeConstants {
+      public static final int leftMotor = 8;
+      public static final int rightMotor = 9;
+      public static final int currentLimit = 0;
+      public static final double holdingVoltage = 0;
+      public static final double kS = 0;
+      public static final double kV = 0;
+      public static final double kA = 0;
+      public static final double kP = 0;
+      public static final double kI = 0;
+      public static final double kD = 0;
+      public static final double FF = 0;
+
     }
 }
 

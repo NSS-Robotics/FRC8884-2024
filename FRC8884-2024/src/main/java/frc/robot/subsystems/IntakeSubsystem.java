@@ -1,14 +1,11 @@
 package frc.robot.subsystems;
 
-public class Intake {
-    package frc.robot.subsystems;
-
 import frc.robot.Constants;
 
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,14 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeSubsystem extends SubsystemBase{
 
-    private CANSparkMax intakeMotor = new CANSparkMax(Constants.INTAKE_MOTOR_ONE, MotorType.kBrushless);
-    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.INTAKE_MOTOR_TWO, MotorType.kBrushless);
+    private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.leftMotor, MotorType.kBrushless);
+    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.rightMotor, MotorType.kBrushless);
 
-    private SparkMaxPIDController intakePID;
-    SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.INTAKE_KS, Constants.INTAKE_KV,
-        Constants.INTAKE_KA);
+    private SparkPIDController intakePID;
+    SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS, Constants.IntakeConstants.kV,
+        Constants.IntakeConstants.kA);
 
-    DigitalInput limitSwitch = new DigitalInput(1);
     
     public void setupMotors(){
       
@@ -35,24 +31,17 @@ public class IntakeSubsystem extends SubsystemBase{
 
         intakeMotor.setInverted(false);
 
-        intakeMotor.setSmartCurrentLimit(Constants.CURRENT_LIMIT_INTAKE);
-        intakeMotorFollower.setSmartCurrentLimit(Constants.CURRENT_LIMIT_INTAKE);
+        intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
+        intakeMotorFollower.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
 
         intakePID = intakeMotor.getPIDController();
 
-        intakePID.setP(Constants.INTAKE_PID0_P, 0);
-        intakePID.setI(Constants.INTAKE_PID0_I, 0);
-        intakePID.setD(Constants.INTAKE_PID0_D, 0);
+        intakePID.setP(Constants.IntakeConstants.kP, 0);
+        intakePID.setI(Constants.IntakeConstants.kI, 0);
+        intakePID.setD(Constants.IntakeConstants.kD, 0);
         intakePID.setIZone(0, 0);
-        intakePID.setFF(Constants.INTAKE_PID0_F, 0);
-        intakePID.setOutputRange(Constants.OUTPUT_RANGE_MIN, Constants.OUTPUT_RANGE_MAX, 0);
-    
-        intakePID.setP(Constants.INTAKE_PID1_P, 1);
-        intakePID.setI(Constants.INTAKE_PID1_I, 1);
-        intakePID.setD(Constants.INTAKE_PID1_D, 1);
-        intakePID.setIZone(0, 1);
-        intakePID.setFF(Constants.INTAKE_PID1_F, 1);
-        intakePID.setOutputRange(Constants.OUTPUT_RANGE_MIN, Constants.OUTPUT_RANGE_MAX, 1);
+        intakePID.setFF(Constants.IntakeConstants.FF, 0);
+        intakePID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
     
         intakeMotor.setOpenLoopRampRate(0.05);
         
@@ -67,8 +56,8 @@ public class IntakeSubsystem extends SubsystemBase{
       //SmartDashboard.putNumber("Intake arbFF", arbFF);
       //SmartDashboard.putNumber("Intake velocity target", velocity);
   
-      intakePID.setReference(velocity, ControlType.kVelocity, Constants.INTAKE_PID_SLOT_VELOCITY, arbFF,
-          SparkMaxPIDController.ArbFFUnits.kVoltage);
+      intakePID.setReference(velocity, ControlType.kVelocity, 0, arbFF,
+          SparkPIDController.ArbFFUnits.kVoltage);
     }
 
     public void stop(){
@@ -79,29 +68,25 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeMotor.set(0);
         }
 
-    public void cubeIntake(double speed){
+    public void intake(double speed){
         setVelocity(speed);
       }
 
     public void setHoldingCurrent(){
-      intakeMotor.setVoltage(Constants.INTAKE_VOLTAGE_HOLDING_CUBE);
+      intakeMotor.setVoltage(Constants.IntakeConstants.holdingVoltage);
       }
 
-    public void cubeOuttake(double speed){
+    public void Outtake(double speed){
         setVelocity(-1*speed);
       }
     public void cubeShoot(double speed){
       intakeMotor.set(-1*speed);
     }
-    
-    public void holdingCube(){
-      boolean state = limitSwitch.get(); //get the state of the switch
-      SmartDashboard.putBoolean("Holding Cube", state);
-    }
+ 
 
 
     public IntakeSubsystem() {
         setupMotors();
       }
 }
-}
+
