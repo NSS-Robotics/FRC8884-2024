@@ -39,16 +39,16 @@ public class SwerveModule {
 
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
-        angleEncoder.getConfigurator().apply(robot.ctreConfigs.swerveCANcoderConfig);
+        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
 
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
-        mAngleMotor.getConfigurator().apply(robot.ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
         resetToAbsolute();
 
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
-        mDriveMotor.getConfigurator().apply(robot.ctreConfigs.swerveDriveFXConfig);
+        mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
         mDriveMotor.getConfigurator().setPosition(0.0);
     }
 
