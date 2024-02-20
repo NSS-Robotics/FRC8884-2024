@@ -14,9 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
 
+<<<<<<< Updated upstream:FRC8884-2024/src/main/java/frc/robot/subsystems/Intake.java
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.leftMotor, MotorType.kBrushless);
     private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.rightMotor,
             MotorType.kBrushless);
+=======
+    private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.inner, MotorType.kBrushless);
+    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.outer, MotorType.kBrushless);
+>>>>>>> Stashed changes:FRC8884-2024/src/main/java/frc/robot/subsystems/IntakeSubsystem.java
 
     private SparkPIDController intakePID;
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,
