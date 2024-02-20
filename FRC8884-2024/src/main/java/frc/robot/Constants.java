@@ -261,17 +261,19 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int leftMotor = 8;
-        public static final int rightMotor = 9;
-        public static final int currentLimit = 0;
-        public static final double holdingVoltage = 0;
-        public static final double kS = 0;
-        public static final double kV = 0;
-        public static final double kA = 0;
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double FF = 0;
+      public static final int inner = 16;
+      public static final int outer = 17;
+      public static final int feederOut = 18;
+      public static final int feederIn = 19;
+      public static final int currentLimit = 0;
+      public static final double holdingVoltage = 0;
+      public static final double kS = 0;
+      public static final double kV = 0;
+      public static final double kA = 0;
+      public static final double kP = 0;
+      public static final double kI = 0;
+      public static final double kD = 0;
+      public static final double FF = 0;
     }
 
     public static final class PivotConstants {

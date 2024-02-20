@@ -14,9 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
 
-    private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.leftMotor, MotorType.kBrushless);
-    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.rightMotor,
-            MotorType.kBrushless);
+    private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.inner, MotorType.kBrushless);
+    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.outer, MotorType.kBrushless);
 
     private SparkPIDController intakePID;
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,
