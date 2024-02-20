@@ -1,6 +1,4 @@
-package frc.robot.subsystems;
-
-import frc.robot.Constants;
+package frc.robot;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
