@@ -12,13 +12,13 @@ public class Shooter {
     }
 
     public static void in() {
-        motor1.set(-1);
-        motor2.set(1);
+        motor1.set(-.1);
+        motor2.set(.1);
     }
 
     public static void out() {
-        motor1.set(1);
-        motor2.set(-1);
+        motor1.set(.7);
+        motor2.set(-.7);
     }
 
     public static void stop() {

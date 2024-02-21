@@ -271,10 +271,10 @@ public final class Constants {
         public static final int feederIn = 19;
         public static final int currentLimit = 0;
         public static final double holdingVoltage = 0;
-        public static final double kS = 0;
-        public static final double kV = 0;
-        public static final double kA = 0;
-        public static final double kP = 0;
+        public static final double kS = 0.45983;
+        public static final double kV = 0.0022016;
+        public static final double kA = 0.00025834;
+        public static final double kP = 7.34E-04;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 0;

@@ -5,13 +5,13 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+// import frc.robot.commands.Autos;
+// import frc.robot.commands.ExampleCommand;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Swerve;
+// import frc.robot.subsystems.Swerve;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,17 +35,19 @@ public class RobotContainer {
 
     /* Driver Controller */
     private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
-    private final Swerve m_exampleSubsystem = new Swerve();
-    JoystickButton in = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-    JoystickButton out = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+    // private final Swerve m_exampleSubsystem = new Swerve();
+    JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+    JoystickButton y = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    JoystickButton b = new JoystickButton(m_driverController, XboxController.Button.kB.value);
+    JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
     /* Driver Buttons */
 
     /* Subsystems */
-    public final Shooter m_shooter = new Shooter(1, 2);
-    public final Intake m_intake = new Intake();
-    public final Pivot m_pivot = new Pivot();
+    private final Shooter m_shooter = new Shooter(20, 21);
+    private final Intake m_intake = new Intake();
+    private final Pivot m_pivot = new Pivot();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -73,8 +76,9 @@ public class RobotContainer {
         /* Driver Buttons */
 
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        in.whileTrue(new InstantCommand(Shooter::in)).whileFalse(new InstantCommand(Shooter::stop));
-        out.whileTrue(new InstantCommand(Shooter::out)).whileFalse(new InstantCommand(Shooter::stop));
+        a.whileTrue(new InstantCommand(m_intake::intake)).whileFalse(new InstantCommand(m_intake::stop));
+        y.whileTrue(new InstantCommand(m_intake::Outtake)).whileFalse(new InstantCommand(m_intake::stop));
+
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is
         // pressed,
@@ -87,8 +91,8 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(m_exampleSubsystem);
-    }
+    // public Command getAutonomousCommand() {
+    //     // An example command will be run in autonomous
+    //     // return Autos.exampleAuto(m_exampleSubsystem);
+    // }
 }
