@@ -18,7 +18,7 @@ public class Pivot extends SubsystemBase {
 
     public boolean pivotReset = false;
 
-    public void elevatorsetup() {
+    public void pivotSetup() {
         // Lmotor Setup
         Lmotor = new CANSparkMax(
                 Constants.PivotConstants.leftMotor,
@@ -137,7 +137,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot() {
-        elevatorsetup();
+        pivotSetup();
     }
 
     @Override

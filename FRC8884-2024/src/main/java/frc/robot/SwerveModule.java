@@ -1,6 +1,10 @@
+<<<<<<< HEAD:FRC8884-2024/src/main/java/frc/robot/subsystems/SwerveModule.java
 // package frc.robot.subsystems;
 
 // import frc.robot.Constants;
+=======
+package frc.robot;
+>>>>>>> 134c3586448a895d0245ff20c5ea9ed20107d901:FRC8884-2024/src/main/java/frc/robot/SwerveModule.java
 
 // import com.ctre.phoenix6.controls.DutyCycleOut;
 // import com.ctre.phoenix6.controls.PositionVoltage;
@@ -37,6 +41,7 @@
 //         this.moduleNumber = moduleNumber;
 //         this.angleOffset = moduleConstants.angleOffset;
 
+<<<<<<< HEAD:FRC8884-2024/src/main/java/frc/robot/subsystems/SwerveModule.java
 //         /* Angle Encoder Config */
 //         angleEncoder = new CANcoder(moduleConstants.cancoderID);
 //         //angleEncoder.getConfigurator().apply(robot.ctreConfigs.swerveCANcoderConfig);
@@ -51,6 +56,22 @@
 //         //mDriveMotor.getConfigurator().apply(robot.ctreConfigs.swerveDriveFXConfig);
 //         mDriveMotor.getConfigurator().setPosition(0.0);
 //     }
+=======
+        /* Angle Encoder Config */
+        angleEncoder = new CANcoder(moduleConstants.cancoderID);
+        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
+
+        /* Angle Motor Config */
+        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+        mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
+        resetToAbsolute();
+
+        /* Drive Motor Config */
+        mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+        mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
+        mDriveMotor.getConfigurator().setPosition(0.0);
+    }
+>>>>>>> 134c3586448a895d0245ff20c5ea9ed20107d901:FRC8884-2024/src/main/java/frc/robot/SwerveModule.java
 
 //     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
 //         desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
