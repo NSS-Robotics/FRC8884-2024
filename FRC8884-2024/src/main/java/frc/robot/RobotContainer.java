@@ -36,12 +36,12 @@ public class RobotContainer {
     private final PS4Controller operator = new PS4Controller(1);
 
     /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int translationAxis = XboxController.Axis.kRightY.value;
+    private final int strafeAxis = XboxController.Axis.kRightX.value;
+    private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     private final JoystickButton in = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     private final JoystickButton out = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     private final JoystickButton robotCentric = new JoystickButton(m_driverController,
@@ -60,9 +60,9 @@ public class RobotContainer {
         s_swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_swerve,
-                        () -> -m_driverController.getRawAxis(translationAxis),
-                        () -> -m_driverController.getRawAxis(strafeAxis),
-                        () -> -m_driverController.getRawAxis(rotationAxis),
+                        () -> m_driverController.getRawAxis(translationAxis),
+                        () -> m_driverController.getRawAxis(strafeAxis),
+                        () -> m_driverController.getRawAxis(rotationAxis),
                         () -> robotCentric.getAsBoolean()));
 
         // Configure the trigger bindings
