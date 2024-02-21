@@ -15,7 +15,6 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
@@ -37,54 +36,59 @@ public class Intake extends SubsystemBase {
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,
             Constants.IntakeConstants.kV,
             Constants.IntakeConstants.kA);
-    
-      // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
-  private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
-  // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
-  private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
-  // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
-  private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
 
-  // Create a new SysId routine for characterizing the shooter.
-  private final SysIdRoutine m_sysIdRoutine =
-      new SysIdRoutine(
-          // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
-          new SysIdRoutine.Config(),
-          new SysIdRoutine.Mechanism(
-              // Tell SysId how to plumb the driving voltage to the motor(s).
-              (Measure<Voltage> volts) -> {
-                intakeMotor.setVoltage(volts.in(Volts));
-                intakeMotorFollower.setVoltage(volts.in(Volts));
-              },
-              // Tell SysId how to record a frame of data for each motor on the mechanism being
-              // characterized.
-              log -> {
-                // Record a frame for the shooter motor.
-                log.motor("intake-inner")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage(), Volts))
-                    .angularPosition(m_angle.mut_replace(intakeEncoder.getPosition(), Rotations))
-                    .angularVelocity(
-                        m_velocity.mut_replace(intakeEncoder.getVelocity(), RotationsPerSecond));
-                log.motor("intake-outer")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            intakeMotorFollower.getAppliedOutput() * intakeMotorFollower.getBusVoltage(), Volts))
-                    .angularPosition(m_angle.mut_replace(followerEncoder.getPosition(), Rotations))
-                    .angularVelocity(
-                        m_velocity.mut_replace(followerEncoder.getVelocity(), RotationsPerSecond));
-              },
-              // Tell SysId to make generated commands require this subsystem, suffix test state in
-              // WPILog with this subsystem's name ("shooter")
-              this));
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
+    // Mutable holder for unit-safe linear distance values, persisted to avoid
+    // reallocation.
+    private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid
+    // reallocation.
+    private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
+
+    // Create a new SysId routine for characterizing the shooter.
+    private final SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
+            // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                    // Tell SysId how to plumb the driving voltage to the motor(s).
+                    (Measure<Voltage> volts) -> {
+                        intakeMotor.setVoltage(volts.in(Volts));
+                        intakeMotorFollower.setVoltage(volts.in(Volts));
+                    },
+                    // Tell SysId how to record a frame of data for each motor on the mechanism
+                    // being
+                    // characterized.
+                    log -> {
+                        // Record a frame for the shooter motor.
+                        log.motor("intake-inner")
+                                .voltage(
+                                        m_appliedVoltage.mut_replace(
+                                                intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage(), Volts))
+                                .angularPosition(m_angle.mut_replace(intakeEncoder.getPosition(), Rotations))
+                                .angularVelocity(
+                                        m_velocity.mut_replace(intakeEncoder.getVelocity(), RotationsPerSecond));
+                        log.motor("intake-outer")
+                                .voltage(
+                                        m_appliedVoltage.mut_replace(
+                                                intakeMotorFollower.getAppliedOutput()
+                                                        * intakeMotorFollower.getBusVoltage(),
+                                                Volts))
+                                .angularPosition(m_angle.mut_replace(followerEncoder.getPosition(), Rotations))
+                                .angularVelocity(
+                                        m_velocity.mut_replace(followerEncoder.getVelocity(), RotationsPerSecond));
+                    },
+                    // Tell SysId to make generated commands require this subsystem, suffix test
+                    // state in
+                    // WPILog with this subsystem's name ("shooter")
+                    this));
 
     public void setupMotors() {
 
         intakeMotorFollower.restoreFactoryDefaults();
         intakeMotor.restoreFactoryDefaults();
 
-        intakeMotorFollower.follow(intakeMotor, true);
+        intakeMotorFollower.follow(intakeMotor, false);
 
         intakeMotor.setInverted(false);
 
@@ -103,7 +107,7 @@ public class Intake extends SubsystemBase {
         intakeMotor.setOpenLoopRampRate(0.05);
 
         intakeMotor.burnFlash();
-}
+    }
 
     public void setVelocity(double velocity) {
         double arbFF;
@@ -118,11 +122,12 @@ public class Intake extends SubsystemBase {
 
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutine.dynamic(direction);
-      }
-    
+    }
+
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutine.quasistatic(direction);
-      }
+    }
+
     public void stop() {
         intakeMotor.stopMotor();
     }

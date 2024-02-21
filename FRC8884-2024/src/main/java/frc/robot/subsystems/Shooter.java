@@ -5,16 +5,16 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Shooter extends TimedRobot {
-    
+public class Shooter extends SubsystemBase {
+
     private static TalonFX motor1 = new TalonFX(20);
     private static TalonFX motor2 = new TalonFX(21);
 
-
     public void Shooter() {
-        
+
         // in init function, set slot 0 gains
         var slot0Configs = new Slot0Configs();
         slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
@@ -34,7 +34,7 @@ public class Shooter extends TimedRobot {
         slot1Configs.kD = 0; // no output for error derivative
 
         motor2.getConfigurator().apply(slot1Configs);
-        
+
     }
 
     public void in() {
