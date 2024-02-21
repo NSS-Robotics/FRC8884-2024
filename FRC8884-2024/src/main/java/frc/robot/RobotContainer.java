@@ -63,7 +63,7 @@ public class RobotContainer {
                         s_swerve,
                         () -> m_driverController.getRawAxis(translationAxis),
                         () -> m_driverController.getRawAxis(strafeAxis),
-                        () -> m_driverController.getRawAxis(rotationAxis),
+                        () -> -m_driverController.getRawAxis(rotationAxis),
                         () -> robotCentric.getAsBoolean()));
 
         // Configure the trigger bindings
@@ -87,7 +87,7 @@ public class RobotContainer {
     private void configureBindings() {
         /* Driver Buttons */
 
-        zeroGyro.onTrue(new InstantCommand(() -> s_swerve.zeroHeading()));
+        zeroGyro.onTrue(new InstantCommand(s_swerve::zeroGyro));
         b.whileTrue(new InstantCommand(m_intake::intake)).whileFalse(new InstantCommand(m_intake::stop));
         x.whileTrue(new InstantCommand(m_intake::Outtake)).whileFalse(new InstantCommand(m_intake::stop));
 

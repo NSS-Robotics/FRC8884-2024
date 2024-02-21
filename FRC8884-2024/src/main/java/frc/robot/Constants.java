@@ -45,7 +45,9 @@ public final class Constants {
         /** (6.75 : 1) */
         public static final double L2 = (6.75 / 1.0);
 
-        public static final COTSTalonFXSwerveConstants chosenModule = // TODO: This must be tuned to specific robot
+        public static final COTSTalonFXSwerveConstants chosenModuleDRIVE = // TODO: This must be tuned to specific robot
+                COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+        public static final COTSTalonFXSwerveConstants chosenModuleTURN = // TODO: This must be tuned to specific robot
                 COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         public static final double angleKP = 100.0;
@@ -61,7 +63,7 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(26);
         public static final double wheelBase = Units.inchesToMeters(26);
-        public static final double wheelCircumference = chosenModule.wheelCircumference;
+        public static final double wheelCircumference = chosenModuleDRIVE.wheelCircumference;
 
         /*
          * Swerve Kinematics
@@ -75,8 +77,8 @@ public final class Constants {
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
         /* Module Gear Ratios */
-        public static final double driveGearRatio = chosenModule.driveGearRatio;
-        public static final double angleGearRatio = chosenModule.angleGearRatio;
+        public static final double driveGearRatio = chosenModuleDRIVE.driveGearRatio;
+        public static final double angleGearRatio = chosenModuleTURN.angleGearRatio;
 
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;
@@ -186,9 +188,9 @@ public final class Constants {
         public static final double kS = 0.45983;
         public static final double kV = 0.0022016;
         public static final double kA = 0.00025834;
-        public static final double kP = 1.34E-03;
+        public static final double kP = 9.74E-04;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 0.001;
         public static final double FF = 0;
     }
 
