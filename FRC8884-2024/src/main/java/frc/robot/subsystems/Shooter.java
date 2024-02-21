@@ -37,17 +37,17 @@ public class Shooter extends TimedRobot {
         
     }
 
-    public static void in() {
+    public void in() {
         motor1.set(-.1);
         motor2.set(.1);
     }
 
-    public static void out() {
+    public void out() {
         motor1.set(.7);
         motor2.set(-.7);
     }
 
-    public static void stop() {
+    public void stop() {
         motor1.set(0);
         motor2.set(0);
     }
