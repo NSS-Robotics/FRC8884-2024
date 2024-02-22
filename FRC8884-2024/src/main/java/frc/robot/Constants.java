@@ -199,8 +199,9 @@ public final class Constants {
         public static final int followerMotor = 15;
         public static final int currentLimit = 0;
         public static final int MaxRotation = 300; // TODO: This must be changed to the max rotation of the pivot
-        public static final double kP = 49.674; // TODO: This must be tuned to specific robot
-        public static final double kI = 0; // TODO: This must be tuned to specific robot
+        public static final double kP = 8.888; // TODO: This must be tuned to specific robot
+        public static final double kI = 0.01; // TODO: This must be tuned to specific robot
         public static final double kD = 4.6156; // TODO: This must be tuned to specific robot
+        public static final double PivotUpRotations = 1.0;
     }
 }

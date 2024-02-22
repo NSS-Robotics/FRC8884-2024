@@ -36,55 +36,6 @@ public class Pivot extends SubsystemBase {
     private CANSparkMax pivotFollower;
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
-    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
-    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
-    // Mutable holder for unit-safe linear distance values, persisted to avoid
-    // reallocation.
-    private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
-    // Mutable holder for unit-safe linear velocity values, persisted to avoid
-    // reallocation.
-    private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
-
-    // Create a new SysId routine for characterizing the shooter.
-    private final SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
-            // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
-            new SysIdRoutine.Config(),
-            new SysIdRoutine.Mechanism(
-                    // Tell SysId how to plumb the driving voltage to the motor(s).
-                    (Measure<Voltage> volts) -> {
-                        pivotMotor.setVoltage(volts.in(Volts));
-                        pivotFollower.setVoltage(volts.in(Volts));
-                    },
-                    // Tell SysId how to record a frame of data for each motor on the mechanism
-                    // being
-                    // characterized.
-                    log -> {
-                        // Record a frame for the shooter motor.
-                        log.motor("left-pivot")
-                                .voltage(
-                                        m_appliedVoltage.mut_replace(
-                                                pivotMotor.getAppliedOutput() * pivotMotor.getBusVoltage(), Volts))
-                                .angularPosition(
-                                        m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
-                                .angularVelocity(
-                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(),
-                                                RotationsPerSecond));
-                        log.motor("right-pivot")
-                                .voltage(
-                                        m_appliedVoltage.mut_replace(
-                                                pivotFollower.getAppliedOutput()
-                                                        * pivotFollower.getBusVoltage(),
-                                                Volts))
-                                .angularPosition(
-                                        m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
-                                .angularVelocity(
-                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(),
-                                                RotationsPerSecond));
-                    },
-                    // Tell SysId to make generated commands require this subsystem, suffix test
-                    // state in
-                    // WPILog with this subsystem's name ("shooter")
-                    this));
 
     public boolean pivotReset = false;
 
@@ -115,14 +66,6 @@ public class Pivot extends SubsystemBase {
 
     public void setPivot(double value) {
         pivotPID.setReference(value, CANSparkBase.ControlType.kPosition, 0);
-    }
-
-    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutine.dynamic(direction);
-    }
-
-    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutine.quasistatic(direction);
     }
 
     public Pivot() {

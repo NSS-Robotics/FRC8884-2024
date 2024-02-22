@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.PivotDown;
+import frc.robot.commands.PivotUp;
 import frc.robot.commands.TeleopSwerve;
 
 import frc.robot.subsystems.Intake;
@@ -87,11 +89,13 @@ public class RobotContainer {
      */
     private void configureBindings() {
         /* Driver Buttons */
-
+        /* 
         zeroGyro.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         a.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         x.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        b.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        b.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kReverse));*/
+        x.whileTrue(new PivotUp(m_pivot));
+        a.whileTrue(new PivotDown(m_pivot));
 
     }
 
