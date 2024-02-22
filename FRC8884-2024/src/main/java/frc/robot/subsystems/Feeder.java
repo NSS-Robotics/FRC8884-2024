@@ -25,17 +25,18 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Intake extends SubsystemBase {
+public class Feeder extends SubsystemBase {
 
-    private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.inner, MotorType.kBrushless);
-    private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.outer, MotorType.kBrushless);
-    private RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
-    private RelativeEncoder followerEncoder = intakeMotorFollower.getEncoder();
+    private CANSparkMax feederMotor = new CANSparkMax(Constants.FeederConstants.feederIn, MotorType.kBrushless);
+    private CANSparkMax feederMotorFollower = new CANSparkMax(Constants.FeederConstants.feederOut,
+            MotorType.kBrushless);
+    private RelativeEncoder feederEncoder = feederMotor.getEncoder();
+    private RelativeEncoder followerEncoder = feederMotorFollower.getEncoder();
 
-    private SparkPIDController intakePID;
-    SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,
-            Constants.IntakeConstants.kV,
-            Constants.IntakeConstants.kA);
+    private SparkPIDController feederPID;
+    SimpleMotorFeedforward feederFF = new SimpleMotorFeedforward(Constants.FeederConstants.kS,
+            Constants.FeederConstants.kV,
+            Constants.FeederConstants.kA);
 
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
     private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -53,26 +54,26 @@ public class Intake extends SubsystemBase {
             new SysIdRoutine.Mechanism(
                     // Tell SysId how to plumb the driving voltage to the motor(s).
                     (Measure<Voltage> volts) -> {
-                        intakeMotor.setVoltage(volts.in(Volts));
-                        intakeMotorFollower.setVoltage(volts.in(Volts));
+                        feederMotor.setVoltage(volts.in(Volts));
+                        feederMotorFollower.setVoltage(volts.in(Volts));
                     },
                     // Tell SysId how to record a frame of data for each motor on the mechanism
                     // being
                     // characterized.
                     log -> {
                         // Record a frame for the shooter motor.
-                        log.motor("intake-inner")
+                        log.motor("feeder-inner")
                                 .voltage(
                                         m_appliedVoltage.mut_replace(
-                                                intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage(), Volts))
-                                .angularPosition(m_angle.mut_replace(intakeEncoder.getPosition(), Rotations))
+                                                feederMotor.getAppliedOutput() * feederMotor.getBusVoltage(), Volts))
+                                .angularPosition(m_angle.mut_replace(feederEncoder.getPosition(), Rotations))
                                 .angularVelocity(
-                                        m_velocity.mut_replace(intakeEncoder.getVelocity(), RotationsPerSecond));
-                        log.motor("intake-outer")
+                                        m_velocity.mut_replace(feederEncoder.getVelocity(), RotationsPerSecond));
+                        log.motor("feeder-outer")
                                 .voltage(
                                         m_appliedVoltage.mut_replace(
-                                                intakeMotorFollower.getAppliedOutput()
-                                                        * intakeMotorFollower.getBusVoltage(),
+                                                feederMotorFollower.getAppliedOutput()
+                                                        * feederMotorFollower.getBusVoltage(),
                                                 Volts))
                                 .angularPosition(m_angle.mut_replace(followerEncoder.getPosition(), Rotations))
                                 .angularVelocity(
@@ -85,38 +86,38 @@ public class Intake extends SubsystemBase {
 
     public void setupMotors() {
 
-        intakeMotorFollower.restoreFactoryDefaults();
-        intakeMotor.restoreFactoryDefaults();
+        feederMotorFollower.restoreFactoryDefaults();
+        feederMotor.restoreFactoryDefaults();
 
-        intakeMotorFollower.follow(intakeMotor, false);
+        feederMotorFollower.follow(feederMotor, false);
 
-        intakeMotor.setInverted(false);
+        feederMotor.setInverted(false);
 
-        intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
-        intakeMotorFollower.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
+        feederMotor.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
+        feederMotorFollower.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
 
-        intakePID = intakeMotor.getPIDController();
+        feederPID = feederMotor.getPIDController();
 
-        intakePID.setP(Constants.IntakeConstants.kP, 0);
-        intakePID.setI(Constants.IntakeConstants.kI, 0);
-        intakePID.setD(Constants.IntakeConstants.kD, 0);
-        intakePID.setIZone(0, 0);
-        intakePID.setFF(Constants.IntakeConstants.FF, 0);
-        intakePID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
+        feederPID.setP(Constants.FeederConstants.kP, 0);
+        feederPID.setI(Constants.FeederConstants.kI, 0);
+        feederPID.setD(Constants.FeederConstants.kD, 0);
+        feederPID.setIZone(0, 0);
+        feederPID.setFF(Constants.FeederConstants.FF, 0);
+        feederPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
 
-        intakeMotor.setOpenLoopRampRate(0.05);
+        feederMotor.setOpenLoopRampRate(0.05);
 
-        intakeMotor.burnFlash();
+        feederMotor.burnFlash();
     }
 
     public void setVelocity(double velocity) {
         double arbFF;
-        arbFF = intakeFF.calculate(velocity / 60);
+        arbFF = feederFF.calculate(velocity / 60);
 
-        // SmartDashboard.putNumber("Intake arbFF", arbFF);
-        // SmartDashboard.putNumber("Intake velocity target", velocity);
+        // SmartDashboard.putNumber("Feeder arbFF", arbFF);
+        // SmartDashboard.putNumber("Feeder velocity target", velocity);
 
-        intakePID.setReference(velocity, ControlType.kVelocity, 0, arbFF,
+        feederPID.setReference(velocity, ControlType.kVelocity, 0, arbFF,
                 SparkPIDController.ArbFFUnits.kVoltage);
     }
 
@@ -129,26 +130,26 @@ public class Intake extends SubsystemBase {
     }
 
     public void stop() {
-        intakeMotor.stopMotor();
+        feederMotor.stopMotor();
     }
 
     public void stopHoldingCurrent() {
-        intakeMotor.set(0);
+        feederMotor.set(0);
     }
 
-    public void intake() {
+    public void feeder() {
         setVelocity(250);
     }
-
+    
     public void outtake() {
         setVelocity(-1 * 250);
     }
 
     public void setHoldingCurrent() {
-        intakeMotor.setVoltage(Constants.IntakeConstants.holdingVoltage);
+        feederMotor.setVoltage(Constants.FeederConstants.holdingVoltage);
     }
 
-    public Intake() {
+    public Feeder() {
         setupMotors();
     }
 }
