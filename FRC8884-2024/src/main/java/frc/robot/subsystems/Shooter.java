@@ -17,10 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.core.CoreTalonFX;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.SparkPIDController;
+
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -33,8 +37,9 @@ import static edu.wpi.first.units.Units.Volts;
 
 public class Shooter extends SubsystemBase {
 
-    private static TalonFX shootleft = new TalonFX(20);
-    private static TalonFX shootright = new TalonFX(21);
+    private static TalonFX shooterMotor = new TalonFX(20);
+    private static TalonFX shooterFollower = new TalonFX(21);
+    private static VelocityVoltage shooterVelocityVoltage;
 
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
     private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -52,8 +57,8 @@ public class Shooter extends SubsystemBase {
         new SysIdRoutine.Mechanism(
                 // Tell SysId how to plumb the driving voltage to the motor(s).
                 (Measure<Voltage> volts) -> {
-                    shootleft.setVoltage(volts.in(Volts));
-                    shootright.setVoltage(volts.in(Volts));
+                    shooterMotor.setVoltage(volts.in(Volts));
+                    shooterFollower.setVoltage(volts.in(Volts));
                 },
                 // Tell SysId how to record a frame of data for each motor on the mechanism
                 // being
@@ -63,22 +68,22 @@ public class Shooter extends SubsystemBase {
                     log.motor("left-shooter")
                             .voltage(
                                     m_appliedVoltage.mut_replace(
-                                            shootleft.getDutyCycle().getValueAsDouble() * shootleft.getSupplyVoltage().getValueAsDouble(), Volts))
+                                            shooterMotor.getDutyCycle().getValueAsDouble() * shooterMotor.getSupplyVoltage().getValueAsDouble(), Volts))
                             .angularPosition(
-                                    m_angle.mut_replace(shootleft.getPosition().getValueAsDouble(), Rotations))
+                                    m_angle.mut_replace(shooterMotor.getPosition().getValueAsDouble(), Rotations))
                             .angularVelocity(
-                                    m_velocity.mut_replace(shootleft.getVelocity().getValueAsDouble(),
+                                    m_velocity.mut_replace(shooterMotor.getVelocity().getValueAsDouble(),
                                             RotationsPerSecond));
                     log.motor("right-shooter")
                             .voltage(
                                     m_appliedVoltage.mut_replace(
-                                            shootright.getDutyCycle().getValueAsDouble()
-                                                    * shootright.getSupplyVoltage().getValueAsDouble(),
+                                            shooterFollower.getDutyCycle().getValueAsDouble()
+                                                    * shooterFollower.getSupplyVoltage().getValueAsDouble(),
                                             Volts))
                             .angularPosition(
-                                    m_angle.mut_replace(shootright.getPosition().getValueAsDouble(), Rotations))
+                                    m_angle.mut_replace(shooterFollower.getPosition().getValueAsDouble(), Rotations))
                             .angularVelocity(
-                                    m_velocity.mut_replace(shootright.getVelocity().getValueAsDouble(),
+                                    m_velocity.mut_replace(shooterFollower.getVelocity().getValueAsDouble(),
                                             RotationsPerSecond));
                 },
                 // Tell SysId to make generated commands require this subsystem, suffix test
@@ -86,7 +91,7 @@ public class Shooter extends SubsystemBase {
                 // WPILog with this subsystem's name ("shooter")
                 this));
 
-    public void Shooter() {
+    public Shooter() {
 
         // in init function, set slot 0 gains
         var slot0Configs = new Slot0Configs();
@@ -96,33 +101,15 @@ public class Shooter extends SubsystemBase {
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
-        shootleft.getConfigurator().apply(slot0Configs);
+        shooterMotor.getConfigurator().apply(slot0Configs);
 
-        // in init function, set slot 0 gains
-        var slot1Configs = new Slot0Configs();
-        slot1Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
-        slot1Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot1Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot1Configs.kI = 0; // no output for integrated error
-        slot1Configs.kD = 0; // no output for error derivative
-
-        shootright.getConfigurator().apply(slot1Configs);
-        
+        shooterFollower.setControl(new Follower(shooterMotor.getDeviceID(), true));      
     }
 
-    public void in() {
-        shootleft.set(-.1);
-        shootright.set(.1);
-    }
-
-    public void out() {
-        shootleft.set(.7);
-        shootright.set(-.7);
-    }
-
-    public void stop() {
-        shootleft.set(0);
-        shootright.set(0);
+    public void setVelocity(double velocity) {
+        double desiredrps = velocity/60;
+        shooterVelocityVoltage = new VelocityVoltage(velocity);
+        shooterMotor.setControl(shooterVelocityVoltage);
     }
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutine.dynamic(direction);
