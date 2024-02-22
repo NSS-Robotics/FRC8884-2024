@@ -195,12 +195,12 @@ public final class Constants {
     }
 
     public static final class PivotConstants {
-        public static final int leftMotor = 14;
-        public static final int rightMotor = 15;
+        public static final int pivotMotor = 14;
+        public static final int followerMotor = 15;
         public static final int currentLimit = 0;
-        public static final int MaxRotation = 0; // TODO: This must be changed to the max rotation of the pivot
-        public static final double Kp = 0; // TODO: This must be tuned to specific robot
-        public static final double Ki = 0; // TODO: This must be tuned to specific robot
-        public static final double Kd = 0; // TODO: This must be tuned to specific robot
+        public static final int MaxRotation = 300; // TODO: This must be changed to the max rotation of the pivot
+        public static final double kP = 0; // TODO: This must be tuned to specific robot
+        public static final double kI = 0; // TODO: This must be tuned to specific robot
+        public static final double kD = 0; // TODO: This must be tuned to specific robot
     }
 }

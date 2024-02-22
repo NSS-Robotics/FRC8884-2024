@@ -2,139 +2,128 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 
 public class Pivot extends SubsystemBase {
-    private CANSparkMax Lmotor;
-    private CANSparkMax Rmotor;
-    private RelativeEncoder LmotorEncoder;
-    private RelativeEncoder RmotorEncoder;
-    private SparkPIDController Lmotorpid;
-    private SparkPIDController Rmotorpid;
+    private CANSparkMax pivotMotor;
+    private CANSparkMax pivotFollower;
+    private CANcoder Encoder;
+    private SparkPIDController pivotPID;
+       // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
+    // Mutable holder for unit-safe linear distance values, persisted to avoid
+    // reallocation.
+    private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid
+    // reallocation.
+    private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
+
+    // Create a new SysId routine for characterizing the shooter.
+    private final SysIdRoutine m_sysIdRoutine = new SysIdRoutine(
+            // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                    // Tell SysId how to plumb the driving voltage to the motor(s).
+                    (Measure<Voltage> volts) -> {
+                        pivotMotor.setVoltage(volts.in(Volts));
+                        pivotFollower.setVoltage(volts.in(Volts));
+                    },
+                    // Tell SysId how to record a frame of data for each motor on the mechanism
+                    // being
+                    // characterized.
+                    log -> {
+                        // Record a frame for the shooter motor.
+                        log.motor("intake-inner")
+                                .voltage(
+                                        m_appliedVoltage.mut_replace(
+                                                pivotMotor.getAppliedOutput() * pivotMotor.getBusVoltage(), Volts))
+                                .angularPosition(m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
+                                .angularVelocity(
+                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(), RotationsPerSecond));
+                        log.motor("intake-outer")
+                                .voltage(
+                                        m_appliedVoltage.mut_replace(
+                                                pivotFollower.getAppliedOutput()
+                                                        * pivotFollower.getBusVoltage(),
+                                                Volts))
+                                .angularPosition(m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
+                                .angularVelocity(
+                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(), RotationsPerSecond));
+                    },
+                    // Tell SysId to make generated commands require this subsystem, suffix test
+                    // state in
+                    // WPILog with this subsystem's name ("shooter")
+                    this));
+
+
 
     public boolean pivotReset = false;
 
     public void pivotSetup() {
-        // Lmotor Setup
-        Lmotor = new CANSparkMax(
-                Constants.PivotConstants.leftMotor,
-                MotorType.kBrushless);
+        pivotMotor = new CANSparkMax(Constants.PivotConstants.pivotMotor, MotorType.kBrushless);
+        pivotFollower = new CANSparkMax(Constants.PivotConstants.followerMotor, MotorType.kBrushless);
+        pivotMotor.restoreFactoryDefaults();
+        pivotFollower.restoreFactoryDefaults();
+        pivotFollower.follow(pivotMotor, true);
 
-        Lmotor.restoreFactoryDefaults();
-        Lmotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        Lmotor.setSmartCurrentLimit(30);
-        Lmotor.setOpenLoopRampRate(0.5);
-        Lmotor.setClosedLoopRampRate(0.5);
-        LmotorEncoder = Lmotor.getEncoder();
-        Lmotorpid = Lmotor.getPIDController();
-        Lmotorpid.setP(Constants.PivotConstants.Kp, 0);
-        Lmotorpid.setI(Constants.PivotConstants.Ki, 0);
-        Lmotorpid.setD(Constants.PivotConstants.Kd, 0);
-        Lmotorpid.setIZone(0);
-        Lmotorpid.setOutputRange(-1, 1);
+        pivotMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
+        pivotFollower.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
 
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        Lmotor.setSoftLimit(
-                CANSparkMax.SoftLimitDirection.kForward,
-                Constants.PivotConstants.MaxRotation);
-        Lmotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 0);
-        Lmotor.setCANTimeout(0);
+        pivotPID = pivotMotor.getPIDController();
 
-        // Rmotor Setup
-        Rmotor = new CANSparkMax(
-                Constants.PivotConstants.rightMotor,
-                MotorType.kBrushless);
+        pivotPID.setP(Constants.PivotConstants.kP, 0);
+        pivotPID.setI(Constants.PivotConstants.kI, 0);
+        pivotPID.setD(Constants.PivotConstants.kD, 0);
+        pivotPID.setIZone(0, 0);
+        pivotPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
 
-        Rmotor.restoreFactoryDefaults();
-        Rmotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        Rmotor.setSmartCurrentLimit(30);
-        Rmotor.setOpenLoopRampRate(0.5);
-        Rmotor.setClosedLoopRampRate(0.5);
-        RmotorEncoder = Rmotor.getEncoder();
-        Rmotorpid = Rmotor.getPIDController();
-        Rmotorpid.setP(Constants.PivotConstants.Kp, 0);
-        Rmotorpid.setI(Constants.PivotConstants.Ki, 0);
-        Rmotorpid.setD(Constants.PivotConstants.Kd, 0);
-        Rmotorpid.setIZone(0);
-        Rmotorpid.setOutputRange(-1, 1);
 
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        Rmotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
-        Rmotor.setSoftLimit(
-                CANSparkMax.SoftLimitDirection.kReverse,
-                -Constants.PivotConstants.MaxRotation);
-        Rmotor.setCANTimeout(0);
 
-        resetEncoders();
-
-        Lmotor.burnFlash();
-        Rmotor.burnFlash();
     }
 
     public void resetEncoders() {
-        LmotorEncoder.setPosition(0);
-        RmotorEncoder.setPosition(0);
+        Encoder.setPosition(0);
     }
 
     public void setPivot(double value) {
-        Lmotorpid.setReference(value, CANSparkMax.ControlType.kPosition, 0);
-        Rmotorpid.setReference(-value, CANSparkMax.ControlType.kPosition, 0);
+        pivotPID.setReference(value, CANSparkBase.ControlType.kPosition, 0);
     }
 
-    public void stopPivot() {
-        Lmotor.set(0);
-        Rmotor.set(0);
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return m_sysIdRoutine.dynamic(direction);
     }
 
-    public void disablePivotLimits() {
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return m_sysIdRoutine.quasistatic(direction);
     }
 
-    public void enablePivotLimits() {
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        Lmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        Rmotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-    }
-
-    public void resetPivot() {
-        pivotReset = true;
-        LmotorEncoder.setPosition(0);
-        RmotorEncoder.setPosition(0);
-    }
-
-    public double[] getPivotCurrent() {
-        double outputcurrent[] = new double[2];
-        outputcurrent[0] = Lmotor.getOutputCurrent();
-        outputcurrent[1] = Rmotor.getOutputCurrent();
-        return outputcurrent;
-    }
-
-    public double[] getPivotEncoder() {
-        double outputencoder[] = new double[2];
-        outputencoder[0] = LmotorEncoder.getPosition();
-        outputencoder[1] = RmotorEncoder.getPosition();
-        return outputencoder;
-    }
-
-    public void up() {
-        Lmotor.set(0.3);
-        Rmotor.set(-0.3);
-    }
-
-    public void down() {
-        Lmotor.set(-0.3);
-        Rmotor.set(0.3);
-    }
 
     public Pivot() {
         pivotSetup();
@@ -142,7 +131,6 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
-        SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
+        SmartDashboard.putNumber("Encoder", Encoder.getPosition().getValueAsDouble());
     }
 }

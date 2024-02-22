@@ -36,6 +36,7 @@ public class RobotContainer {
     // private final Swerve m_exampleSubsystem = new Swerve();
     JoystickButton b = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
+    JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
     /* Drive Controls */
@@ -87,9 +88,11 @@ public class RobotContainer {
     private void configureBindings() {
         /* Driver Buttons */
 
-        zeroGyro.onTrue(new InstantCommand(s_swerve::zeroGyro));
-        b.whileTrue(new InstantCommand(m_intake::intake)).whileFalse(new InstantCommand(m_intake::stop));
-        x.whileTrue(new InstantCommand(m_intake::Outtake)).whileFalse(new InstantCommand(m_intake::stop));
+        zeroGyro.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        a.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        x.whileTrue(m_intake.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        b.whileTrue(m_intake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        
 
     }
 
