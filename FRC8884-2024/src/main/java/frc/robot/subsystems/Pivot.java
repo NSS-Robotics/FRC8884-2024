@@ -36,7 +36,7 @@ public class Pivot extends SubsystemBase {
     private CANSparkMax pivotFollower;
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
-       // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
     private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
     // Mutable holder for unit-safe linear distance values, persisted to avoid
     // reallocation.
@@ -60,35 +60,38 @@ public class Pivot extends SubsystemBase {
                     // characterized.
                     log -> {
                         // Record a frame for the shooter motor.
-                        log.motor("intake-inner")
+                        log.motor("left-pivot")
                                 .voltage(
                                         m_appliedVoltage.mut_replace(
                                                 pivotMotor.getAppliedOutput() * pivotMotor.getBusVoltage(), Volts))
-                                .angularPosition(m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
+                                .angularPosition(
+                                        m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
                                 .angularVelocity(
-                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(), RotationsPerSecond));
-                        log.motor("intake-outer")
+                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(),
+                                                RotationsPerSecond));
+                        log.motor("right-pivot")
                                 .voltage(
                                         m_appliedVoltage.mut_replace(
                                                 pivotFollower.getAppliedOutput()
                                                         * pivotFollower.getBusVoltage(),
                                                 Volts))
-                                .angularPosition(m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
+                                .angularPosition(
+                                        m_angle.mut_replace(Encoder.getPosition().getValueAsDouble(), Rotations))
                                 .angularVelocity(
-                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(), RotationsPerSecond));
+                                        m_velocity.mut_replace(Encoder.getVelocity().getValueAsDouble(),
+                                                RotationsPerSecond));
                     },
                     // Tell SysId to make generated commands require this subsystem, suffix test
                     // state in
                     // WPILog with this subsystem's name ("shooter")
                     this));
 
-
-
     public boolean pivotReset = false;
 
     public void pivotSetup() {
         pivotMotor = new CANSparkMax(Constants.PivotConstants.pivotMotor, MotorType.kBrushless);
         pivotFollower = new CANSparkMax(Constants.PivotConstants.followerMotor, MotorType.kBrushless);
+        Encoder = new CANcoder(13);
         pivotMotor.restoreFactoryDefaults();
         pivotFollower.restoreFactoryDefaults();
         pivotFollower.follow(pivotMotor, true);
@@ -103,8 +106,6 @@ public class Pivot extends SubsystemBase {
         pivotPID.setD(Constants.PivotConstants.kD, 0);
         pivotPID.setIZone(0, 0);
         pivotPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
-
-
 
     }
 
@@ -124,13 +125,12 @@ public class Pivot extends SubsystemBase {
         return m_sysIdRoutine.quasistatic(direction);
     }
 
-
     public Pivot() {
         pivotSetup();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Encoder", Encoder.getPosition().getValueAsDouble());
+
     }
 }

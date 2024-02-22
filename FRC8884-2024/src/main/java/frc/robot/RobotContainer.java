@@ -90,9 +90,8 @@ public class RobotContainer {
 
         zeroGyro.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         a.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        x.whileTrue(m_intake.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        b.whileTrue(m_intake.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-        
+        x.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        b.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     }
 
