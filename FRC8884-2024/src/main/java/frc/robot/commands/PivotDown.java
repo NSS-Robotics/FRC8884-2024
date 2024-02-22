@@ -15,7 +15,7 @@ public class PivotDown extends Command {
 
   @Override
   public void execute() {
-    pivot.setPivot(-Constants.PivotConstants.PivotUpRotations);
+    pivot.setPivot(1);
   }
 
   @Override
