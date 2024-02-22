@@ -90,10 +90,11 @@ public class RobotContainer {
     private void configureBindings() {
         /* Driver Buttons */
         /* 
-        zeroGyro.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        a.whileTrue(m_pivot.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        x.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        b.whileTrue(m_pivot.sysIdDynamic(SysIdRoutine.Direction.kReverse));*/
+        zeroGyro.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        a.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        x.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        b.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));*/
+        
         x.whileTrue(new PivotUp(m_pivot));
         a.whileTrue(new PivotDown(m_pivot));
 

@@ -68,6 +68,7 @@ public class Pivot extends SubsystemBase {
         pivotPID.setReference(value, CANSparkBase.ControlType.kPosition, 0);
     }
 
+
     public Pivot() {
         pivotSetup();
     }
