@@ -36,11 +36,12 @@ public class RobotContainer {
 
     private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
     // private final Swerve m_exampleSubsystem = new Swerve();
+    JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+    JoystickButton y = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton b = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
-    JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
-
+    
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kRightY.value;
     private final int strafeAxis = XboxController.Axis.kRightX.value;
@@ -48,7 +49,7 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(m_driverController,
+        private final JoystickButton robotCentric = new JoystickButton(m_driverController,
             XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
@@ -89,13 +90,13 @@ public class RobotContainer {
      */
     private void configureBindings() {
         /* Driver Buttons */
-        /* 
-        zeroGyro.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        a.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        x.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        b.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));*/
+
+        // zeroGyro.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // a.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // x.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // b.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         
-        x.whileTrue(new PivotUp(m_pivot));
+        x.whileTrue(new InstantCommand(m_shooter::shoot)).whileFalse(new InstantCommand(m_shooter::stop));
         a.whileTrue(new PivotDown(m_pivot));
 
     }
@@ -106,7 +107,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return null;
+    // An example command will be run in autonomous
+    return null;
     }
 }

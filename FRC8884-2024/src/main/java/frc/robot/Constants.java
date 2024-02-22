@@ -213,7 +213,26 @@ public final class Constants {
         public static final int MaxRotation = 300; // TODO: This must be changed to the max rotation of the pivot
         public static final double kP = 0.0525; // TODO: This must be tuned to specific robot
         public static final double kI = 0.00; // TODO: This must be tuned to specific robot
+<<<<<<< Updated upstream
         public static final double kD = 6; // TODO: This must be tuned to specific robot
         public static final double PivotUpRotations = 30; // TODO: THIs must be tuned to specific robot
+=======
+        public static final double kD = 1; // TODO: This must be tuned to specific robot
+        public static final double PivotUpRotations = 30;
+>>>>>>> Stashed changes
+    }
+
+    public static final class ShooterConstants {
+        public static final int shooterMotor = 14;
+        public static final int followerMotor = 15;
+        public static final int currentLimit = 0;
+        public static final double holdingVoltage = 0;
+        public static final double kS = 0.3237;
+        public static final double kV = 0.1171;
+        public static final double kA = 0.023513;
+        public static final double kP = 0.0044114;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double FF = 1.5e-3;
     }
 }

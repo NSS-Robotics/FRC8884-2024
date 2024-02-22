@@ -24,22 +24,22 @@ public class Robot extends TimedRobot {
 
     private RobotContainer m_robotContainer;
 
-    /**
-     * This function is run when the robot is first started up and should be used
+  /**
+   * This function is run when the robot is first started up and should be used
      * for any
-     * initialization code.
-     */
-    @Override
-    public void robotInit() {
-        ctreConfigs = new CTREConfigs();
+   * initialization code.
+   */
+  @Override
+  public void robotInit() {
+    ctreConfigs = new CTREConfigs();
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
-        // autonomous chooser on the dashboard.
-        m_robotContainer = new RobotContainer();
-    }
+    // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
+  }
 
-    /**
-     * This function is called every 20 ms, no matter the mode. Use this for items
+  /**
+        * This function is called every 20 ms, no matter the mode. Use this for items
      * like diagnostics
      * that you want ran during disabled, autonomous, teleoperated and test.
      *

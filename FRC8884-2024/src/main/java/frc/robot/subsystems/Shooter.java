@@ -95,11 +95,11 @@ public class Shooter extends SubsystemBase {
 
         // in init function, set slot 0 gains
         var slot0Configs = new Slot0Configs();
-        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative
+        slot0Configs.kS = Constants.ShooterConstants.kS; // Add 0.05 V output to overcome static friction
+        slot0Configs.kV = Constants.ShooterConstants.kV; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = Constants.ShooterConstants.kP; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = Constants.ShooterConstants.kI;
+        slot0Configs.kD = Constants.ShooterConstants.kD;
 
         shooterMotor.getConfigurator().apply(slot0Configs);
 
@@ -108,8 +108,18 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocity(double velocity) {
         double desiredrps = velocity/60;
-        shooterVelocityVoltage = new VelocityVoltage(velocity);
+        shooterVelocityVoltage = new VelocityVoltage(desiredrps);
         shooterMotor.setControl(shooterVelocityVoltage);
+    }
+
+    public void shoot()
+    {
+        setVelocity(2000);
+    }
+
+    public void stop()
+    {
+        setVelocity(0);
     }
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutine.dynamic(direction);
