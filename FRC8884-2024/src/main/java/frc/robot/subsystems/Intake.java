@@ -137,7 +137,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void intake() {
-        setVelocity(750);
+        setVelocity(250);
     }
 
     public void setHoldingCurrent() {
@@ -145,7 +145,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void Outtake() {
-        setVelocity(-1 * 500);
+        setVelocity(-1 * 250);
     }
 
     public void cubeShoot(double speed) {
