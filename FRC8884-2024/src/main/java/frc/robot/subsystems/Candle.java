@@ -22,9 +22,11 @@ public class Candle extends SubsystemBase{
 
     CANdleConfiguration config = new CANdleConfiguration();
 
-   public Candle() {
-    candleLeft.configAllSettings(config);
-   }
+    public Candle() {
+        config.brightnessScalar = 0.5;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+    }
 
     
 }
