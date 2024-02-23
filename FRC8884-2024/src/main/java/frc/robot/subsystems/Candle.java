@@ -27,6 +27,9 @@ public class Candle extends SubsystemBase{
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
     }
-
+    public void setLEDs(int R, int G, int B){
+        candleLeft.setLEDs(R,G,B);
+        candleRight.setLEDs(R,G,B);
+    }
     
 }
