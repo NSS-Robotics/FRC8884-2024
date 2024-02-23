@@ -4,18 +4,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Pivot;
 
-public class PivotDown extends Command {
+public class IntakePos extends Command {
 
   private final Pivot pivot;
 
-  public PivotDown(Pivot _pivot) {
+  public IntakePos(Pivot _pivot) {
     pivot = _pivot;
     addRequirements(pivot);
   }
 
   @Override
   public void execute() {
-    pivot.setPivot(1);
+    pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
   }
 
   @Override

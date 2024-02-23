@@ -190,20 +190,22 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
+        public static final double speed = 350;
     }
 
     public static final class FeederConstants {
-        public static final int feederOut = 18;
-        public static final int feederIn = 19;
+        public static final int feederOut = 19;
+        public static final int feederIn = 18;
         public static final int currentLimit = 0;
         public static final double holdingVoltage = 0;
-        public static final double kS = 0;
-        public static final double kV = 0;
-        public static final double kA = 0;
-        public static final double kP = 0;
+        public static final double kS = 0.43816;
+        public static final double kV = 0.0010703;
+        public static final double kA = 0.00012;
+        public static final double kP = 3.3219E-05;
         public static final double kI = 0;
         public static final double kD = 0;
-        public static final double FF = 0;
+        public static final double FF = 1.5e-3;
+        public static final double speed = 350;
     }
 
     public static final class PivotConstants {
@@ -214,7 +216,8 @@ public final class Constants {
         public static final double kP = 0.0525; // TODO: This must be tuned to specific robot
         public static final double kI = 0.00; // TODO: This must be tuned to specific robot
         public static final double kD = 1; // TODO: This must be tuned to specific robot
-        public static final double PivotUpRotations = 30;
+        public static final double PivotIntakeRotation = 0;
+        public static final double PivotAgainstRotations = 34;
     }
 
     public static final class ShooterConstants {
@@ -229,5 +232,6 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
+        public static final double speed = 4000;
     }
 }

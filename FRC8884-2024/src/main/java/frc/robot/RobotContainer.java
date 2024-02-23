@@ -5,14 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.PivotDown;
-import frc.robot.commands.PivotUp;
-import frc.robot.commands.TeleopSwerve;
-
+import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -40,6 +39,8 @@ public class RobotContainer {
     JoystickButton y = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton b = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
+    JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+    JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
     
     /* Drive Controls */
@@ -57,6 +58,7 @@ public class RobotContainer {
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
     public final Pivot m_pivot = new Pivot();
+    public final Feeder m_feeder = new Feeder();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,7 +69,7 @@ public class RobotContainer {
                         s_swerve,
                         () -> m_driverController.getRawAxis(translationAxis),
                         () -> m_driverController.getRawAxis(strafeAxis),
-                        () -> m_driverController.getRawAxis(rotationAxis),
+                        () -> -m_driverController.getRawAxis(rotationAxis),
                         () -> robotCentric.getAsBoolean()));
 
         // Configure the trigger bindings
@@ -91,13 +93,17 @@ public class RobotContainer {
     private void configureBindings() {
         /* Driver Buttons */
 
-        // zeroGyro.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        // a.whileTrue(m_shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        // x.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        // b.whileTrue(m_shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        // zeroGyro.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         
-        x.whileTrue(new InstantCommand(m_shooter::shoot)).whileFalse(new InstantCommand(m_shooter::stop));
-        a.whileTrue(new PivotDown(m_pivot));
+        x.whileTrue(new NoteIntake(m_intake, m_feeder));
+        lb.whileTrue(new NoteOuttake(m_intake, m_feeder));
+        a.whileTrue(new IntakePos(m_pivot));
+        b.whileTrue(new PivotUp(m_pivot));
+        rb.whileTrue(new Shoot(m_shooter));
+        zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
 
     }
 
