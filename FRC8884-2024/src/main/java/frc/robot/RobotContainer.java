@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.autos.TestAuto;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pivot;
@@ -13,6 +14,8 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -43,6 +46,9 @@ public class RobotContainer {
     JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
     
+    
+
+
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kRightY.value;
     private final int strafeAxis = XboxController.Axis.kRightX.value;
@@ -60,6 +66,16 @@ public class RobotContainer {
     public final Pivot m_pivot = new Pivot();
     public final Feeder m_feeder = new Feeder();
 
+
+    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+    private final TestAuto testAuto = new TestAuto(
+        // "TestPath",
+        s_swerve,
+        () -> false
+    );
+
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -74,6 +90,10 @@ public class RobotContainer {
 
         // Configure the trigger bindings
         configureBindings();
+
+        m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+
+        SmartDashboard.putData("Auto mode", m_chooser);
     }
 
     /**
@@ -114,6 +134,8 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
-    }
+        System.out.println("AUTO");
+
+        return m_chooser.getSelected();
+}
 }
