@@ -22,9 +22,14 @@ public class Candle extends SubsystemBase{
 
     CANdleConfiguration config = new CANdleConfiguration();
 
-   public Candle() {
-    candleLeft.configAllSettings(config);
-   }
-
+    public Candle() {
+        config.brightnessScalar = 0.5;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+    }
+    public void setLEDs(int R, int G, int B){
+        candleLeft.setLEDs(R,G,B);
+        candleRight.setLEDs(R,G,B);
+    }
     
 }

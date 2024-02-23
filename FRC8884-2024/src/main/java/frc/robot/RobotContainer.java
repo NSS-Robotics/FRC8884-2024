@@ -6,11 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.autos.TestAuto;
-import frc.robot.subsystems.Feeder;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Pivot;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -65,7 +61,7 @@ public class RobotContainer {
     public final Intake m_intake = new Intake();
     public final Pivot m_pivot = new Pivot();
     public final Feeder m_feeder = new Feeder();
-
+    public final Candle l_candle = new Candle();
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -80,6 +76,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        l_candle.setLEDs(0,0,255);
         s_swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_swerve,
