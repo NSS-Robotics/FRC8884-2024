@@ -238,4 +238,9 @@ public final class Constants {
         // public static final double trapSpeed = 2500;
         // public static final double ampSpeed = 1800;
     }
+
+    public static final class CandleConstants {
+        public static final int candleLeft = 22;
+        public static final int candleRight = 23;
+    }
 }
