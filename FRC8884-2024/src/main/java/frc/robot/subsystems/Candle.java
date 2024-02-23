@@ -20,6 +20,8 @@ public class Candle extends SubsystemBase{
     CANdle candleLeft = new CANdle(Constants.CandleConstants.candleLeft);
     CANdle candleRight = new CANdle(Constants.CandleConstants.candleRight);
 
+    RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.5, 64);
+
     CANdleConfiguration config = new CANdleConfiguration();
 
     public Candle() {
@@ -30,6 +32,11 @@ public class Candle extends SubsystemBase{
     public void setLEDs(int R, int G, int B){
         candleLeft.setLEDs(R,G,B);
         candleRight.setLEDs(R,G,B);
+    }
+
+    public void rainbow() {
+        candleLeft.animate(rainbowAnim);
+        candleRight.animate(rainbowAnim);
     }
     
 }

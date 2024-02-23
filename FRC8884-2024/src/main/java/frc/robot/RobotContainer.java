@@ -76,7 +76,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        l_candle.setLEDs(0,0,255);
+        l_candle.rainbow();
         s_swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_swerve,
