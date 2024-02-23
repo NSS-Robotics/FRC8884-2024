@@ -234,4 +234,9 @@ public final class Constants {
         public static final double FF = 1.5e-3;
         public static final double speed = 4000;
     }
+
+    public static final class CandleConstants {
+        public static final int candleLeft = 22;
+        public static final int candleRight = 23;
+    }
 }
