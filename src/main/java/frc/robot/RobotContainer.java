@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,9 +39,6 @@ public class RobotContainer {
     JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    
-    
-
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kRightY.value;
@@ -56,13 +51,13 @@ public class RobotContainer {
             XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-    private final Swerve s_swerve = new Swerve();
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
     public final Pivot m_pivot = new Pivot();
     public final Feeder m_feeder = new Feeder();
     public final Candle l_candle = new Candle();
     public final Limelight l_limelight = new Limelight();
+    public final Swerve s_swerve = new Swerve(l_limelight);
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
