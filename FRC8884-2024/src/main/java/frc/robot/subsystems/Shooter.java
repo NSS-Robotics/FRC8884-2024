@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -28,6 +30,8 @@ import static edu.wpi.first.units.MutableMeasure.mutable;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
+
+import java.util.Map;
 
 public class Shooter extends SubsystemBase {
 
@@ -56,13 +60,11 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setControl(shooterVelocityVoltage);
     }
 
-    public void shoot(double speed)
-    {
+    public void shoot(double speed) {
         setVelocity(speed);
     }
 
-    public void stop()
-    {
+    public void stop() {
         setVelocity(0);
     }
 

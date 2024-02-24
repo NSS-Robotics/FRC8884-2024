@@ -11,6 +11,8 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,11 +33,14 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.Map;
+
 public class Pivot extends SubsystemBase {
     private CANSparkMax pivotMotor;
     private CANSparkMax pivotFollower;
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
+    private double x;
 
     public boolean pivotReset = false;
 
@@ -64,8 +69,8 @@ public class Pivot extends SubsystemBase {
         Encoder.setPosition(0);
     }
 
-    public void setPivot(double value) {
-        pivotPID.setReference(value, CANSparkBase.ControlType.kPosition, 0);
+    public void setPivot(double position) {
+        pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 0);
     }
 
 
@@ -75,6 +80,6 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-    }
+     }
 }
+

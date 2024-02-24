@@ -62,6 +62,7 @@ public class RobotContainer {
     public final Pivot m_pivot = new Pivot();
     public final Feeder m_feeder = new Feeder();
     public final Candle l_candle = new Candle();
+    public final Limelight l_limelight = new Limelight();
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
