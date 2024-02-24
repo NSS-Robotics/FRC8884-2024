@@ -6,43 +6,21 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.units.Angle;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
+import java.util.Optional;
+
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.units.Angle;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
-import static edu.wpi.first.units.MutableMeasure.mutable;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-
-import java.util.Map;
 
 public class Pivot extends SubsystemBase {
     private CANSparkMax pivotMotor;
     private CANSparkMax pivotFollower;
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
-    private double x;
+    private Swerve s_swerve;
 
     public boolean pivotReset = false;
 
@@ -64,7 +42,6 @@ public class Pivot extends SubsystemBase {
         pivotPID.setD(Constants.PivotConstants.kD, 0);
         pivotPID.setIZone(0, 0);
         pivotPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
-
     }
 
     public void resetEncoders() {
@@ -75,30 +52,35 @@ public class Pivot extends SubsystemBase {
         pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 0);
     }
 
-    public double getRotations(){
-        var alliance = DriverStation.getAlliance();
+    public double getRotations() {
+        Optional<Alliance> alliance = DriverStation.getAlliance();
         double distance = 0;
-        Limelight l = new Limelight();
-        Swerve s = new Swerve(l);
-        if(alliance.isPresent() && alliance.get() == Alliance.Red){
-            double x = 652.73-s.getPose().getX();
-            double y = 218.42-s.getPose().getY();
-            distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+        Pose2d pose = s_swerve.getLimelightBotPose();
+        if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+            double x = Constants.redSpeakerX - pose.getX();
+            double y = Constants.speakerY - pose.getY();
+            distance = Math.sqrt(x * x + y * y);
+        } else {
+            double x = Constants.blueSpeakerX - pose.getX();
+            double y = Constants.speakerY - pose.getY();
+            distance = Math.sqrt(x * x + y * y);
         }
-        else if(alliance.isPresent() && alliance.get() == Alliance.Blue){
-            double x = s.getPose().getX();
-            double y = 218.42-s.getPose().getY();
-            distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        }
-        return Math.pow(23.4*distance, -0.335);
+        double rotations = 24.6 * Math.pow(distance, -0.365);
+
+        System.out.println("Pos X: " + pose.getX());
+        System.out.println("Pos Y: " + pose.getY());
+        System.out.println("Distance: " + distance);
+        System.out.println("Rotations: " + rotations + '\n');
+        return rotations;
     }
-    
-    public Pivot() {
+
+    public Pivot(Swerve swerve) {
         pivotSetup();
+        s_swerve = swerve;
     }
 
     @Override
     public void periodic() {
-     }
+    }
 }
-

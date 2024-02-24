@@ -53,11 +53,11 @@ public class RobotContainer {
     /* Subsystems */
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
-    public final Pivot m_pivot = new Pivot();
     public final Feeder m_feeder = new Feeder();
     public final Candle l_candle = new Candle();
     public final Limelight l_limelight = new Limelight();
     public final Swerve s_swerve = new Swerve(l_limelight);
+    public final Pivot m_pivot = new Pivot(s_swerve);
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 

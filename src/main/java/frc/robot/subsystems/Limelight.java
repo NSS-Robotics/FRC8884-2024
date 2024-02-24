@@ -27,6 +27,11 @@ public class Limelight extends SubsystemBase {
   }
 
   public void updateLimelightTracking() {
+    tv = table.getEntry("tv").getDouble(0);
+    tx = table.getEntry("tx").getDouble(0);
+    ty = table.getEntry("ty").getDouble(0);
+    ta = table.getEntry("ta").getDouble(0);
+
     double[] pos = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
     botPose = new Pose2d(pos[0], pos[1], new Rotation2d(pos[5]));
 
@@ -35,6 +40,7 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putNumber(names[i], pos[i]);
     }
   }
+  
   public double getPipeline() {
     pipeline = table.getEntry("getpipe").getDouble(0);
     return pipeline;
