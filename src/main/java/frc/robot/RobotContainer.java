@@ -40,6 +40,8 @@ public class RobotContainer {
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
+    JoystickButton rt = new JoystickButton(m_driverController, XboxController.Button.kTrigger.value);
+    JoystickButton lt = new JoystickButton(m_driverController, XboxController.Button.kLeftTrigger.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
     
     
@@ -115,6 +117,7 @@ public class RobotContainer {
         // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        
         
         x.whileTrue(new NoteIntake(m_intake, m_feeder));
         lb.whileTrue(new NoteOuttake(m_intake, m_feeder));
