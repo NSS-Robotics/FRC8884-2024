@@ -15,7 +15,7 @@ public class PivotUp extends Command {
 
   @Override
   public void execute() {
-    pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
+    pivot.setPivot(pivot.getRotations());
   }
 
   @Override

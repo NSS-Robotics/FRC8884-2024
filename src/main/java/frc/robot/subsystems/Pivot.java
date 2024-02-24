@@ -11,6 +11,8 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -73,7 +75,24 @@ public class Pivot extends SubsystemBase {
         pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 0);
     }
 
-
+    public double getRotations(){
+        var alliance = DriverStation.getAlliance();
+        double distance = 0;
+        Limelight l = new Limelight();
+        Swerve s = new Swerve(l);
+        if(alliance.isPresent() && alliance.get() == Alliance.Red){
+            double x = 652.73-s.getPose().getX();
+            double y = 218.42-s.getPose().getY();
+            distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        else if(alliance.isPresent() && alliance.get() == Alliance.Blue){
+            double x = s.getPose().getX();
+            double y = 218.42-s.getPose().getY();
+            distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        return Math.pow(23.4*distance, -0.335);
+    }
+    
     public Pivot() {
         pivotSetup();
     }

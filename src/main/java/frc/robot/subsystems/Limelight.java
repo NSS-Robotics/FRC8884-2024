@@ -35,7 +35,6 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putNumber(names[i], pos[i]);
     }
   }
-
   public double getPipeline() {
     pipeline = table.getEntry("getpipe").getDouble(0);
     return pipeline;

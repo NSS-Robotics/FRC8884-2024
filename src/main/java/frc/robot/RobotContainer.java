@@ -72,7 +72,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        l_candle.rainbow();
+        l_candle.flow(100, 20, 50);
         s_swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_swerve,
@@ -117,7 +117,7 @@ public class RobotContainer {
         b.whileTrue(new PivotUp(m_pivot));
         rb.whileTrue(new Shoot(m_shooter));
         rb.whileTrue(new InstantCommand(l_candle::twinkle));
-        rb.whileFalse(new InstantCommand(l_candle::rainbow));
+        rb.whileFalse(new InstantCommand(() -> l_candle.flow(100, 20, 50)));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
 
     }
