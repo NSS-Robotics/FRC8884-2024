@@ -11,26 +11,25 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 
 import frc.robot.subsystems.*;
 
-public class EstTauto extends Command {
+public class BaseAuto extends Command {
 
-    private final Feeder m_feeder;
-    private final Intake m_intake;
-    private final Limelight l_Limelight;
-    private final Pivot m_Pivot;
-    private final Shooter m_shooter;
-    private final Swerve s_Swerve;
-    private int stopPoints;
-    private ChoreoTrajectory[] traj;
-    private BooleanSupplier fieldmirror;
+    protected final Feeder m_feeder;
+    protected final Intake m_intake;
+    protected final Limelight l_Limelight;
+    protected final Pivot m_Pivot;
+    protected final Shooter m_shooter;
+    protected final Swerve s_Swerve;
+    protected int stopPoints;
+    protected ChoreoTrajectory[] traj;
+    protected BooleanSupplier fieldmirror;
 
-    public EstTauto(
+    public BaseAuto(
         String pathName,
         int stopPoints,
         Feeder m_feeder,
@@ -59,15 +58,19 @@ public class EstTauto extends Command {
         addRequirements(s_Swerve);
     }
 
+    public Command getCommands(Command[] serveCommands) {
+        return Commands.sequence();
+    }
+
     public Command followTrajectory() {
-        var thetaController = new PIDController(AutoConstants.kPThetaController, 0, 0);
+        PIDController thetaController = new PIDController(AutoConstants.kPThetaController, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
         s_Swerve.setPose(traj[0].getInitialPose());
 
         Command[] swerveCommands = new Command[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
-            Command swerveCommand = Choreo.choreoSwerveCommand(
+            swerveCommands[i] = Choreo.choreoSwerveCommand(
                 traj[i], // Choreo trajectory from above
                 s_Swerve::getPose, // A function that returns the current field-relative pose of the robot: your
                                         // wheel or vision odometry
@@ -91,32 +94,6 @@ public class EstTauto extends Command {
             );
         }
 
-        return Commands.sequence(
-            new InstantCommand(s_Swerve::zeroHeading),
-            // new ParallelDeadlineGroup(new WaitCommand(1), new InstantCommand(intake::outtake)),
-            // new ParallelDeadlineGroup(new WaitCommand(0.1), new InstantCommand(intake::stop)),
-            // new ParallelDeadlineGroup(new WaitCommand(1.5), new MidConeNode(elevator)),
-            // new ParallelDeadlineGroup(new WaitCommand(1), new InstantCommand(intake::intake)),
-            // new ParallelDeadlineGroup(new WaitCommand(0.1), new InstantCommand(intake::stop)),
-            // new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
-            //Commands.runOnce(() -> s_Swerve.setPose(traj[0].getInitialPose())),
-            swerveCommands[0],
-            // new ParallelDeadlineGroup(new WaitCommand(1), new InstantCommand(intake::outtake)),
-            // new ParallelDeadlineGroup(new WaitCommand(0.1), new InstantCommand(intake::stop)),
-            //Commands.runOnce(() -> s_Swerve.setPose(traj[1].getInitialPose())),
-            swerveCommands[1],
-            // new ParallelDeadlineGroup(new WaitCommand(1), new InstantCommand(intake::outtake)),
-            // new ParallelDeadlineGroup(new WaitCommand(0.1), new InstantCommand(intake::stop)),
-            // new ParallelDeadlineGroup(new WaitCommand(1.5), new MidConeNode(elevator)),
-            // new ParallelDeadlineGroup(new WaitCommand(1), new InstantCommand(intake::intake)),
-            // new ParallelDeadlineGroup(new WaitCommand(0.1), new InstantCommand(intake::stop)),
-            // new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
-            s_Swerve.run(() -> s_Swerve.drive(
-                new Translation2d(0, 0),
-                0,
-                false,
-                false)
-                )
-        );
+        return getCommands(swerveCommands);
     }
 }
