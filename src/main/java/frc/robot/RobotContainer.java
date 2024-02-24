@@ -32,6 +32,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
     /* Driver Controller */
 
+
+    
     private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
     // private final Swerve m_exampleSubsystem = new Swerve();
     JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
@@ -40,10 +42,13 @@ public class RobotContainer {
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
-    JoystickButton rt = new JoystickButton(m_driverController, XboxController.Button.kTrigger.value);
+    JoystickButton rt = new JoystickButton(m_driverController, XboxController.Button.kRightTrigger.value);
     JoystickButton lt = new JoystickButton(m_driverController, XboxController.Button.kLeftTrigger.value);
+    JoystickButton du = new JoystickButton(m_driverController, XboxController.Button.kUP.value);
+    JoystickButton dr = new JoystickButton(m_driverController, XboxCOntroller.Button.kRIGHT.value);
+    JoystickButton dd = new JoystickButton(m_driverController, XboxCOntroller.Button.kDOWN.value);
+    JoystickButton dl = new JoystickButton(m_driverController, XboxCOntroller.Button.kLEFT.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    
     
 
 
@@ -75,6 +80,7 @@ public class RobotContainer {
     );
 
 
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -95,6 +101,8 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto mode", m_chooser);
     }
+
+
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
@@ -119,14 +127,15 @@ public class RobotContainer {
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         
         
-        x.whileTrue(new NoteIntake(m_intake, m_feeder));
+        lt.whileTrue(new NoteIntake(m_intake, m_feeder));
         lb.whileTrue(new NoteOuttake(m_intake, m_feeder));
+        rt.whileTrue(new Shoot(m_shooter));
         a.whileTrue(new IntakePos(m_pivot));
-        b.whileTrue(new PivotUp(m_pivot));
-        rb.whileTrue(new Shoot(m_shooter));
+        du.whileTrue(new PivotUp(m_pivot));
         rb.whileTrue(new InstantCommand(l_candle::twinkle));
         rb.whileFalse(new InstantCommand(l_candle::rainbow));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
+
 
     }
 
@@ -140,5 +149,5 @@ public class RobotContainer {
         System.out.println("AUTO");
 
         return m_chooser.getSelected();
-}
+    }
 }
