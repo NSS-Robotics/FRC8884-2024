@@ -1,7 +1,5 @@
 package frc.robot;
 
-import frc.robot.Constants;
-
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -64,7 +62,7 @@ public class SwerveModule {
             mDriveMotor.setControl(driveDutyCycle);
         } else {
             driveVelocity.Velocity = Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
-                    Constants.Swerve.wheelCircumference);
+                Constants.Swerve.wheelCircumference);
             driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
             mDriveMotor.setControl(driveVelocity);
         }
@@ -81,14 +79,16 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                Conversions.RPSToMPS(mDriveMotor.getVelocity().getValue(), Constants.Swerve.wheelCircumference),
-                Rotation2d.fromRotations(mAngleMotor.getPosition().getValue()));
+            Conversions.RPSToMPS(mDriveMotor.getVelocity().getValue(), Constants.Swerve.wheelCircumference),
+            Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
+        );
     }
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                Conversions.rotationsToMeters(mDriveMotor.getPosition().getValue(),
-                        Constants.Swerve.wheelCircumference),
-                Rotation2d.fromRotations(mAngleMotor.getPosition().getValue()));
+            Conversions.rotationsToMeters(mDriveMotor.getPosition().getValue(),
+                Constants.Swerve.wheelCircumference),
+            Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
+        );
     }
 }

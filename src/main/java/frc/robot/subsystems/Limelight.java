@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
 
-import java.util.Arrays;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
   public NetworkTable table;
@@ -16,16 +16,7 @@ public class Limelight extends SubsystemBase {
   public double ta = 0;
   public double pipeline;
 
-  public double[] pos = new double[6];
-  public double dist = 0;
-  public Swerve swerve = new Swerve();
-
-  public double targetHeight;
-
-  public Limelight setTargetHeight(double targetHeight) {
-    this.targetHeight = targetHeight;
-    return this;
-  }
+  public Pose2d botPose = new Pose2d(0, 0, new Rotation2d());
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -36,12 +27,14 @@ public class Limelight extends SubsystemBase {
   }
 
   public void updateLimelightTracking() {
-    pos = table.getEntry("botpose").getDoubleArray(new double[6]);
-    for (int x = 0; x < pos.length; x++) {
-      SmartDashboard.putNumber(String.format("lol %d", x), pos[x]);
+    double[] pos = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    botPose = new Pose2d(pos[0], pos[1], new Rotation2d(pos[5]));
+
+    String[] names = {"pos x", "pos y", "pos z", "rot x", "rot y", "rot z"};
+    for (int i = 0; i < names.length; i++) {
+      SmartDashboard.putNumber(names[i], pos[i]);
     }
   }
-
 
   public double getPipeline() {
     pipeline = table.getEntry("getpipe").getDouble(0);
@@ -53,10 +46,8 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Pipeline", pipeline);
   }
 
-
   @Override
   public void periodic() {
     updateLimelightTracking();
-    //System.out.println("hypdist,latdist:" + estimateDistance() + ", " + lateralDistance());
   }
 }

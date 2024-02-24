@@ -12,7 +12,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.util.Optional;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -23,11 +28,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
-    public SwerveDriveOdometry swerveOdometry;
-    public SwerveModule[] mSwerveMods;
-    public AHRS gyro;
+    private SwerveDriveOdometry swerveOdometry;
+    private SwerveModule[] mSwerveMods;
+    private AHRS gyro;
 
-    public Swerve() {
+    private Pose2d m_pose;
+    private int driveInvert;
+    private Limelight l_limelight;
+
+    public Swerve(Limelight limelight) {
         gyro = new AHRS(SPI.Port.kMXP);
         gyro.zeroYaw();
 
@@ -38,23 +47,30 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        swerveOdometry = createOdometry(
+            new Pose2d(0, 0, new Rotation2d())
+        );
+
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        driveInvert = alliance.isPresent() && alliance.get() == Alliance.Red ? -1 : 1;
+
+        l_limelight = limelight;
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation, 
-                                    getGyroYaw()
-                                )
-                                : new ChassisSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation)
-                                );
+                    translation.getX() * driveInvert, 
+                    translation.getY() * driveInvert,
+                    rotation, 
+                    getGyroYaw()
+                ) : new ChassisSpeeds(
+                    translation.getX() * driveInvert, 
+                    translation.getY() * driveInvert,  
+                    rotation
+                )
+            );
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         for(SwerveModule mod : mSwerveMods){
@@ -70,7 +86,8 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }
-public void zeroGyro() {
+
+    public void zeroGyro() {
         gyro.zeroYaw();
     }
 
@@ -111,7 +128,11 @@ public void zeroGyro() {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(360-gyro.getYaw());
+        return Rotation2d.fromDegrees(360 - gyro.getYaw());
+    }
+
+    public Pose2d getLimelightBotPose() {
+        return m_pose;
     }
 
     public void resetModulesToAbsolute(){
@@ -120,11 +141,25 @@ public void zeroGyro() {
         }
     }
 
-    @Override
-    public void periodic(){
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
+    public SwerveDriveOdometry createOdometry(Pose2d pose) {
+        return new SwerveDriveOdometry(
+            Constants.Swerve.swerveKinematics,
+            getGyroYaw(),
+            getModulePositions(),
+            pose
+        );
+    }
 
-        for(SwerveModule mod : mSwerveMods){
+    @Override
+    public void periodic() {
+        if (l_limelight.tv > 0) {
+            swerveOdometry = createOdometry(l_limelight.botPose);
+            m_pose = l_limelight.botPose;
+        } else {
+            m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
+        }
+
+        for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    

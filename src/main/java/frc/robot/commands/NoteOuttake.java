@@ -5,7 +5,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Feeder;
 
-public class NoteOuttake extends Command{
+public class NoteOuttake extends Command {
     private final Intake intake;
     private final Feeder feeder;
     
