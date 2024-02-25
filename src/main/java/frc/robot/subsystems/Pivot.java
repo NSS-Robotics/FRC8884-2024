@@ -32,7 +32,6 @@ public class Pivot extends SubsystemBase {
         pivotFollower = new CANSparkMax(Constants.PivotConstants.followerMotor, MotorType.kBrushless);
         pivotEncoder = pivotMotor.getEncoder();
         followerEncoder = pivotFollower.getEncoder();
-        pivotEncoder = pivotMotor.
         Encoder = new CANcoder(13);
         pivotMotor.restoreFactoryDefaults();
         pivotFollower.restoreFactoryDefaults();

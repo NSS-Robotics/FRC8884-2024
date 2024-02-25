@@ -38,6 +38,7 @@ public class RobotContainer {
     JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
+    JoystickButton jig = new JoystickButton(m_driverController, XboxController.Button.kStart.value);
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
     /* Drive Controls */
@@ -58,7 +59,6 @@ public class RobotContainer {
     public final Limelight l_limelight = new Limelight();
     public final Swerve s_swerve = new Swerve(l_limelight);
     public final Pivot m_pivot = new Pivot(s_swerve);
-
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final TestAuto testAuto = new TestAuto(
@@ -119,6 +119,7 @@ public class RobotContainer {
         rb.whileTrue(new InstantCommand(l_candle::twinkle));
         rb.whileFalse(new InstantCommand(() -> l_candle.flow(100, 20, 50)));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
+        jig.whileTrue(new Jiggle(m_pivot));
 
     }
 

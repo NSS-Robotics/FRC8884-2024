@@ -220,9 +220,11 @@ public final class Constants {
         public static final double kI = 0.00;
         public static final double kD = 1;
         public static final double PivotIntakeRotation = 0;
-        public static final double PivotAgainstRotations = 14.5;
+        // public static final double PivotAgainstRotations = 14.5;
         // public static final double TrapAgainstRotations = 24;
-        // public static final double AmpRotations = 18;
+        public static final double AmpRotations = 53;
+        public static final double JiggleRotations = 60;
+        // public static final double AmpRotations = 23;
     }
 
     public static final class ShooterConstants {
@@ -237,7 +239,7 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
-        public static final double speed = 10000;
+        public static final double speed = 1800;
         // public static final double trapSpeed = 2500;
         // public static final double ampSpeed = 1800;
     }
