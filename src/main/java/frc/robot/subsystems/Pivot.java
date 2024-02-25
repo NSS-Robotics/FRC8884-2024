@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,6 +19,8 @@ import com.ctre.phoenix6.hardware.CANcoder;
 public class Pivot extends SubsystemBase {
     private CANSparkMax pivotMotor;
     private CANSparkMax pivotFollower;
+    private RelativeEncoder pivotEncoder;
+    private RelativeEncoder followerEncoder;
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
     private Swerve s_swerve;
@@ -27,6 +30,9 @@ public class Pivot extends SubsystemBase {
     public void pivotSetup() {
         pivotMotor = new CANSparkMax(Constants.PivotConstants.pivotMotor, MotorType.kBrushless);
         pivotFollower = new CANSparkMax(Constants.PivotConstants.followerMotor, MotorType.kBrushless);
+        pivotEncoder = pivotMotor.getEncoder();
+        followerEncoder = pivotFollower.getEncoder();
+        pivotEncoder = pivotMotor.
         Encoder = new CANcoder(13);
         pivotMotor.restoreFactoryDefaults();
         pivotFollower.restoreFactoryDefaults();
@@ -46,6 +52,8 @@ public class Pivot extends SubsystemBase {
 
     public void resetEncoders() {
         Encoder.setPosition(0);
+        pivotEncoder.setPosition(0);
+        followerEncoder.setPosition(0);
     }
 
     public void setPivot(double position) {

@@ -35,9 +35,9 @@ public class BaseAuto extends Command {
         Feeder m_feeder,
         Intake m_intake,
         Limelight l_Limelight,
-        Pivot m_Pivot,
+        Pivot m_pivot,
         Shooter m_shooter,
-        Swerve s_Swerve,
+        Swerve s_swerve,
         BooleanSupplier fieldmirror
         
         ) {
@@ -51,9 +51,9 @@ public class BaseAuto extends Command {
         this.m_feeder = m_feeder;
         this.m_intake = m_intake;
         this.l_Limelight = l_Limelight;
-        this.m_Pivot = m_Pivot;
+        this.m_Pivot = m_pivot;
         this.m_shooter = m_shooter;
-        this.s_Swerve = s_Swerve;
+        this.s_Swerve = s_swerve;
         this.fieldmirror = fieldmirror;
         addRequirements(s_Swerve);
     }
