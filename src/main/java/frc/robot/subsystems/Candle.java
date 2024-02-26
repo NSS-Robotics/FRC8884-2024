@@ -29,7 +29,6 @@ public class Candle extends SubsystemBase{
     public void rainbow() {
         candleLeft.animate(rainbowAnim);
         candleRight.animate(rainbowAnim);
-
     }
     public void twinkle() {
         candleLeft.animate(twinkleAnim);

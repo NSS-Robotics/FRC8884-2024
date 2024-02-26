@@ -50,10 +50,10 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
 
     /* Subsystems */
+    public final Candle l_candle = new Candle();
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
     public final Feeder m_feeder = new Feeder();
-    public final Candle l_candle = new Candle();
     public final Limelight l_limelight = new Limelight();
     public final Swerve s_swerve = new Swerve(l_limelight);
     public final Pivot m_pivot = new Pivot(s_swerve);
@@ -108,16 +108,22 @@ public class RobotContainer {
         // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+
+        x.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
+        lb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
+        b.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
+        rb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
+        rb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
+
         
-        x.whileTrue(new NoteOuttake(m_intake, m_feeder));
-        lb.whileTrue(new NoteIntake(m_intake, m_feeder));
+        x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
+        lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
         a.whileTrue(new IntakePos(m_pivot));
         b.whileTrue(new Jiggle(m_pivot));
-        b.whileTrue(new AmpShoot(m_shooter));
-        rb.whileTrue(new PivotUp(m_pivot));
-        rb.whileTrue(new Shoot(m_shooter));
-        rb.whileTrue(new InstantCommand(l_candle::twinkle));
-        rb.whileFalse(new InstantCommand(() -> l_candle.flow(100, 20, 50)));
+        b.whileTrue(new AmpShoot(m_shooter, l_candle));
+        rb.whileTrue(new PivotUp(m_pivot, l_candle));
+        rb.whileTrue(new Shoot(m_shooter, l_candle));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
 
     }
