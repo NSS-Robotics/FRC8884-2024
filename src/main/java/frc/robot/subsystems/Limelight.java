@@ -51,8 +51,14 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Pipeline", pipeline);
   }
 
+  public double gettx() {
+    updateLimelightTracking();
+    return tx;
+  }
+
   @Override
   public void periodic() {
     updateLimelightTracking();
   }
+  
 }
