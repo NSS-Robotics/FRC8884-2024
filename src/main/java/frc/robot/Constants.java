@@ -247,4 +247,8 @@ public final class Constants {
         public static final int candleLeft = 22;
         public static final int candleRight = 23;
     }
+
+    public static final class LaserCanConstants {
+        public static final int laserCan = 0;
+    }
 }
