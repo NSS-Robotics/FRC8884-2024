@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 
 public class Shooter extends SubsystemBase {
     private static TalonFX shooterMotor = new TalonFX(20);
@@ -43,11 +44,17 @@ public class Shooter extends SubsystemBase {
         shooterFollower.setControl(followerVelocityVoltage);
     }
 
+    public void setVoltage(double voltage) {
+        VoltageOut voltageOut = new VoltageOut(voltage);
+        shooterMotor.setControl(voltageOut);
+        shooterFollower.setControl(voltageOut);
+    }
+
     public void shoot(double speed) {
         setVelocity(speed);
     }
 
     public void stop() {
-        setVelocity(0);
+        setVoltage(0);
     }
 }
