@@ -16,7 +16,7 @@ public class Jiggle extends Command {
   @Override
   public void execute() {
     // pivot.setPivot(pivot.getRotations());
-    pivot.setPivot(Constants.PivotConstants.JiggleRotations);
+    pivot.setPivot(Constants.PivotConstants.AmpRotations);
   }
 
   @Override
@@ -24,6 +24,7 @@ public class Jiggle extends Command {
 
   @Override
   public void end(boolean interrupted) {
+    pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
     System.out.println("Pivot Command Ended");
   }
 }

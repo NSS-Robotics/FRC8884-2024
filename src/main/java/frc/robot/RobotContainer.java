@@ -48,8 +48,6 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-        private final JoystickButton robotCentric = new JoystickButton(m_driverController,
-            XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     public final Shooter m_shooter = new Shooter();
@@ -78,10 +76,10 @@ public class RobotContainer {
                         s_swerve,
                         () -> m_driverController.getRawAxis(translationAxis),
                         () -> m_driverController.getRawAxis(strafeAxis),
-                        () -> -m_driverController.getRawAxis(rotationAxis),
-                        () -> robotCentric.getAsBoolean()));
+                        () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
+                        () -> false));
 
-        // Configure the trigger bindings
+        //Configure the trigger bindings 
         configureBindings();
 
         m_chooser.addOption("TestAuto", testAuto.followTrajectory());
@@ -111,15 +109,16 @@ public class RobotContainer {
         // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         
-        x.whileTrue(new NoteIntake(m_intake, m_feeder));
-        lb.whileTrue(new NoteOuttake(m_intake, m_feeder));
+        x.whileTrue(new NoteOuttake(m_intake, m_feeder));
+        lb.whileTrue(new NoteIntake(m_intake, m_feeder));
         a.whileTrue(new IntakePos(m_pivot));
-        b.whileTrue(new PivotUp(m_pivot));
+        b.whileTrue(new Jiggle(m_pivot));
+        b.whileTrue(new AmpShoot(m_shooter));
+        rb.whileTrue(new PivotUp(m_pivot));
         rb.whileTrue(new Shoot(m_shooter));
         rb.whileTrue(new InstantCommand(l_candle::twinkle));
         rb.whileFalse(new InstantCommand(() -> l_candle.flow(100, 20, 50)));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
-        jig.whileTrue(new Jiggle(m_pivot));
 
     }
 

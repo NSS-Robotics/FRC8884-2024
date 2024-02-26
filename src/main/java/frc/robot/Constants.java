@@ -239,9 +239,8 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
-        public static final double speed = 1800;
-        // public static final double trapSpeed = 2500;
-        // public static final double ampSpeed = 1800;
+        public static final double speed = 10000; //Should be 8000
+        public static final double ampspeed = 1800;
     }
 
     public static final class CandleConstants {

@@ -73,7 +73,7 @@ public class Pivot extends SubsystemBase {
             double y = Constants.speakerY - pose.getY();
             distance = Math.sqrt(x * x + y * y);
         }
-        double rotations = 24.6 * Math.pow(distance, -0.365);
+        double rotations = 24.6 * Math.pow(distance, -0.340);
 
         System.out.println("Pos X: " + pose.getX());
         System.out.println("Pos Y: " + pose.getY());
