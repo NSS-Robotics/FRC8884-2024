@@ -60,11 +60,16 @@ public class RobotContainer {
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final TestAuto testAuto = new TestAuto(
-        // "TestPath",
+        "TestPath",
+        rotationAxis,
+        m_feeder,
+        m_intake,
+        l_limelight,
+        m_pivot,
+        m_shooter,
         s_swerve,
         () -> false
     );
-
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -119,7 +124,7 @@ public class RobotContainer {
         
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
-        a.whileTrue(new IntakePos(m_pivot));
+        a.whileTrue(new AimLimelight(s_swerve, l_limelight));
         b.whileTrue(new Jiggle(m_pivot));
         b.whileTrue(new AmpShoot(m_shooter, l_candle));
         rb.whileTrue(new PivotUp(m_pivot, l_candle));

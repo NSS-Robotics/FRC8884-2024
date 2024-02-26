@@ -58,7 +58,7 @@ public class BaseAuto extends Command {
         addRequirements(s_Swerve);
     }
 
-    public Command getCommands(Command[] serveCommands) {
+    public Command getCommands(Command[] swerveCommands) {
         return Commands.sequence();
     }
 
