@@ -9,17 +9,19 @@ import frc.robot.subsystems.Feeder;
 public class NoteOuttake extends Command {
     public final Intake intake;
     public final Feeder feeder;
+    public final Candle candle;
 
     public NoteOuttake(Intake intake, Feeder feeder, Candle candle) {
         this.intake = intake;
         this.feeder = feeder;
+        this.candle = candle;
         addRequirements(intake, feeder);
-        candle.flow(255,140,0);
     }
 
     @Override
     public void execute() {
         feeder.outtake(Constants.FeederConstants.speed);
+        candle.flow(255,140,0);
     }
 
     @Override
@@ -28,6 +30,7 @@ public class NoteOuttake extends Command {
     @Override
     public void end(boolean interrupted) {
         feeder.stop();
+        candle.setLEDs(170, 247, 250);
         System.out.println("Pivot Command Ended");
     }
 }

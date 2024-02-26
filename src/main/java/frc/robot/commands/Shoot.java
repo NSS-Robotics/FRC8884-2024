@@ -7,17 +7,18 @@ import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command{
     private final Shooter shooter;
+    private final Candle candle;
 
     public Shoot(Shooter shooter, Candle candle) {
         this.shooter = shooter;
+        this.candle = candle;
         addRequirements(shooter);
-        candle.flow(255,0,1);
       }
     
       @Override
       public void execute() {
         shooter.shoot(Constants.ShooterConstants.speed);
-
+        candle.flow(255,0,1);
       }
     
       @Override
@@ -26,7 +27,7 @@ public class Shoot extends Command{
       @Override
       public void end(boolean interrupted) {
         shooter.stop();
-
+        candle.setLEDs(170, 247, 250);
         System.out.println("Pivot Command Ended");
       }
 }
