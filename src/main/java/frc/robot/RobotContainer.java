@@ -125,7 +125,6 @@ public class RobotContainer {
         rb.whileTrue(new PivotUp(m_pivot, l_candle));
         rb.whileTrue(new Shoot(m_shooter, l_candle));
         zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
-
     }
 
     /**
