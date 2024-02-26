@@ -108,14 +108,6 @@ public class RobotContainer {
         // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-
-
-        x.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
-        lb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
-        b.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
-        rb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
-        rb.whileFalse(new InstantCommand(() -> l_candle.setLEDs(170, 247, 250)));
-
         
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
