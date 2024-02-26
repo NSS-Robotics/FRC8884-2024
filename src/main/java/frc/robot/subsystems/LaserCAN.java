@@ -4,6 +4,8 @@ import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.ConfigurationFailedException;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class LaserCAN extends SubsystemBase {
     LaserCan lasercan = new LaserCan(Constants.LaserCanConstants.laserCan);
@@ -20,7 +22,8 @@ public class LaserCAN extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        LaserCan.Measurement m = lasercan.getMeasurement();
+        SmartDashboard.putNumber("LaserCan MM", m.distance_mm);
     }
 
 }
