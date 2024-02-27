@@ -69,7 +69,7 @@ public class Pivot extends SubsystemBase {
             double y = Constants.speakerY - pose.getY();
             distance = Math.sqrt(x * x + y * y);
         } else {
-            double x = Constants.blueSpeakerX - pose.getX();
+            double x = pose.getX() - Constants.blueSpeakerX;
             double y = Constants.speakerY - pose.getY();
             distance = Math.sqrt(x * x + y * y);
         }

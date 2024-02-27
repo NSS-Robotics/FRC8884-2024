@@ -54,8 +54,9 @@ public class RobotContainer {
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
     public final Feeder m_feeder = new Feeder();
-    public final Limelight l_limelight = new Limelight();
-    public final Swerve s_swerve = new Swerve(l_limelight);
+    public final Limelight l_limelight_april = new Limelight("april");
+    public final Limelight l_limelight_intake = new Limelight("intake");
+    public final Swerve s_swerve = new Swerve(l_limelight_april);
     public final Pivot m_pivot = new Pivot(s_swerve);
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -64,7 +65,7 @@ public class RobotContainer {
             2,
             m_feeder,
             m_intake,
-            l_limelight,
+            l_limelight_april,
             m_pivot,
             m_shooter,
             s_swerve,
@@ -115,7 +116,7 @@ public class RobotContainer {
 
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
-        a.whileTrue(new AimLimelight(s_swerve, l_limelight));
+        a.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
         b.whileTrue(new Jiggle(m_pivot));
         b.whileTrue(new AmpShoot(m_shooter, l_candle));
         rb.whileTrue(new PivotUp(m_pivot, l_candle));
