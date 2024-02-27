@@ -14,6 +14,7 @@ import java.util.function.DoubleSupplier;
 public class AimLimelight extends PIDCommand {
 
   private Swerve swerve;
+  private Limelight limelight;
 
   public AimLimelight(
     PIDController controller,
@@ -27,7 +28,7 @@ public class AimLimelight extends PIDCommand {
 
   public AimLimelight(Swerve _swerve, Limelight limelight) {
     super(
-      new PIDController(Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
+      new PIDController(0.12, 0.0, 0.0),
       limelight::gettx,
       0.0,
       tx -> _swerve.turnStates(-tx),
@@ -37,6 +38,7 @@ public class AimLimelight extends PIDCommand {
     addRequirements(swerve, limelight);
     getController().enableContinuousInput(-180, 180);
     System.out.println("Align With Limelight - Start");
+    this.limelight = limelight;
   }
 
   @Override
@@ -48,6 +50,7 @@ public class AimLimelight extends PIDCommand {
   public void end(boolean interrupted) {
     swerve.drive(new Translation2d(0, 0), 0, false, false);
     System.out.println("Align With Limelight - End");
+    System.out.println(limelight.gettx());
 
     super.end(interrupted);
   }
