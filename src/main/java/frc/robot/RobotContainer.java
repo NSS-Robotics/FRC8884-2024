@@ -60,16 +60,15 @@ public class RobotContainer {
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final TestAuto testAuto = new TestAuto(
-        "TestPath",
-        rotationAxis,
-        m_feeder,
-        m_intake,
-        l_limelight,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        () -> false
-    );
+            "Test",
+            2,
+            m_feeder,
+            m_intake,
+            l_limelight,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            () -> false);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,7 +83,7 @@ public class RobotContainer {
                         () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
                         () -> false));
 
-        //Configure the trigger bindings 
+        // Configure the trigger bindings
         configureBindings();
 
         m_chooser.addOption("TestAuto", testAuto.followTrajectory());
@@ -113,7 +112,7 @@ public class RobotContainer {
         // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-        
+
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
         a.whileTrue(new AimLimelight(s_swerve, l_limelight));
@@ -130,9 +129,9 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+        // An example command will be run in autonomous
         System.out.println("AUTO");
 
         return m_chooser.getSelected();
-}
+    }
 }

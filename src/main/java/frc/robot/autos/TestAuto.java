@@ -17,31 +17,30 @@ import frc.robot.subsystems.Swerve;
 
 public class TestAuto extends BaseAuto {
     public TestAuto(
-        String pathName,
-        int stopPoints,
-        Feeder m_feeder,
-        Intake m_intake,
-        Limelight l_Limelight,
-        Pivot m_pivot,
-        Shooter m_shooter,
-        Swerve s_swerve,
-        BooleanSupplier fieldmirror
-    ) {
+            String pathName,
+            int stopPoints,
+            Feeder m_feeder,
+            Intake m_intake,
+            Limelight l_Limelight,
+            Pivot m_pivot,
+            Shooter m_shooter,
+            Swerve s_swerve,
+            BooleanSupplier fieldmirror) {
         super(pathName, stopPoints, m_feeder, m_intake, l_Limelight, m_pivot, m_shooter, s_swerve, fieldmirror);
     }
+
+    // Should do the exact same thing as TestAuto file
 
     @Override
     public Command getCommands(Command[] swerveCommands) {
         return Commands.sequence(
-            new InstantCommand(s_Swerve::zeroHeading),
-            swerveCommands[0],
-            swerveCommands[1],
-            s_Swerve.run(() -> s_Swerve.drive(
-                new Translation2d(0, 0),
-                0,
-                false,
-                false)
-                )
-        );
+                new InstantCommand(s_Swerve::zeroHeading),
+                swerveCommands[0],
+                swerveCommands[1],
+                s_Swerve.run(() -> s_Swerve.drive(
+                        new Translation2d(0, 0),
+                        0,
+                        false,
+                        false)));
     }
 }
