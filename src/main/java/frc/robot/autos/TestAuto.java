@@ -29,8 +29,6 @@ public class TestAuto extends BaseAuto {
         super(pathName, stopPoints, m_feeder, m_intake, l_Limelight, m_pivot, m_shooter, s_swerve, fieldmirror);
     }
 
-    // Should do the exact same thing as TestAuto file
-
     @Override
     public Command getCommands(Command[] swerveCommands) {
         return Commands.sequence(

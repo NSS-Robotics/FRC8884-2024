@@ -30,23 +30,21 @@ public class BaseAuto extends Command {
     protected BooleanSupplier fieldmirror;
 
     public BaseAuto(
-        String pathName,
-        int stopPoints,
-        Feeder m_feeder,
-        Intake m_intake,
-        Limelight l_Limelight,
-        Pivot m_pivot,
-        Shooter m_shooter,
-        Swerve s_swerve,
-        BooleanSupplier fieldmirror
-        
-        ) {
+            String pathName,
+            int stopPoints,
+            Feeder m_feeder,
+            Intake m_intake,
+            Limelight l_Limelight,
+            Pivot m_pivot,
+            Shooter m_shooter,
+            Swerve s_swerve,
+            BooleanSupplier fieldmirror) {
         traj = new ChoreoTrajectory[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
-            String trajName = i == 0 ? pathName : pathName + "." + i; 
-            this.traj[i] = Choreo.getTrajectory(trajName + ".traj");
-        } 
-        
+            String trajName = i == 0 ? pathName : pathName + "." + i;
+            this.traj[i] = Choreo.getTrajectory(trajName);
+        }
+
         this.stopPoints = stopPoints;
         this.m_feeder = m_feeder;
         this.m_intake = m_intake;
@@ -71,26 +69,30 @@ public class BaseAuto extends Command {
         Command[] swerveCommands = new Command[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
             swerveCommands[i] = Choreo.choreoSwerveCommand(
-                traj[i], // Choreo trajectory from above
-                s_Swerve::getPose, // A function that returns the current field-relative pose of the robot: your
-                                        // wheel or vision odometry
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), // PIDController for field-relative X
-                                                                                            // translation (input: X error in meters,
-                                                                                            // output: m/s).
-                new PIDController(Constants.AutoConstants.kPYController, 0.0, 0.0), // PIDController for field-relative Y
-                                                                                            // translation (input: Y error in meters,
-                                                                                            // output: m/s).
-                thetaController, // PID constants to correct for rotation
-                                    // error
-                (ChassisSpeeds speeds) -> s_Swerve.drive( // needs to be robot-relative
-                    new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
-                    speeds.omegaRadiansPerSecond,
-                    false,
-                    false
-                    ),
-                
-                fieldmirror, // Whether or not to mirror the path based on alliance (this assumes the path is created for the blue alliance)
-                s_Swerve // The subsystem(s) to require, typically your drive subsystem only
+                    traj[i], // Choreo trajectory from above
+                    s_Swerve::getPose, // A function that returns the current field-relative pose of the robot: your
+                                       // wheel or vision odometry
+                    new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), // PIDController for
+                                                                                        // field-relative X
+                                                                                        // translation (input: X error
+                                                                                        // in meters,
+                                                                                        // output: m/s).
+                    new PIDController(Constants.AutoConstants.kPYController, 0.0, 0.0), // PIDController for
+                                                                                        // field-relative Y
+                                                                                        // translation (input: Y error
+                                                                                        // in meters,
+                                                                                        // output: m/s).
+                    thetaController, // PID constants to correct for rotation
+                                     // error
+                    (ChassisSpeeds speeds) -> s_Swerve.drive( // needs to be robot-relative
+                            new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
+                            speeds.omegaRadiansPerSecond,
+                            false,
+                            false),
+
+                    fieldmirror, // Whether or not to mirror the path based on alliance (this assumes the path is
+                                 // created for the blue alliance)
+                    s_Swerve // The subsystem(s) to require, typically your drive subsystem only
             );
         }
 
