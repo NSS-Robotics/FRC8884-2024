@@ -4,7 +4,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
@@ -28,7 +27,7 @@ public class AimLimelight extends PIDCommand {
 
   public AimLimelight(Swerve _swerve, Limelight limelight) {
     super(
-      new PIDController(0.12, 0.0, 0.0),
+      new PIDController(0.5, 0.0, 0.1),
       limelight::gettx,
       0.0,
       tx -> _swerve.turnStates(-tx),
@@ -42,12 +41,18 @@ public class AimLimelight extends PIDCommand {
   }
 
   @Override
+  public void execute() {
+    limelight.setPipeline(1);
+  }
+
+  @Override
   public boolean isFinished() {
     return getController().atSetpoint();
   }
 
   @Override
   public void end(boolean interrupted) {
+    limelight.setPipeline(0);
     swerve.drive(new Translation2d(0, 0), 0, false, false);
     System.out.println("Align With Limelight - End");
     System.out.println(limelight.gettx());
