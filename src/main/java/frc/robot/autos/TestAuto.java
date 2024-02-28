@@ -32,10 +32,10 @@ public class TestAuto extends BaseAuto {
     @Override
     public Command getCommands(Command[] swerveCommands) {
         return Commands.sequence(
-                new InstantCommand(s_Swerve::zeroHeading),
+                new InstantCommand(s_swerve::zeroHeading),
                 swerveCommands[0],
                 swerveCommands[1],
-                s_Swerve.run(() -> s_Swerve.drive(
+                s_swerve.run(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         false,
