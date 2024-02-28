@@ -53,7 +53,7 @@ public class RobotContainer {
     public final Candle l_candle = new Candle();
     public final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake(m_shooter);
-    public final Feeder m_feeder = new Feeder();
+    public final Feeder m_feeder = new Feeder(m_shooter);
     public final Limelight l_limelight_april = new Limelight("april");
     public final Limelight l_limelight_intake = new Limelight("intake");
     public final Swerve s_swerve = new Swerve(l_limelight_april);

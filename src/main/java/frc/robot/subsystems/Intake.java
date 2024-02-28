@@ -19,7 +19,6 @@ public class Intake extends SubsystemBase {
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.inner, MotorType.kBrushless);
     private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.outer, MotorType.kBrushless);
     private LaserCan laserCAN = new LaserCan(Constants.LaserCanConstants.laserCan);
-    private Shooter m_shooter;
 
     private SparkPIDController intakePID;
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,
@@ -51,20 +50,6 @@ public class Intake extends SubsystemBase {
         intakeMotor.burnFlash();
     }
 
-    public void setupLaserCAN() {
-        try {
-            laserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
-            laserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(0, 0, 0, 0));
-            laserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-        } catch (ConfigurationFailedException e) {
-            System.out.println("LASERCAN CONFIG FAILED");
-        }
-    }
-
-    public boolean noteDetected() {
-        return (laserCAN.getMeasurement().distance_mm < 10);
-    }
-
     public void setVelocity(double velocity) {
         double arbFF;
         arbFF = intakeFF.calculate(velocity / 60);
@@ -85,10 +70,8 @@ public class Intake extends SubsystemBase {
     }
 
     public void intake(double speed) {
-        if(!noteDetected() || m_shooter.isShooting()) 
-            setVelocity(speed);
-        else 
-            stop();
+        setVelocity(speed);
+
     }
 
     public void outtake(double speed) {
@@ -101,7 +84,9 @@ public class Intake extends SubsystemBase {
 
     public Intake(Shooter m_shooter) {
         setupMotors();
-        setupLaserCAN();
-        this.m_shooter = m_shooter;
+    }
+
+    @Override
+    public void periodic() {
     }
 }

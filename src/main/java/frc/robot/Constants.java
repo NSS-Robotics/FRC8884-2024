@@ -34,7 +34,7 @@ public final class Constants {
 
     public static final double blueSpeakerX = Units.inchesToMeters(0) + 0.17;
     public static final double redSpeakerX = Units.inchesToMeters(652.73) - 0.17;
-    public static final double speakerY = Units.inchesToMeters(218.42); 
+    public static final double speakerY = Units.inchesToMeters(218.42);
 
     public static class OperatorConstants {
         public static final int kDriverControllerPort = 0;
@@ -49,10 +49,10 @@ public final class Constants {
         /** (6.75 : 1) */
         public static final double L2 = (6.75 / 1.0);
 
-        public static final COTSTalonFXSwerveConstants chosenModuleDRIVE =
-                COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
-        public static final COTSTalonFXSwerveConstants chosenModuleTURN =
-                COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+        public static final COTSTalonFXSwerveConstants chosenModuleDRIVE = COTSTalonFXSwerveConstants.SDS.MK4i
+                .KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+        public static final COTSTalonFXSwerveConstants chosenModuleTURN = COTSTalonFXSwerveConstants.SDS.MK4i
+                .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         public static final double angleKP = 100.0;
         public static final double angleKI = 0.0;
@@ -208,7 +208,7 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
-        public static final double speed = 350;
+        public static final double speed = 150;
     }
 
     public static final class PivotConstants {
@@ -239,7 +239,7 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
-        public static final double speed = 10000; //Should be 8000
+        public static final double speed = 10000; // Should be 8000
         public static final double ampspeed = 1800;
     }
 

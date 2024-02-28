@@ -5,9 +5,12 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.SparkPIDController;
+
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
@@ -21,7 +24,9 @@ public class Feeder extends SubsystemBase {
     SimpleMotorFeedforward feederFF = new SimpleMotorFeedforward(Constants.FeederConstants.kS,
             Constants.FeederConstants.kV,
             Constants.FeederConstants.kA);
-
+    private LaserCan laserCAN = new LaserCan(Constants.LaserCanConstants.laserCan);
+    private boolean hasBeenDetected = false;
+    private Shooter m_shooter;
 
     public void setupMotors() {
 
@@ -49,6 +54,16 @@ public class Feeder extends SubsystemBase {
         feederMotor.burnFlash();
     }
 
+    public void setupLaserCAN() {
+        try {
+            laserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
+            laserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(0, 0, 16, 16));
+            laserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+        } catch (ConfigurationFailedException e) {
+            System.out.println("LASERCAN CONFIG FAILED");
+        }
+    }
+
     public void setVelocity(double velocity) {
         double arbFF;
         arbFF = feederFF.calculate(velocity / 60);
@@ -69,9 +84,13 @@ public class Feeder extends SubsystemBase {
     }
 
     public void intake(double speed) {
-        setVelocity(speed);
+        if (!hasBeenDetected) {
+            setVelocity(speed);
+        } else {
+            stop();
+        }
     }
-    
+
     public void outtake(double speed) {
         setVelocity(-1 * speed);
     }
@@ -80,7 +99,26 @@ public class Feeder extends SubsystemBase {
         feederMotor.setVoltage(Constants.FeederConstants.holdingVoltage);
     }
 
-    public Feeder() {
+    public Feeder(Shooter m_shooter) {
         setupMotors();
+        setupLaserCAN();
+        this.m_shooter = m_shooter;
+    }
+
+    @Override
+    public void periodic() {
+        LaserCan.Measurement Measurement = laserCAN.getMeasurement();
+        if (Measurement == null) {
+            System.out.println("null");
+        }
+        if (Measurement != null && Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+            int distance = Measurement.distance_mm;
+            if (distance <= 30) {
+                hasBeenDetected = true;
+            } else if (m_shooter.isShooting()) {
+                hasBeenDetected = false;
+            }
+        }
+        System.out.println(hasBeenDetected);
     }
 }
