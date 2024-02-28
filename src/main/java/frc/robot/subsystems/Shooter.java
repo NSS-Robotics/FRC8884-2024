@@ -50,6 +50,10 @@ public class Shooter extends SubsystemBase {
         shooterFollower.setControl(voltageOut);
     }
 
+    public boolean isShooting() {
+        return shooterMotor.getVelocity().getValueAsDouble() > 0;
+    }
+
     public void shoot(double speed) {
         setVelocity(speed);
     }
@@ -57,4 +61,5 @@ public class Shooter extends SubsystemBase {
     public void stop() {
         setVoltage(0);
     }
+
 }

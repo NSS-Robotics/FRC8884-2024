@@ -52,7 +52,7 @@ public class RobotContainer {
     /* Subsystems */
     public final Candle l_candle = new Candle();
     public final Shooter m_shooter = new Shooter();
-    public final Intake m_intake = new Intake();
+    public final Intake m_intake = new Intake(m_shooter);
     public final Feeder m_feeder = new Feeder();
     public final Limelight l_limelight_april = new Limelight("april");
     public final Limelight l_limelight_intake = new Limelight("intake");
