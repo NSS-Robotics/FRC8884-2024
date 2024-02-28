@@ -249,6 +249,6 @@ public final class Constants {
     }
 
     public static final class LaserCanConstants {
-        public static final int laserCan = 0;
+        public static final int laserCan = 24;
     }
 }
