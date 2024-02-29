@@ -15,11 +15,13 @@ public class Limelight extends SubsystemBase {
   public double ty = 0;
   public double ta = 0;
   public double pipeline;
+public String name;
 
   public Pose2d botPose = new Pose2d(0, 0, new Rotation2d());
 
-  public Limelight() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
+  public Limelight(String name) {
+        this.name = "limelight-" + name;
+    table = NetworkTableInstance.getDefault().getTable(this.name);
   }
 
   public void turnLimelightLED(boolean on) {
@@ -34,7 +36,7 @@ public class Limelight extends SubsystemBase {
 
     double[] pos = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
     botPose = new Pose2d(pos[0], pos[1], new Rotation2d(pos[5]));
-    
+
     String[] names = {"pos x", "pos y", "pos z", "rot x", "rot y", "rot z"};
     for (int i = 0; i < names.length; i++) {
       SmartDashboard.putNumber(names[i], pos[i]);
@@ -60,5 +62,5 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     updateLimelightTracking();
   }
-  
+
 }

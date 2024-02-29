@@ -32,12 +32,12 @@ public class Shooter extends SubsystemBase {
 
         shooterMotor.getConfigurator().apply(slot0Configs);
 
-        shooterFollower.getConfigurator().apply(slot1Configs);   
+        shooterFollower.getConfigurator().apply(slot1Configs);
     }
 
     public void setVelocity(double velocity) {
-        double desiredrps = velocity/60;
-        double mep = velocity/-60; //should be 130 for spin
+        double desiredrps = velocity / 60;
+        double mep = velocity / -60; // should be 130 for spin
         shooterVelocityVoltage = new VelocityVoltage(desiredrps);
         followerVelocityVoltage = new VelocityVoltage(mep);
         shooterMotor.setControl(shooterVelocityVoltage);
@@ -50,6 +50,10 @@ public class Shooter extends SubsystemBase {
         shooterFollower.setControl(voltageOut);
     }
 
+    public boolean isShooting() {
+        return shooterMotor.getVelocity().getValueAsDouble() > 100;
+    }
+
     public void shoot(double speed) {
         setVelocity(speed);
     }
@@ -57,4 +61,5 @@ public class Shooter extends SubsystemBase {
     public void stop() {
         setVoltage(0);
     }
+
 }

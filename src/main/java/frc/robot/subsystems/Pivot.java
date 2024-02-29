@@ -67,10 +67,10 @@ public class Pivot extends SubsystemBase {
         double rotations = 24.6 * Math.pow(distance, -0.340);
         Pose2d pose = s_swerve.getLimelightBotPose();
 
-        System.out.println("Pos X: " + pose.getX());
-        System.out.println("Pos Y: " + pose.getY());
-        System.out.println("Distance: " + distance);
-        System.out.println("Rotations: " + rotations + '\n');
+        // System.out.println("Pos X: " + pose.getX());
+        // System.out.println("Pos Y: " + pose.getY());
+        // System.out.println("Distance: " + distance);
+        // System.out.println("Rotations: " + rotations + '\n');
         return rotations;
     }
 
