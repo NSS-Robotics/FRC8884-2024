@@ -139,6 +139,22 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public double[] getDSpeaker() {
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        Pose2d pose = getLimelightBotPose();
+        double x;
+        double y;
+        if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+            x = Constants.redSpeakerX - pose.getX();
+            y = Constants.speakerY - pose.getY();
+        } else {
+            x = pose.getX() - Constants.blueSpeakerX;
+            y = Constants.speakerY - pose.getY();
+        }
+        System.out.println(x + " " + y);
+        return new double[] {x, y};
+    }
+
     public void turnStates(double angularSpeed) {
         var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 ChassisSpeeds.fromFieldRelativeSpeeds(

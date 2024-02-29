@@ -60,20 +60,12 @@ public class Pivot extends SubsystemBase {
     }
 
     public double getRotations() {
-        Optional<Alliance> alliance = DriverStation.getAlliance();
         double distance = 0;
 
-        Pose2d pose = s_swerve.getLimelightBotPose();
-        if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-            double x = Constants.redSpeakerX - pose.getX();
-            double y = Constants.speakerY - pose.getY();
-            distance = Math.sqrt(x * x + y * y);
-        } else {
-            double x = pose.getX() - Constants.blueSpeakerX;
-            double y = Constants.speakerY - pose.getY();
-            distance = Math.sqrt(x * x + y * y);
-        }
+        double[] dist = s_swerve.getDSpeaker();
+        distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations = 24.6 * Math.pow(distance, -0.340);
+        Pose2d pose = s_swerve.getLimelightBotPose();
 
         System.out.println("Pos X: " + pose.getX());
         System.out.println("Pos Y: " + pose.getY());
