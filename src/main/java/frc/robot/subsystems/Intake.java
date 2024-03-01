@@ -5,9 +5,6 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 
-import au.grapplerobotics.ConfigurationFailedException;
-import au.grapplerobotics.LaserCan;
-import au.grapplerobotics.LaserCan.Measurement;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +15,6 @@ public class Intake extends SubsystemBase {
 
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeConstants.inner, MotorType.kBrushless);
     private CANSparkMax intakeMotorFollower = new CANSparkMax(Constants.IntakeConstants.outer, MotorType.kBrushless);
-    private LaserCan laserCAN = new LaserCan(Constants.LaserCanConstants.laserCan);
 
     private SparkPIDController intakePID;
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(Constants.IntakeConstants.kS,

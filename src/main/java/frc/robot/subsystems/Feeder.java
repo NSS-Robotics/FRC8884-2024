@@ -40,6 +40,9 @@ public class Feeder extends SubsystemBase {
         feederMotor.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
         feederMotorFollower.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
 
+        feederMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        feederMotorFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
         feederPID = feederMotor.getPIDController();
 
         feederPID.setP(Constants.FeederConstants.kP, 0);
@@ -57,7 +60,7 @@ public class Feeder extends SubsystemBase {
     public void setupLaserCAN() {
         try {
             laserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
-            laserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(0, 0, 16, 16));
+            laserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(0, 0, 12, 12));
             laserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
         } catch (ConfigurationFailedException e) {
             System.out.println("LASERCAN CONFIG FAILED");
@@ -113,12 +116,14 @@ public class Feeder extends SubsystemBase {
         }
         if (Measurement != null && Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
-            if (distance <= 30) {
-                hasBeenDetected = true;
-            } else if (m_shooter.isShooting()) {
-                hasBeenDetected = false;
-            }
+            System.out.println("Distance: " + distance);
+            // if (distance <= 80 && !m_shooter.isShooting()) {
+            // hasBeenDetected = true;
+            // stop();
+            // } else if (m_shooter.isShooting()) {
+            // hasBeenDetected = false;
+            // }
         }
-        System.out.println(hasBeenDetected);
+        System.out.println("Note detected: " + hasBeenDetected);
     }
 }

@@ -152,7 +152,7 @@ public class Swerve extends SubsystemBase {
             y = Constants.speakerY - pose.getY();
         }
         System.out.println(x + " " + y);
-        return new double[] {x, y};
+        return new double[] { x, y };
     }
 
     public void turnStates(double angularSpeed) {
@@ -180,12 +180,12 @@ public class Swerve extends SubsystemBase {
             m_pose = l_limelight.botPose;
         } else {
             m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
-        }
 
         for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+
         }
     }
 }
