@@ -180,6 +180,7 @@ public class Swerve extends SubsystemBase {
             m_pose = l_limelight.botPose;
         } else {
             m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
+        }
 
         for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
