@@ -40,6 +40,7 @@ public class AimLimelight extends PIDCommand {
             .getLimelightBotPose()
             .getRotation()
             .getDegrees();
+
         if (!swerve.isRed()) {
             angleToSpeaker += 180;
             if (rotationZ < 0) {
@@ -64,7 +65,6 @@ public class AimLimelight extends PIDCommand {
     public void end(boolean interrupted) {
         swerve.drive(new Translation2d(0, 0), 0, false, false);
         System.out.println("Align With Limelight - End");
-        //limelight.setPipeline(1);
         super.end(interrupted);
     }
 }
