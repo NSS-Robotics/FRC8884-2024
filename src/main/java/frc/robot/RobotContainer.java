@@ -4,11 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.autos.FourPiece;
-import frc.robot.subsystems.*;
-import frc.robot.commands.*;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +12,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.autos.FourPiece;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -28,17 +27,41 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
     /* Driver Controller */
 
-    private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
+    private final XboxController m_driverController = new XboxController(
+        OperatorConstants.kDriverControllerPort
+    );
     // private final Swerve m_exampleSubsystem = new Swerve();
-    JoystickButton a = new JoystickButton(m_driverController, XboxController.Button.kA.value);
-    JoystickButton y = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-    JoystickButton b = new JoystickButton(m_driverController, XboxController.Button.kB.value);
-    JoystickButton x = new JoystickButton(m_driverController, XboxController.Button.kX.value);
-    JoystickButton rb = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
-    JoystickButton lb = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
-    JoystickButton jig = new JoystickButton(m_driverController, XboxController.Button.kStart.value);
+    JoystickButton a = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kA.value
+    );
+    JoystickButton y = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kY.value
+    );
+    JoystickButton b = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kB.value
+    );
+    JoystickButton x = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kX.value
+    );
+    JoystickButton rb = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kRightBumper.value
+    );
+    JoystickButton lb = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kLeftBumper.value
+    );
+    JoystickButton jig = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kStart.value
+    );
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
     /* Drive Controls */
@@ -47,7 +70,10 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(
+        m_driverController,
+        XboxController.Button.kY.value
+    );
 
     /* Subsystems */
     public final Candle l_candle = new Candle();
@@ -61,16 +87,17 @@ public class RobotContainer {
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final FourPiece fourPiece = new FourPiece(
-            "FourPiece",
-            4,
-            m_feeder,
-            m_intake,
-            l_limelight_april,
-            m_pivot,
-            m_shooter,
-            s_swerve,
-            l_candle,
-            () -> false);
+        "FourPiece",
+        4,
+        m_feeder,
+        m_intake,
+        l_limelight_april,
+        m_pivot,
+        m_shooter,
+        s_swerve,
+        l_candle,
+        () -> false
+    );
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,12 +105,14 @@ public class RobotContainer {
     public RobotContainer() {
         l_candle.setLEDs(170, 247, 250);
         s_swerve.setDefaultCommand(
-                new TeleopSwerve(
-                        s_swerve,
-                        () -> m_driverController.getRawAxis(translationAxis),
-                        () -> m_driverController.getRawAxis(strafeAxis),
-                        () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
-                        () -> false));
+            new TeleopSwerve(
+                s_swerve,
+                () -> m_driverController.getRawAxis(translationAxis),
+                () -> m_driverController.getRawAxis(strafeAxis),
+                () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
+                () -> false
+            )
+        );
         l_limelight_april.setPipeline(0);
 
         // Configure the trigger bindings

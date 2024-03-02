@@ -6,24 +6,24 @@ import frc.robot.subsystems.Pivot;
 
 public class Jiggle extends Command {
 
-  private final Pivot pivot;
+    private final Pivot pivot;
 
-  public Jiggle(Pivot _pivot) {
-    pivot = _pivot;
-    addRequirements(pivot);
-  }
+    public Jiggle(Pivot _pivot) {
+        pivot = _pivot;
+        addRequirements(pivot);
+    }
 
-  @Override
-  public void execute() {
-    // pivot.setPivot(pivot.getRotations());
-    pivot.setPivot(Constants.PivotConstants.AmpRotations);
-  }
+    @Override
+    public void execute() {
+        // pivot.setPivot(pivot.getRotations());
+        pivot.setPivot(Constants.PivotConstants.AmpRotations);
+    }
 
-  @Override
-  public void initialize() {}
+    @Override
+    public void initialize() {}
 
-  @Override
-  public void end(boolean interrupted) {
-    pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
-  }
+    @Override
+    public void end(boolean interrupted) {
+        pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
+    }
 }

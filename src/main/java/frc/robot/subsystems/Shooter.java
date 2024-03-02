@@ -1,14 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
-
 public class Shooter extends SubsystemBase {
+
     private static TalonFX shooterMotor = new TalonFX(20);
     private static TalonFX shooterFollower = new TalonFX(21);
     private static VelocityVoltage shooterVelocityVoltage;
@@ -56,11 +56,9 @@ public class Shooter extends SubsystemBase {
 
     public void shoot(double speed) {
         setVelocity(speed);
-
     }
 
     public void stop() {
         setVoltage(0);
     }
-
 }

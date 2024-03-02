@@ -2,11 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Intake;
 
 public class NoteOuttake extends Command {
+
     public final Intake intake;
     public final Feeder feeder;
     public final Candle candle;
@@ -21,7 +22,7 @@ public class NoteOuttake extends Command {
     @Override
     public void execute() {
         feeder.outtake(Constants.FeederConstants.speed);
-        candle.flow(255,140,0);
+        candle.flow(255, 140, 0);
     }
 
     @Override
