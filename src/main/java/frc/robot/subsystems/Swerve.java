@@ -174,6 +174,12 @@ public class Swerve extends SubsystemBase {
                 pose);
     }
 
+    public void printPosData() {
+        System.out.println("Pose Data:\n----------------------");
+        System.out.println("Pos X: " + m_pose.getX());
+        System.out.println("Pos Y: " + m_pose.getY());
+        System.out.println("Pos R: " + m_pose.getRotation().getDegrees());
+    }
     @Override
     public void periodic() {
         if (l_limelight.tv > 0) {

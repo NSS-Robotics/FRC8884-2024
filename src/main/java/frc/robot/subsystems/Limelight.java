@@ -36,7 +36,7 @@ public String name;
     ta = table.getEntry("ta").getDouble(0);
 
     double[] pos = table.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-    botPose = new Pose2d(pos[0], pos[1], new Rotation2d(pos[5]));
+    botPose = new Pose2d(pos[0], pos[1], new Rotation2d(Math.toRadians(pos[5])));
 
     String[] names = {"pos x", "pos y", "pos z", "rot x", "rot y", "rot z"};
     for (int i = 0; i < names.length; i++) {
