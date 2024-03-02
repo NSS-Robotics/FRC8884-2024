@@ -1,22 +1,16 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.util.Optional;
-
-import com.ctre.phoenix6.hardware.CANcoder;
+import frc.robot.Constants;
 
 public class Pivot extends SubsystemBase {
+
     private CANSparkMax pivotMotor;
     private CANSparkMax pivotFollower;
     private RelativeEncoder pivotEncoder;
@@ -28,8 +22,16 @@ public class Pivot extends SubsystemBase {
     public boolean pivotReset = false;
 
     public void pivotSetup() {
-        pivotMotor = new CANSparkMax(Constants.PivotConstants.pivotMotor, MotorType.kBrushless);
-        pivotFollower = new CANSparkMax(Constants.PivotConstants.followerMotor, MotorType.kBrushless);
+        pivotMotor =
+            new CANSparkMax(
+                Constants.PivotConstants.pivotMotor,
+                MotorType.kBrushless
+            );
+        pivotFollower =
+            new CANSparkMax(
+                Constants.PivotConstants.followerMotor,
+                MotorType.kBrushless
+            );
         pivotEncoder = pivotMotor.getEncoder();
         followerEncoder = pivotFollower.getEncoder();
         Encoder = new CANcoder(13);
@@ -38,7 +40,9 @@ public class Pivot extends SubsystemBase {
         pivotFollower.follow(pivotMotor, true);
 
         pivotMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
-        pivotFollower.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
+        pivotFollower.setSmartCurrentLimit(
+            Constants.IntakeConstants.currentLimit
+        );
 
         pivotPID = pivotMotor.getPIDController();
 
@@ -46,7 +50,11 @@ public class Pivot extends SubsystemBase {
         pivotPID.setI(Constants.PivotConstants.kI, 0);
         pivotPID.setD(Constants.PivotConstants.kD, 0);
         pivotPID.setIZone(0, 0);
-        pivotPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
+        pivotPID.setOutputRange(
+            Constants.GlobalVariables.outputRangeMin,
+            Constants.GlobalVariables.outputRangeMax,
+            0
+        );
     }
 
     public void resetEncoders() {
@@ -72,8 +80,6 @@ public class Pivot extends SubsystemBase {
             0.109 * Math.pow(distance, 4);
         Pose2d pose = s_swerve.getLimelightBotPose();
 
-        // System.out.println("Pos X: " + pose.getX());
-        // System.out.println("Pos Y: " + pose.getY());
         // System.out.println("Distance: " + distance);
         // System.out.println("Rotations: " + rotations + '\n');
         return rotations;

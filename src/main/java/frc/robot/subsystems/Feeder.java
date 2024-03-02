@@ -1,35 +1,39 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.SparkPIDController;
-
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
-
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Feeder extends SubsystemBase {
 
-    private CANSparkMax feederMotor = new CANSparkMax(Constants.FeederConstants.feederIn, MotorType.kBrushless);
-    private CANSparkMax feederMotorFollower = new CANSparkMax(Constants.FeederConstants.feederOut,
-            MotorType.kBrushless);
+    private CANSparkMax feederMotor = new CANSparkMax(
+        Constants.FeederConstants.feederIn,
+        MotorType.kBrushless
+    );
+    private CANSparkMax feederMotorFollower = new CANSparkMax(
+        Constants.FeederConstants.feederOut,
+        MotorType.kBrushless
+    );
 
     private SparkPIDController feederPID;
-    SimpleMotorFeedforward feederFF = new SimpleMotorFeedforward(Constants.FeederConstants.kS,
-            Constants.FeederConstants.kV,
-            Constants.FeederConstants.kA);
-    private LaserCan laserCAN = new LaserCan(Constants.LaserCanConstants.laserCan);
+    SimpleMotorFeedforward feederFF = new SimpleMotorFeedforward(
+        Constants.FeederConstants.kS,
+        Constants.FeederConstants.kV,
+        Constants.FeederConstants.kA
+    );
+    private LaserCan laserCAN = new LaserCan(
+        Constants.LaserCanConstants.laserCan
+    );
     private boolean hasBeenDetected = false;
     private Shooter shooter;
 
     public void setupMotors() {
-
         feederMotorFollower.restoreFactoryDefaults();
         feederMotor.restoreFactoryDefaults();
 
@@ -37,8 +41,12 @@ public class Feeder extends SubsystemBase {
 
         feederMotor.setInverted(false);
 
-        feederMotor.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
-        feederMotorFollower.setSmartCurrentLimit(Constants.FeederConstants.currentLimit);
+        feederMotor.setSmartCurrentLimit(
+            Constants.FeederConstants.currentLimit
+        );
+        feederMotorFollower.setSmartCurrentLimit(
+            Constants.FeederConstants.currentLimit
+        );
 
         feederMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         feederMotorFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -50,7 +58,11 @@ public class Feeder extends SubsystemBase {
         feederPID.setD(Constants.FeederConstants.kD, 0);
         feederPID.setIZone(0, 0);
         feederPID.setFF(Constants.FeederConstants.FF, 0);
-        feederPID.setOutputRange(Constants.GlobalVariables.outputRangeMin, Constants.GlobalVariables.outputRangeMax, 0);
+        feederPID.setOutputRange(
+            Constants.GlobalVariables.outputRangeMin,
+            Constants.GlobalVariables.outputRangeMax,
+            0
+        );
 
         feederMotor.setOpenLoopRampRate(0.05);
 
@@ -60,7 +72,9 @@ public class Feeder extends SubsystemBase {
     public void setupLaserCAN() {
         try {
             laserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
-            laserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(0, 0, 12, 12));
+            laserCAN.setRegionOfInterest(
+                new LaserCan.RegionOfInterest(0, 0, 12, 12)
+            );
             laserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
         } catch (ConfigurationFailedException e) {
             System.out.println("LASERCAN CONFIG FAILED");
@@ -74,8 +88,13 @@ public class Feeder extends SubsystemBase {
         // SmartDashboard.putNumber("Feeder arbFF", arbFF);
         // SmartDashboard.putNumber("Feeder velocity target", velocity);
 
-        feederPID.setReference(velocity, ControlType.kVelocity, 0, arbFF,
-                SparkPIDController.ArbFFUnits.kVoltage);
+        feederPID.setReference(
+            velocity,
+            ControlType.kVelocity,
+            0,
+            arbFF,
+            SparkPIDController.ArbFFUnits.kVoltage
+        );
     }
 
     public void stop() {
@@ -117,7 +136,9 @@ public class Feeder extends SubsystemBase {
         LaserCan.Measurement Measurement = laserCAN.getMeasurement();
         if (Measurement == null) {
             System.out.println("null");
-        } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+        } else if (
+            Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
+        ) {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
                 hasBeenDetected = true;

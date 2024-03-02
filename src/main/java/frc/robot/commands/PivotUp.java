@@ -6,6 +6,7 @@ import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Pivot;
 
 public class PivotUp extends Command {
+
     private final Pivot pivot;
     private final Candle candle;
 
@@ -24,8 +25,7 @@ public class PivotUp extends Command {
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     @Override
     public void end(boolean interrupted) {
