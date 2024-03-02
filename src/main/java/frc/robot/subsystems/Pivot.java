@@ -62,7 +62,7 @@ public class Pivot extends SubsystemBase {
     public double getRotations() {
         double distance = 0;
 
-        double[] dist = s_swerve.getDSpeaker();
+        double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations = 24.6 * Math.pow(distance, -0.340);
         Pose2d pose = s_swerve.getLimelightBotPose();
@@ -78,8 +78,11 @@ public class Pivot extends SubsystemBase {
         pivotSetup();
         s_swerve = swerve;
     }
-
+ 
     @Override
     public void periodic() {
+        double[] dist = s_swerve.getSpeakerDistances();
+        double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
+        System.out.println(distance);
     }
 }

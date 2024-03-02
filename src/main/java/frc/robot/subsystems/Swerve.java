@@ -153,8 +153,6 @@ public class Swerve extends SubsystemBase {
             : Constants.blueSpeakerX)
             - pose.getX();
         double y = Constants.speakerY - pose.getY();
-
-        System.out.println(x + ", " + y);
         return new double[] { x, y };
     }
 
