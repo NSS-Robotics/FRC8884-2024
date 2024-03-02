@@ -30,7 +30,7 @@ public class AimLimelight extends PIDCommand {
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
-    getController().setTolerance(0.0);
+    getController().setTolerance(2.5);
     
     System.out.println("Align With Limelight - Start");
   }

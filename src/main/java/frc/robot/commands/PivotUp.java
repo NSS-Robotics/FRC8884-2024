@@ -18,6 +18,7 @@ public class PivotUp extends Command {
     @Override
     public void execute() {
         double rotations = pivot.getRotations();
+        //pivot.getRotations();
         pivot.setPivot(rotations);
         candle.flow(140, 0, 255);
     }

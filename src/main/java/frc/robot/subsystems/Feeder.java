@@ -119,13 +119,15 @@ public class Feeder extends SubsystemBase {
             System.out.println("null");
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
-            if (distance <= 150 && !shooter.isShooting()) {
+            if (distance <= 50 && !shooter.isShooting()) {
                 hasBeenDetected = true;
                 setVelocity(-2);
             } else if (shooter.isShooting()) {
                 hasBeenDetected = false;
             }
+            // System.out.println("Distance: " + distance);
         }
+        
 
     }
 }

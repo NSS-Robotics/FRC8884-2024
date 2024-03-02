@@ -220,7 +220,7 @@ public final class Constants {
         public static final double kI = 0.00;
         public static final double kD = 1;
         public static final double PivotIntakeRotation = 0;
-        // public static final double PivotAgainstRotations = 14.5;
+        public static final double PivotAgainstRotations = 15;
         // public static final double TrapAgainstRotations = 24;
         public static final double AmpRotations = 53;
         public static final double JiggleRotations = 60;
