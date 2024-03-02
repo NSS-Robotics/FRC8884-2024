@@ -134,29 +134,27 @@ public class Swerve extends SubsystemBase {
         return m_pose;
     }
 
-    public double getLimelightrz() {
-        return getLimelightBotPose().getRotation().getDegrees();
-    }
-
     public void resetModulesToAbsolute() {
         for (SwerveModule mod : mSwerveMods) {
             mod.resetToAbsolute();
         }
     }
 
-    public double[] getDSpeaker() {
+    public boolean isRed() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
+        return alliance.isPresent() && alliance.get() == Alliance.Red;
+    }
+
+    public double[] getSpeakerDistances() {
         Pose2d pose = getLimelightBotPose();
-        double x;
-        double y;
-        if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-            x = Constants.redSpeakerX - pose.getX();
-            y = Constants.speakerY - pose.getY();
-        } else {
-            x = Constants.blueSpeakerX - pose.getX();
-            y = Constants.speakerY - pose.getY();
-        }
-        System.out.println(x + " " + y);
+
+        double x = (isRed()
+            ? Constants.redSpeakerX
+            : Constants.blueSpeakerX)
+            - pose.getX();
+        double y = Constants.speakerY - pose.getY();
+
+        System.out.println(x + ", " + y);
         return new double[] { x, y };
     }
 
