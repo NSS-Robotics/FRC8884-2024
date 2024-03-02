@@ -200,7 +200,7 @@ public final class Constants {
         public static final int feederOut = 19;
         public static final int feederIn = 18;
         public static final int currentLimit = 0;
-        public static final double holdingVoltage = 0;
+        public static final double holdingVoltage = 1;
         public static final double kS = 0.43816;
         public static final double kV = 0.0010703;
         public static final double kA = 0.00012;

@@ -26,7 +26,7 @@ public class Feeder extends SubsystemBase {
             Constants.FeederConstants.kA);
     private LaserCan laserCAN = new LaserCan(Constants.LaserCanConstants.laserCan);
     private boolean hasBeenDetected = false;
-    private Shooter m_shooter;
+    private Shooter shooter;
 
     public void setupMotors() {
 
@@ -94,6 +94,10 @@ public class Feeder extends SubsystemBase {
         }
     }
 
+    public void setbool(boolean bool) {
+        hasBeenDetected = bool;
+    }
+
     public void outtake(double speed) {
         setVelocity(-1 * speed);
     }
@@ -102,10 +106,10 @@ public class Feeder extends SubsystemBase {
         feederMotor.setVoltage(Constants.FeederConstants.holdingVoltage);
     }
 
-    public Feeder(Shooter m_shooter) {
+    public Feeder(Shooter shooter) {
         setupMotors();
         setupLaserCAN();
-        this.m_shooter = m_shooter;
+        this.shooter = shooter;
     }
 
     @Override
@@ -113,17 +117,17 @@ public class Feeder extends SubsystemBase {
         LaserCan.Measurement Measurement = laserCAN.getMeasurement();
         if (Measurement == null) {
             System.out.println("null");
-        }
-        if (Measurement != null && Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+        } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
-            //System.out.println("Distance: " + distance);
-            // if (distance <= 80 && !m_shooter.isShooting()) {
-            // hasBeenDetected = true;
-            // stop();
-            // } else if (m_shooter.isShooting()) {
-            // hasBeenDetected = false;
-            // }
+            System.out.println("Distance: " + distance);
+            if (distance <= 150 && !shooter.isShooting()) {
+                hasBeenDetected = true;
+                setVelocity(-2);
+            } else if (shooter.isShooting()) {
+                hasBeenDetected = false;
+            }
+            System.out.println("Note detected: " + hasBeenDetected);
         }
-        //System.out.println("Note detected: " + hasBeenDetected);
+
     }
 }
