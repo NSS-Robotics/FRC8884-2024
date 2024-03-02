@@ -16,50 +16,55 @@ import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 public class BaseAuto extends Command {
 
     protected final Feeder m_feeder;
     protected final Intake m_intake;
-    protected final Limelight l_limelight;
+    protected final Limelight l_limelight_april;
     protected final Pivot m_pivot;
     protected final Shooter m_shooter;
     protected final Swerve s_swerve;
-    
+    protected final Candle l_candle;
+
     protected int stopPoints;
     protected ChoreoTrajectory[] traj;
     protected BooleanSupplier fieldmirror;
-    
+
     public BaseAuto(
             String pathName,
             int stopPoints,
             Feeder m_feeder,
             Intake m_intake,
-            Limelight l_limelight,
+            Limelight l_limelight_april,
             Pivot m_pivot,
             Shooter m_shooter,
             Swerve s_swerve,
+            Candle l_candle,
             BooleanSupplier fieldmirror) {
         traj = new ChoreoTrajectory[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
             String trajName = i == 0 ? pathName : pathName + "." + i;
-            this.traj[i] = Choreo.getTrajectory(trajName);         
+            this.traj[i] = Choreo.getTrajectory(trajName);
         }
 
         this.stopPoints = stopPoints;
         this.m_feeder = m_feeder;
         this.m_intake = m_intake;
-        this.l_limelight = l_limelight;
+        this.l_limelight_april = l_limelight_april;
         this.m_pivot = m_pivot;
         this.m_shooter = m_shooter;
         this.s_swerve = s_swerve;
         this.fieldmirror = fieldmirror;
-        addRequirements(m_feeder);
-        addRequirements(m_intake);
-        addRequirements(l_limelight);
-        addRequirements(m_pivot);
-        addRequirements(m_shooter);
-        addRequirements(s_swerve);
+        this.l_candle = l_candle;
+        addRequirements(
+                m_feeder,
+                m_intake,
+                l_limelight_april,
+                m_pivot,
+                m_shooter,
+                s_swerve);
     }
 
     public Command getCommands(Command[] swerveCommands) {

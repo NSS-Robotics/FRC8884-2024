@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.autos.TestAuto;
+import frc.robot.autos.FourPiece;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
@@ -59,19 +59,18 @@ public class RobotContainer {
     public final Swerve s_swerve = new Swerve(l_limelight_april);
     public final Pivot m_pivot = new Pivot(s_swerve);
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-    /*
-     * private final TestAuto testAuto = new TestAuto(
-     * "TestPath",
-     * rotationAxis,
-     * m_feeder,
-     * m_intake,
-     * l_limelight,
-     * m_pivot,
-     * m_shooter,
-     * s_swerve,
-     * () -> false
-     * );
-     */
+
+    private final FourPiece fourPiece = new FourPiece(
+            "FourPiece",
+            4,
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -90,9 +89,9 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
-        // m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+        m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
 
-        // SmartDashboard.putData("Auto mode", m_chooser);
+        SmartDashboard.putData("Auto mode", m_chooser);
     }
 
     /**
