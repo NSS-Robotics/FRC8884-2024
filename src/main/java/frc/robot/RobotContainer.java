@@ -85,6 +85,7 @@ public class RobotContainer {
                         () -> m_driverController.getRawAxis(strafeAxis),
                         () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
                         () -> false));
+        l_limelight_april.setPipeline(0);
 
         // Configure the trigger bindings
         configureBindings();

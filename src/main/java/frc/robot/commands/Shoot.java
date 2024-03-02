@@ -28,6 +28,5 @@ public class Shoot extends Command{
       public void end(boolean interrupted) {
         shooter.stop();
         candle.setLEDs(170, 247, 250);
-        System.out.println("Pivot Command Ended");
       }
 }

@@ -33,6 +33,6 @@ public class NoteIntake extends Command{
     intake.stop();
     feeder.stop();
     candle.setLEDs(170, 247, 250);
-    System.out.println("Pivot Command Ended");
+
   }
 }

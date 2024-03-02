@@ -15,10 +15,11 @@ public class Limelight extends SubsystemBase {
   public double ty = 0;
   public double ta = 0;
   public double pipeline;
+  
 public String name;
 
   public Pose2d botPose = new Pose2d(0, 0, new Rotation2d());
-
+  
   public Limelight(String name) {
         this.name = "limelight-" + name;
     table = NetworkTableInstance.getDefault().getTable(this.name);
@@ -57,6 +58,7 @@ public String name;
     updateLimelightTracking();
     return tx;
   }
+
 
   @Override
   public void periodic() {

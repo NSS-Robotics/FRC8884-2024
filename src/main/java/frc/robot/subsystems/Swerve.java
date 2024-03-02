@@ -49,6 +49,7 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = createOdometry(
                 new Pose2d(0, 0, new Rotation2d()));
+        m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
 
         Optional<Alliance> alliance = DriverStation.getAlliance();
         driveInvert = alliance.isPresent() && alliance.get() == Alliance.Red ? -1 : 1;
@@ -133,6 +134,10 @@ public class Swerve extends SubsystemBase {
         return m_pose;
     }
 
+    public double getLimelightrz() {
+        return getLimelightBotPose().getRotation().getDegrees();
+    }
+
     public void resetModulesToAbsolute() {
         for (SwerveModule mod : mSwerveMods) {
             mod.resetToAbsolute();
@@ -148,7 +153,7 @@ public class Swerve extends SubsystemBase {
             x = Constants.redSpeakerX - pose.getX();
             y = Constants.speakerY - pose.getY();
         } else {
-            x = pose.getX() - Constants.blueSpeakerX;
+            x = Constants.blueSpeakerX - pose.getX();
             y = Constants.speakerY - pose.getY();
         }
         System.out.println(x + " " + y);

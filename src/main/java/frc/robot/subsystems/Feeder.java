@@ -116,7 +116,7 @@ public class Feeder extends SubsystemBase {
         }
         if (Measurement != null && Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
-            System.out.println("Distance: " + distance);
+            //System.out.println("Distance: " + distance);
             // if (distance <= 80 && !m_shooter.isShooting()) {
             // hasBeenDetected = true;
             // stop();
@@ -124,6 +124,6 @@ public class Feeder extends SubsystemBase {
             // hasBeenDetected = false;
             // }
         }
-        System.out.println("Note detected: " + hasBeenDetected);
+        //System.out.println("Note detected: " + hasBeenDetected);
     }
 }

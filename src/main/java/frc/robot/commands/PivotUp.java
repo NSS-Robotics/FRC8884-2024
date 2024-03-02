@@ -30,6 +30,5 @@ public class PivotUp extends Command {
     public void end(boolean interrupted) {
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         candle.setLEDs(170, 247, 250);
-        System.out.println("Pivot Command Ended");
     }
 }

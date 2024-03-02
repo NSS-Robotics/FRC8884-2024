@@ -25,6 +25,5 @@ public class Jiggle extends Command {
   @Override
   public void end(boolean interrupted) {
     pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
-    System.out.println("Pivot Command Ended");
   }
 }
