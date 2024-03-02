@@ -148,7 +148,5 @@ public class Feeder extends SubsystemBase {
             }
             // System.out.println("Distance: " + distance);
         }
-        
-
     }
 }

@@ -72,13 +72,17 @@ public class Pivot extends SubsystemBase {
 
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
-        double rotations = 
-            24.5 + 
-            2.94 * distance -
-            4.73 * Math.pow(distance, 2) +
-            1.29 * Math.pow(distance, 3) -
-            0.109 * Math.pow(distance, 4);
-        
+        double rotations =
+            24.5 +
+            2.94 *
+            distance -
+            4.73 *
+            Math.pow(distance, 2) +
+            1.29 *
+            Math.pow(distance, 3) -
+            0.109 *
+            Math.pow(distance, 4);
+
         return rotations;
     }
 
@@ -86,7 +90,7 @@ public class Pivot extends SubsystemBase {
         pivotSetup();
         s_swerve = swerve;
     }
- 
+
     @Override
     public void periodic() {
         double[] dist = s_swerve.getSpeakerDistances();
