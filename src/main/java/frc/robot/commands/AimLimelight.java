@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
@@ -14,19 +15,19 @@ public class AimLimelight extends PIDCommand {
 
     public AimLimelight(Swerve swerve, Limelight limelight) {
         super(
-            new PIDController(0.1, 0, 0.01),
-            () -> getAngle(swerve),
-            0.0,
-            tx -> swerve.turnStates(tx),
-            swerve
-        );
+                new PIDController(0.1, 0, 0.01),
+                () -> getAngle(swerve),
+                0.0,
+                tx -> swerve.turnStates(tx),
+                swerve);
         this.limelight = limelight;
         this.swerve = swerve;
         addRequirements(this.swerve, this.limelight);
 
         // Set the controller to be continuous (because it is an angle controller)
         getController().enableContinuousInput(-180, 180);
-        // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
+        // Set the controller tolerance - the delta tolerance ensures the robot is
+        // stationary at the
         // setpoint before it is considered as having reached the reference
         getController().setTolerance(2.5);
 
@@ -37,9 +38,9 @@ public class AimLimelight extends PIDCommand {
         double[] dists = swerve.getSpeakerDistances();
         double angleToSpeaker = Math.toDegrees(Math.atan(dists[1] / dists[0]));
         double rotationZ = swerve
-            .getLimelightBotPose()
-            .getRotation()
-            .getDegrees();
+                .getLimelightBotPose()
+                .getRotation()
+                .getDegrees();
 
         if (!swerve.isRed()) {
             angleToSpeaker += 180;
@@ -48,8 +49,7 @@ public class AimLimelight extends PIDCommand {
             }
         }
         System.out.println(
-            "\n-----------------------------speaker align data:"
-        );
+                "\n-----------------------------speaker align data:");
         System.out.println("Speaker angle final:    " + angleToSpeaker);
         System.out.println("Rotation angle initial: " + rotationZ);
 

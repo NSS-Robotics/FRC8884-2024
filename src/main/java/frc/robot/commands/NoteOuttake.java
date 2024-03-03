@@ -22,15 +22,18 @@ public class NoteOuttake extends Command {
     @Override
     public void execute() {
         feeder.outtake(Constants.FeederConstants.speed);
+        intake.outtake(Constants.IntakeConstants.speed);
         candle.flow(255, 140, 0);
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void end(boolean interrupted) {
         feeder.stop();
+        intake.stop();
         candle.setLEDs(170, 247, 250);
     }
 }
