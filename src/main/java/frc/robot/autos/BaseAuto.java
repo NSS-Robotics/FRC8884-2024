@@ -26,17 +26,16 @@ public class BaseAuto extends Command {
     protected BooleanSupplier fieldmirror;
 
     public BaseAuto(
-        String pathName,
-        int stopPoints,
-        Feeder m_feeder,
-        Intake m_intake,
-        Limelight l_limelight_april,
-        Pivot m_pivot,
-        Shooter m_shooter,
-        Swerve s_swerve,
-        Candle l_candle,
-        BooleanSupplier fieldmirror
-    ) {
+            String pathName,
+            int stopPoints,
+            Feeder m_feeder,
+            Intake m_intake,
+            Limelight l_limelight_april,
+            Pivot m_pivot,
+            Shooter m_shooter,
+            Swerve s_swerve,
+            Candle l_candle,
+            BooleanSupplier fieldmirror) {
         traj = new ChoreoTrajectory[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
             String trajName = i == 0 ? pathName : pathName + "." + i;
@@ -53,13 +52,12 @@ public class BaseAuto extends Command {
         this.fieldmirror = fieldmirror;
         this.l_candle = l_candle;
         addRequirements(
-            m_feeder,
-            m_intake,
-            l_limelight_april,
-            m_pivot,
-            m_shooter,
-            s_swerve
-        );
+                m_feeder,
+                m_intake,
+                l_limelight_april,
+                m_pivot,
+                m_shooter,
+                s_swerve);
     }
 
     public Command getCommands(Command[] swerveCommands) {
@@ -68,18 +66,16 @@ public class BaseAuto extends Command {
 
     public Command followTrajectory() {
         PIDController thetaController = new PIDController(
-            AutoConstants.kPThetaController,
-            0,
-            0
-        );
+                AutoConstants.kPThetaController,
+                0,
+                0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
         s_swerve.setPose(traj[0].getInitialPose());
 
         Command[] swerveCommands = new Command[stopPoints];
         for (int i = 0; i < stopPoints; i++) {
-            swerveCommands[i] =
-                Choreo.choreoSwerveCommand(
+            swerveCommands[i] = Choreo.choreoSwerveCommand(
                     // Choreo trajectory from above
                     traj[i],
                     // A function that returns the current field-relative pose of the robot: your
@@ -91,40 +87,34 @@ public class BaseAuto extends Command {
                     // in meters,
                     // output: m/s).
                     new PIDController(
-                        Constants.AutoConstants.kPXController,
-                        0.0,
-                        0.0
-                    ),
+                            Constants.AutoConstants.kPXController,
+                            0.0,
+                            0.0),
                     // PIDController for
                     // field-relative Y
                     // translation (input: Y error
                     // in meters,
                     // output: m/s).
                     new PIDController(
-                        Constants.AutoConstants.kPYController,
-                        0.0,
-                        0.0
-                    ),
+                            Constants.AutoConstants.kPYController,
+                            0.0,
+                            0.0),
                     // PID constants to correct for rotation
                     // error
                     thetaController,
                     // needs to be robot-relative
-                    (ChassisSpeeds speeds) ->
-                        s_swerve.drive(
+                    (ChassisSpeeds speeds) -> s_swerve.drive(
                             new Translation2d(
-                                speeds.vxMetersPerSecond,
-                                speeds.vyMetersPerSecond
-                            ),
+                                    speeds.vxMetersPerSecond,
+                                    speeds.vyMetersPerSecond),
                             speeds.omegaRadiansPerSecond,
                             false,
-                            false
-                        ),
+                            false),
                     // Whether or not to mirror the path based on alliance (this assumes the path is
                     // created for the blue alliance)
                     fieldmirror,
                     // The subsystem(s) to require, typically your drive subsystem only
-                    s_swerve
-                );
+                    s_swerve);
         }
         return getCommands(swerveCommands);
     }

@@ -16,7 +16,7 @@ public class ClimbPos extends Command {
 
     @Override
     public void execute() {
-        pivot.setPivot(Constants.PivotConstants.TrapAgainstRotations);
+        pivot.setPivot(Constants.PivotConstants.ClimbRotations);
         shooter.shoot(Constants.ShooterConstants.speed);
     }
 

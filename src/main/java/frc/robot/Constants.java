@@ -269,7 +269,7 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
-        public static final double speed = 3500; // Should be 10000
+        public static final double speed = 10000; // Should be 3500 for trap
         public static final double ampspeed = 1800;
     }
 

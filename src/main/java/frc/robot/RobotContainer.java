@@ -87,7 +87,7 @@ public class RobotContainer {
                         m_shooter,
                         s_swerve,
                         l_candle,
-                        () -> false);
+                        () -> true);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -138,6 +138,7 @@ public class RobotContainer {
                 b.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
                 rb.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
                 rb.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+                // rb.whileTrue(new Feed(m_shooter, m_feeder));
                 zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
         }
 
