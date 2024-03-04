@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -109,6 +113,13 @@ public class RobotContainer {
                 m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);
+
+                // Other dashboard stuff
+                SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+                PowerDistribution pdh = new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
+                SmartDashboard.putNumber("Current", pdh.getTotalCurrent());
+                pdh.close();
+
         }
 
         /**
@@ -125,6 +136,7 @@ public class RobotContainer {
          * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
          * joysticks}.
          */
+
         private void configureBindings() {
                 /* Driver Buttons */
 
