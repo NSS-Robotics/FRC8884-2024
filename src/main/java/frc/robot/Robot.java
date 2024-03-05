@@ -4,12 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +27,8 @@ public class Robot extends TimedRobot {
     public static CTREConfigs ctreConfigs;
 
     private RobotContainer m_robotContainer;
+
+    PowerDistribution pdh = new PowerDistribution(25, PowerDistribution.ModuleType.kRev);
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -53,7 +56,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-                SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+        SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+        SmartDashboard.putNumber("Total Current", pdh.getTotalCurrent());
+        SmartDashboard.putNumber("Remaining Match Time", DriverStation.getMatchTime());
 
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled
@@ -67,10 +72,12 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -88,7 +95,8 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void teleopInit() {
@@ -103,7 +111,8 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+    }
 
     @Override
     public void testInit() {
@@ -113,13 +122,16 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+    }
 
     /** This function is called once when the robot is first started up. */
     @Override
-    public void simulationInit() {}
+    public void simulationInit() {
+    }
 
     /** This function is called periodically whilst in simulation. */
     @Override
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+    }
 }
