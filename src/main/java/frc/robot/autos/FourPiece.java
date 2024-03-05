@@ -64,13 +64,13 @@ public class FourPiece extends BaseAuto {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             swerveCommands[0],
-            // shoot(true),
+            shoot(true),
             swerveCommands[1],
-            // shoot(true),
+            shoot(true),
             swerveCommands[2],
-            // shoot(true),
+            shoot(true),
             swerveCommands[3],
-            // shoot(true),
+            shoot(true),
             s_swerve.run(() ->
                 s_swerve.drive(new Translation2d(0, 0), 0, false, false)
             )

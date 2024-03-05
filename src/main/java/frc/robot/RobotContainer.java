@@ -133,6 +133,7 @@ public class RobotContainer {
 
         m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
         m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+        m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
         SmartDashboard.putData("Auto mode", m_chooser);
     }
