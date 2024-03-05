@@ -6,18 +6,15 @@ import frc.robot.subsystems.*;
 
 public class ClimbPos extends Command {
     private final Pivot pivot;
-    private final Shooter shooter;
 
-    public ClimbPos(Pivot _pivot, Shooter _shooter) {
-        shooter = _shooter;
+    public ClimbPos(Pivot _pivot) {
         pivot = _pivot;
-        addRequirements(pivot, shooter);
+        addRequirements(pivot);
     }
 
     @Override
     public void execute() {
         pivot.setPivot(Constants.PivotConstants.ClimbRotations);
-        shooter.shoot(Constants.ShooterConstants.speed);
     }
 
     @Override
@@ -26,8 +23,6 @@ public class ClimbPos extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
-        shooter.stop();
     }
 
 }

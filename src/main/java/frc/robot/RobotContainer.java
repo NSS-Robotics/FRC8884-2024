@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import java.lang.management.OperatingSystemMXBean;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -30,38 +34,13 @@ public class RobotContainer {
 
     /* Driver Controller */
 
-    private final XboxController m_driverController = new XboxController(
-        OperatorConstants.kDriverControllerPort
+    private final CommandXboxController driverController = new CommandXboxController(
+        Constants.ControllerConstants.kDriverControllerPort
     );
+
+    private final CommandPS4Controller operatorController = new CommandPS4Controller(Constants.ControllerConstants.kOperatorControllerPort);
     // private final Swerve m_exampleSubsystem = new Swerve();
-    JoystickButton a = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kA.value
-    );
-    JoystickButton y = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kY.value
-    );
-    JoystickButton b = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kB.value
-    );
-    JoystickButton x = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kX.value
-    );
-    JoystickButton rb = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kRightBumper.value
-    );
-    JoystickButton lb = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kLeftBumper.value
-    );
-    JoystickButton jig = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kStart.value
-    );
+    
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
     /* Drive Controls */
@@ -70,11 +49,32 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(
-        m_driverController,
-        XboxController.Button.kY.value
-    );
+    Trigger y = driverController.y();
+    Trigger x = driverController.x();
+    Trigger a = driverController.a();
+    Trigger b = driverController.b();
 
+    Trigger rb = driverController.rightBumper();
+    Trigger lb = driverController.leftBumper();
+
+    Trigger rTrigger = driverController.rightTrigger();
+    Trigger lTrigger = driverController.leftTrigger();
+
+
+    /* Operator Buttons */
+    Trigger circle = operatorController.circle();
+    Trigger square = operatorController.square();
+    Trigger cross = operatorController.cross();
+    Trigger triangle = operatorController.triangle();
+
+    Trigger r1 = operatorController.R1();
+    Trigger l1 = operatorController.L1();
+
+    Trigger r2 = operatorController.R2();
+    Trigger l2 = operatorController.L2();
+
+    Trigger up = operatorController.povUp();
+    Trigger down = operatorController.povDown();
     /* Subsystems */
     public final Candle l_candle = new Candle();
     public final Shooter m_shooter = new Shooter();
@@ -120,9 +120,9 @@ public class RobotContainer {
         s_swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_swerve,
-                () -> m_driverController.getRawAxis(translationAxis),
-                () -> m_driverController.getRawAxis(strafeAxis),
-                () -> -m_driverController.getRawAxis(rotationAxis) * 0.75,
+                () -> driverController.getRawAxis(translationAxis),
+                () -> driverController.getRawAxis(strafeAxis),
+                () -> -driverController.getRawAxis(rotationAxis) * 0.75,
                 () -> false
             )
         );
@@ -154,19 +154,19 @@ public class RobotContainer {
      */
     private void configureBindings() {
         /* Driver Buttons */
-
-        // zeroGyro.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        // a.whileTrue(m_feeder.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        // x.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        // b.whileTrue(m_feeder.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-        a.whileTrue(new ClimbPos(m_pivot, m_shooter));
-        x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
-        lb.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
-        b.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
-        rb.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+        y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
+        lTrigger.whileTrue(new Feed(m_feeder));
         rb.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+
+        /* Operator Buttons */
+        up.whileTrue(new ClimbPos(m_pivot));
+        down.whileTrue(new IntakePos(m_pivot));
+        cross.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
+        l1.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
+        l2.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
+        r2.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+
         // rb.whileTrue(new Feed(m_shooter, m_feeder));
-        zeroGyro.whileTrue(new InstantCommand(s_swerve::zeroGyro));
     }
 
     /**

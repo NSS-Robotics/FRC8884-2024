@@ -36,9 +36,10 @@ public final class Constants {
         Units.inchesToMeters(652.73) - 0.17;
     public static final double speakerY = Units.inchesToMeters(218.42);
 
-    public static class OperatorConstants {
+    public static class ControllerConstants {
 
         public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
     }
 
     public static class GlobalVariables {
@@ -268,6 +269,9 @@ public final class Constants {
         public static final double kP = 0.1825;
         public static final double kI = 0.00;
         public static final double kD = 1;
+        public static final double climbP = 0.1825;
+        public static final double climbI = 0.00;
+        public static final double climbD = 1;
         public static final double PivotIntakeRotation = 0;
         public static final double PivotAgainstRotations = 15;
         public static final double TrapAgainstRotations = 21;

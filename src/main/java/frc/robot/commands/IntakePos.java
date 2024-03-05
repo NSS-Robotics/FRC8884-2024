@@ -15,7 +15,7 @@ public class IntakePos extends Command {
 
     @Override
     public void execute() {
-        pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
+        pivot.climb(Constants.PivotConstants.PivotIntakeRotation);
     }
 
     @Override

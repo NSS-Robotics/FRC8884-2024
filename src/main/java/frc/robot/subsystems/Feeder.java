@@ -105,6 +105,13 @@ public class Feeder extends SubsystemBase {
         }
     }
 
+    public void feed(double speed) {
+        if(shooter.isFullSpeed())
+        {
+            setVelocity(speed);
+        }
+    }
+
     public void setbool(boolean bool) {
         hasBeenDetected = bool;
     }
