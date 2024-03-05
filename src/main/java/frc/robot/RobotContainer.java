@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -32,152 +32,147 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
-    /* Driver Controller */
+        /* Driver Controller */
 
-    private final CommandXboxController driverController = new CommandXboxController(
-        Constants.ControllerConstants.kDriverControllerPort
-    );
+        private final CommandXboxController driverController = new CommandXboxController(
+                        Constants.ControllerConstants.kDriverControllerPort);
 
-    private final CommandPS4Controller operatorController = new CommandPS4Controller(Constants.ControllerConstants.kOperatorControllerPort);
-    // private final Swerve m_exampleSubsystem = new Swerve();
-    
-    // Replace with CommandPS4Controller or CommandJoystick if needed
+        private final CommandPS4Controller operatorController = new CommandPS4Controller(
+                        Constants.ControllerConstants.kOperatorControllerPort);
+        // private final Swerve m_exampleSubsystem = new Swerve();
 
-    /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kRightY.value;
-    private final int strafeAxis = XboxController.Axis.kRightX.value;
-    private final int rotationAxis = XboxController.Axis.kLeftX.value;
+        // Replace with CommandPS4Controller or CommandJoystick if needed
 
-    /* Driver Buttons */
-    Trigger y = driverController.y();
-    Trigger x = driverController.x();
-    Trigger a = driverController.a();
-    Trigger b = driverController.b();
+        /* Drive Controls */
+        private final int translationAxis = XboxController.Axis.kRightY.value;
+        private final int strafeAxis = XboxController.Axis.kRightX.value;
+        private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
-    Trigger rb = driverController.rightBumper();
-    Trigger lb = driverController.leftBumper();
-
-    Trigger rTrigger = driverController.rightTrigger();
-    Trigger lTrigger = driverController.leftTrigger();
-
-
-    /* Operator Buttons */
-    Trigger circle = operatorController.circle();
-    Trigger square = operatorController.square();
-    Trigger cross = operatorController.cross();
-    Trigger triangle = operatorController.triangle();
-
-    Trigger r1 = operatorController.R1();
-    Trigger l1 = operatorController.L1();
-
-    Trigger r2 = operatorController.R2();
-    Trigger l2 = operatorController.L2();
-
-    Trigger up = operatorController.povUp();
-    Trigger down = operatorController.povDown();
-    /* Subsystems */
-    public final Candle l_candle = new Candle();
-    public final Shooter m_shooter = new Shooter();
-    public final Intake m_intake = new Intake(m_shooter);
-    public final Feeder m_feeder = new Feeder(m_shooter);
-    public final Limelight l_limelight_april = new Limelight("april");
-    public final Limelight l_limelight_intake = new Limelight("intake");
-    public final Swerve s_swerve = new Swerve(l_limelight_april);
-    public final Pivot m_pivot = new Pivot(s_swerve);
-    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-    private final FourPiece fourPiece = new FourPiece(
-        "FourPiece",
-        4,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> true
-    );
-
-    private final TestAuto testAuto = new TestAuto(
-        "TestAuto",
-        1,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> true
-    );
-
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        l_candle.setLEDs(170, 247, 250);
-        s_swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_swerve,
-                () -> driverController.getRawAxis(translationAxis),
-                () -> driverController.getRawAxis(strafeAxis),
-                () -> -driverController.getRawAxis(rotationAxis) * 0.75,
-                () -> false
-            )
-        );
-        l_limelight_april.setPipeline(0);
-
-        // Configure the trigger bindings
-        configureBindings();
-
-        m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
-        m_chooser.addOption("TestAuto", testAuto.followTrajectory());
-        m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
-
-        SmartDashboard.putData("Auto mode", m_chooser);
-    }
-
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be
-     * created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-     * an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-     * {@link
-     * CommandXboxController
-     * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or
-     * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-    private void configureBindings() {
         /* Driver Buttons */
-        y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
-        lTrigger.whileTrue(new Feed(m_feeder));
-        rb.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+        Trigger y = driverController.y();
+        Trigger x = driverController.x();
+        Trigger a = driverController.a();
+        Trigger b = driverController.b();
+
+        Trigger rb = driverController.rightBumper();
+        Trigger lb = driverController.leftBumper();
+
+        Trigger rTrigger = driverController.rightTrigger();
+        Trigger lTrigger = driverController.leftTrigger();
 
         /* Operator Buttons */
-        up.whileTrue(new ClimbPos(m_pivot));
-        down.whileTrue(new IntakePos(m_pivot));
-        cross.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
-        l1.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
-        l2.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
-        r2.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+        Trigger circle = operatorController.circle();
+        Trigger square = operatorController.square();
+        Trigger cross = operatorController.cross();
+        Trigger triangle = operatorController.triangle();
 
-        // rb.whileTrue(new Feed(m_shooter, m_feeder));
-    }
+        Trigger r1 = operatorController.R1();
+        Trigger l1 = operatorController.L1();
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        System.out.println("AUTO");
+        Trigger r2 = operatorController.R2();
+        Trigger l2 = operatorController.L2();
 
-        return m_chooser.getSelected();
-    }
+        Trigger up = operatorController.povUp();
+        Trigger down = operatorController.povDown();
+        /* Subsystems */
+        public final Candle l_candle = new Candle();
+        public final Shooter m_shooter = new Shooter();
+        public final Intake m_intake = new Intake(m_shooter);
+        public final Feeder m_feeder = new Feeder(m_shooter);
+        public final Limelight l_limelight_april = new Limelight("april");
+        public final Limelight l_limelight_intake = new Limelight("intake");
+        public final Swerve s_swerve = new Swerve(l_limelight_april);
+        public final Pivot m_pivot = new Pivot(s_swerve);
+        private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+        private final FourPiece fourPiece = new FourPiece(
+                        "FourPiece",
+                        4,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> true);
+
+        private final TestAuto testAuto = new TestAuto(
+                        "TestAuto",
+                        1,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> true);
+
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
+        public RobotContainer() {
+                l_candle.setLEDs(170, 247, 250);
+                s_swerve.setDefaultCommand(
+                                new TeleopSwerve(
+                                                s_swerve,
+                                                () -> driverController.getRawAxis(translationAxis),
+                                                () -> driverController.getRawAxis(strafeAxis),
+                                                () -> -driverController.getRawAxis(rotationAxis) * 0.75,
+                                                () -> false));
+                l_limelight_april.setPipeline(0);
+
+                // Configure the trigger bindings
+                configureBindings();
+
+                m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
+                m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+                m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
+
+                SmartDashboard.putData("Auto mode", m_chooser);
+        }
+
+        /**
+         * Use this method to define your trigger->command mappings. Triggers can be
+         * created via the
+         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+         * an arbitrary
+         * predicate, or via the named factories in {@link
+         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+         * {@link
+         * CommandXboxController
+         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+         * PS4} controllers or
+         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+         * joysticks}.
+         */
+        private void configureBindings() {
+                /* Driver Buttons */
+                y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
+                lTrigger.whileTrue(new Feed(m_feeder));
+                rb.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+
+                /* Operator Buttons */
+                up.whileTrue(new ClimbPos(m_pivot));
+                down.whileTrue(new IntakePos(m_pivot));
+                cross.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
+                l1.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
+                l2.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
+                r2.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+
+                // rb.whileTrue(new Feed(m_shooter, m_feeder));
+        }
+
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                // An example command will be run in autonomous
+                System.out.println("AUTO");
+
+                return m_chooser.getSelected();
+        }
 }
