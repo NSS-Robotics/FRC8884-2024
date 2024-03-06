@@ -109,8 +109,8 @@ public class RobotContainer {
                         l_candle,
                         () -> true);
         private final TestAuto testtestRed = new TestAuto(
-                        "TestTestRed",
-                        1,
+                        "TestTestBlue",
+                        5,
                         m_feeder,
                         m_intake,
                         l_limelight_april,
@@ -163,7 +163,6 @@ public class RobotContainer {
         private void configureBindings() {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
-                lTrigger.whileTrue(new Feed(m_feeder));
                 r2.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
 
                 /* Operator Buttons */
@@ -179,7 +178,7 @@ public class RobotContainer {
 
         /**
          * Use this to pass the autonomous command to the main {@link Robot} class.
-         *
+         *  
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {

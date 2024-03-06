@@ -64,7 +64,7 @@ public class TestAuto extends BaseAuto {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             swerveCommands[0],
-            shoot(true),
+            //shoot(true),
             s_swerve.run(() ->
                 s_swerve.drive(new Translation2d(0, 0), 0, false, false)
             )

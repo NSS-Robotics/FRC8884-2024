@@ -47,10 +47,6 @@ public class Swerve extends SubsystemBase {
         swerveOdometry = createOdometry(new Pose2d(0, 0, new Rotation2d()));
         m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
 
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        driveInvert =
-            alliance.isPresent() && alliance.get() == Alliance.Red ? -1 : 1;
-
         l_limelight = limelight;
     }
 
@@ -63,14 +59,14 @@ public class Swerve extends SubsystemBase {
         SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    translation.getX() * driveInvert,
-                    translation.getY() * driveInvert,
+                    translation.getX(),
+                    translation.getY(),
                     rotation,
                     getGyroYaw()
                 )
                 : new ChassisSpeeds(
-                    translation.getX() * driveInvert,
-                    translation.getY() * driveInvert,
+                    translation.getX(),
+                    translation.getY(),
                     rotation
                 )
         );

@@ -11,9 +11,9 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import java.util.function.BooleanSupplier;
 
-public class TestTestRed extends BaseAuto {
+public class TestTestAuto extends BaseAuto {
 
-    public TestTestRed(
+    public TestTestAuto(
         String pathName,
         int stopPoints,
         Feeder m_feeder,

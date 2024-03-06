@@ -68,7 +68,7 @@ public class BaseAuto extends Command {
 
     public Command followTrajectory() {
         PIDController thetaController = new PIDController(
-            AutoConstants.kPThetaController,
+            0.12,
             0,
             0
         );
@@ -91,7 +91,7 @@ public class BaseAuto extends Command {
                     // in meters,
                     // output: m/s).
                     new PIDController(
-                        Constants.AutoConstants.kPXController,
+                        0.12,
                         0.0,
                         0.0
                     ),
@@ -101,7 +101,7 @@ public class BaseAuto extends Command {
                     // in meters,
                     // output: m/s).
                     new PIDController(
-                        Constants.AutoConstants.kPYController,
+                        0.12,
                         0.0,
                         0.0
                     ),
