@@ -106,8 +106,7 @@ public class Feeder extends SubsystemBase {
     }
 
     public void feed(double speed) {
-        if(shooter.isFullSpeed())
-        {
+        if (shooter.isFullSpeed()) {
             setVelocity(speed);
         }
     }
@@ -142,6 +141,9 @@ public class Feeder extends SubsystemBase {
                 setVelocity(-2);
             } else if (shooter.isShooting()) {
                 hasBeenDetected = false;
+            }
+            if (hasBeenDetected && shooter.isFullSpeed()) {
+                feederMotor.set(Constants.FeederConstants.speed);
             }
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
         }
