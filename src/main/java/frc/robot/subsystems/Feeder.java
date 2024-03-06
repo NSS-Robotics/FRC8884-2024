@@ -139,12 +139,10 @@ public class Feeder extends SubsystemBase {
             if (distance <= 50 && !shooter.isShooting()) {
                 hasBeenDetected = true;
                 setVelocity(-2);
-            } else if (shooter.isShooting()) {
-                hasBeenDetected = false;
-            }
-            if (hasBeenDetected && shooter.isFullSpeed()) {
-                feederMotor.set(Constants.FeederConstants.speed);
-            }
+            } // else if (hasBeenDetected && shooter.isFullSpeed()) {
+              // feederMotor.set(Constants.FeederConstants.speed);
+              // hasBeenDetected = false;
+              // }
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
         }
     }

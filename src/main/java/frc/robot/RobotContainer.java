@@ -151,7 +151,7 @@ public class RobotContainer {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
                 lTrigger.whileTrue(new Feed(m_feeder));
-                rb.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+                r2.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
 
                 /* Operator Buttons */
                 up.whileTrue(new ClimbPos(m_pivot));

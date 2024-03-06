@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isFullSpeed() {
-        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 9000;
+        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 5280;
     }
 
     public void shoot(double speed) {
