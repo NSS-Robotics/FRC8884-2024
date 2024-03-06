@@ -108,6 +108,17 @@ public class RobotContainer {
                         s_swerve,
                         l_candle,
                         () -> true);
+        private final TestAuto testtestRed = new TestAuto(
+                        "TestTestRed",
+                        1,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> true);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -128,6 +139,8 @@ public class RobotContainer {
 
                 m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
                 m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+                m_chooser.addOption("TestTestAuto", testtestRed.followTrajectory());
+
                 m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);
