@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
 
     PowerDistribution pdh = new PowerDistribution(25, PowerDistribution.ModuleType.kRev);
+    Shooter shooter = new Shooter();
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
         SmartDashboard.putNumber("Total Current", pdh.getTotalCurrent());
         SmartDashboard.putNumber("Remaining Match Time", DriverStation.getMatchTime());
+        SmartDashboard.putBoolean("Shooter Ready", shooter.isFullSpeed());
 
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled
