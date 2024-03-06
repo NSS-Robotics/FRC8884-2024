@@ -11,9 +11,9 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import java.util.function.BooleanSupplier;
 
-public class TestAuto extends BaseAuto {
+public class TestTestRed extends BaseAuto {
 
-    public TestAuto(
+    public TestTestRed(
         String pathName,
         int stopPoints,
         Feeder m_feeder,
@@ -64,6 +64,10 @@ public class TestAuto extends BaseAuto {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             swerveCommands[0],
+            swerveCommands[1],
+            swerveCommands[2],
+            swerveCommands[3],
+            swerveCommands[4],
             shoot(true),
             s_swerve.run(() ->
                 s_swerve.drive(new Translation2d(0, 0), 0, false, false)
