@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Shooter;
@@ -62,6 +66,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Total Current", pdh.getTotalCurrent());
         SmartDashboard.putNumber("Remaining Match Time", DriverStation.getMatchTime());
         SmartDashboard.putBoolean("Shooter Ready", shooter.isFullSpeed());
+
+        SmartDashboard.putBoolean("s_swerve.isRed()", DriverStation.getAlliance().get() == Alliance.Red);
 
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled

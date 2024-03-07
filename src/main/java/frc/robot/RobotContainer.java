@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.lang.management.OperatingSystemMXBean;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.autos.*;
@@ -40,7 +43,6 @@ public class RobotContainer {
         private final CommandPS4Controller operatorController = new CommandPS4Controller(
                         Constants.ControllerConstants.kOperatorControllerPort);
         // private final Swerve m_exampleSubsystem = new Swerve();
-
         // Replace with CommandPS4Controller or CommandJoystick if needed
 
         /* Drive Controls */
@@ -83,6 +85,7 @@ public class RobotContainer {
         public final Limelight l_limelight_intake = new Limelight("intake");
         public final Swerve s_swerve = new Swerve(l_limelight_april);
         public final Pivot m_pivot = new Pivot(s_swerve);
+        private boolean alliance = s_swerve.isRed();
         private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
         private final FourPiece fourPiece = new FourPiece(
@@ -108,7 +111,7 @@ public class RobotContainer {
                         s_swerve,
                         l_candle,
                         () -> true);
-        private final TestAuto testtestRed = new TestAuto(
+        private final TestAuto testTestBlue = new TestAuto(
                         "TestTestBlue",
                         5,
                         m_feeder,
@@ -118,7 +121,19 @@ public class RobotContainer {
                         m_shooter,
                         s_swerve,
                         l_candle,
-                        () -> true);
+                        () -> !alliance);
+        
+        private final TestAuto testTestRed = new TestAuto(
+                        "TestTestRed",
+                        5,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> alliance);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -139,7 +154,8 @@ public class RobotContainer {
 
                 m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
                 m_chooser.addOption("TestAuto", testAuto.followTrajectory());
-                m_chooser.addOption("TestTestAuto", testtestRed.followTrajectory());
+                m_chooser.addOption("TestTestRed", testTestRed.followTrajectory());
+                m_chooser.addOption("TestTestBlue", testTestBlue.followTrajectory());
 
                 m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
@@ -184,6 +200,9 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("AUTO");
+                alliance = s_swerve.isRed();
+                System.out.println("s_swerve.isRed() = " + alliance);
+                SmartDashboard.putBoolean("s_swerve.isRed()", alliance);
 
                 return m_chooser.getSelected();
         }
