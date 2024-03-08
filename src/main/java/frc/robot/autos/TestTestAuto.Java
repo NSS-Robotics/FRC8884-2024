@@ -52,7 +52,7 @@ public class TestTestAuto extends BaseAuto {
             ),
             new ParallelDeadlineGroup(
                 new WaitCommand(3),
-                new SpeakerShoot(m_shooter, m_pivot, l_candle),
+                // new SpeakerShoot(m_shooter, m_pivot, l_candle),
                 new NoteIntake(m_intake, m_feeder, l_candle)
             )
         );

@@ -82,6 +82,7 @@ public class Pivot extends SubsystemBase {
             Math.pow(distance, 3) -
             0.109 *
             Math.pow(distance, 4);
+        System.out.println("distance: " + distance);
         System.out.println("rotations: " + rotations);
         System.out.println(
             "rotations off: " + (rotations - pivotEncoder.getPosition())
