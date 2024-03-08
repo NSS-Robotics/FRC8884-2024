@@ -50,6 +50,7 @@ public class TestAuto extends BaseAuto {
                 new WaitCommand(2),
                 new AimLimelight(s_swerve, l_limelight_april)
             ),
+            
             new ParallelDeadlineGroup(
                 new WaitCommand(3),
                 new SpeakerShoot(m_shooter, m_pivot, l_candle),
@@ -64,6 +65,11 @@ public class TestAuto extends BaseAuto {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             swerveCommands[0],
+            shoot(false),
+            swerveCommands[1],
+            swerveCommands[2],
+            swerveCommands[3],
+            swerveCommands[4],
             //shoot(true),
             s_swerve.run(() ->
                 s_swerve.drive(new Translation2d(0, 0), 0, false, false)

@@ -100,17 +100,6 @@ public class RobotContainer {
                         l_candle,
                         () -> true);
 
-        private final TestAuto testAuto = new TestAuto(
-                        "TestAuto",
-                        1,
-                        m_feeder,
-                        m_intake,
-                        l_limelight_april,
-                        m_pivot,
-                        m_shooter,
-                        s_swerve,
-                        l_candle,
-                        () -> true);
         private final TestAuto testTestBlue = new TestAuto(
                         "TestTestBlue",
                         5,
@@ -153,11 +142,11 @@ public class RobotContainer {
                 configureBindings();
 
                 m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
-                m_chooser.addOption("TestAuto", testAuto.followTrajectory());
+                //m_chooser.addOption("TestAuto", testAuto.followTrajectory());
                 m_chooser.addOption("TestTestRed", testTestRed.followTrajectory());
                 m_chooser.addOption("TestTestBlue", testTestBlue.followTrajectory());
 
-                m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
+                //m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);
         }

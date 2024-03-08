@@ -66,6 +66,7 @@ public class TestTestAuto extends BaseAuto {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             swerveCommands[0],
+            //shoot(false),
             swerveCommands[1],
             swerveCommands[2],
             swerveCommands[3],
