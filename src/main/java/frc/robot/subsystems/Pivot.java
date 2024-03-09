@@ -99,7 +99,8 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
         double[] dist = s_swerve.getSpeakerDistances();
         double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
-        //System.out.println(pivotEncoder.getPosition());
-        //u58System.out.println(distance);
+        System.out.println(pivotEncoder.getPosition());
+        System.out.println(distance);
+        s_swerve.printPosData();
     }
 }
