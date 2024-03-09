@@ -85,7 +85,7 @@ public class ExampleAuto extends Command {
         );
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
-        ChoreoTrajectory traj = Choreo.getTrajectory("TestAuto");
+        ChoreoTrajectory traj = Choreo.getTrajectory("PlsWork");
         
         s_swerve.setPose(traj.getInitialPose());
         fieldmirror = () -> {

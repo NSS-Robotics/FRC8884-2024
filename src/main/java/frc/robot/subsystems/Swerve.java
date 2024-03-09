@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
@@ -96,7 +97,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroGyro() {
-        gyro.zeroYaw();
+        setHeading(new Rotation2d(Units.degreesToRadians(isRed() ? 180 : 0)));
     }
 
     public SwerveModuleState[] getModuleStates() {
@@ -144,7 +145,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(360 - gyro.getYaw());
+        return isRed()
+        ? Rotation2d.fromDegrees(360 - gyro.getYaw() + 180)
+        : Rotation2d.fromDegrees(360 - gyro.getYaw());
     }
 
     public Pose2d getLimelightBotPose() {
@@ -198,6 +201,7 @@ public class Swerve extends SubsystemBase {
         System.out.println("Pos X: " + m_pose.getX());
         System.out.println("Pos Y: " + m_pose.getY());
         System.out.println("Pos R: " + m_pose.getRotation().getDegrees());
+        System.out.println("Yaw: " + gyro.getAngle());
     }
 
     @Override

@@ -107,8 +107,8 @@ public class RobotContainer {
                 s_swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 s_swerve,
-                                                () -> driverController.getRawAxis(translationAxis),
-                                                () -> driverController.getRawAxis(strafeAxis),
+                                                () -> -driverController.getRawAxis(translationAxis),
+                                                () -> -driverController.getRawAxis(strafeAxis),
                                                 () -> -driverController.getRawAxis(rotationAxis) * 0.75,
                                                 () -> false));
                 l_limelight_april.setPipeline(0);

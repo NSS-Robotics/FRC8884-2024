@@ -50,6 +50,8 @@ public final class Constants {
 
     public static class Swerve {
 
+        public static final boolean invertGyro = true;
+
         /** (6.75 : 1) */
         public static final double L2 = (6.75 / 1.0);
 
