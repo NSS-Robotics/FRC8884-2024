@@ -88,33 +88,11 @@ public class RobotContainer {
         private boolean alliance = s_swerve.isRed();
         private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-        private final FourPiece fourPiece = new FourPiece(
-                        "FourPiece",
-                        4,
-                        m_feeder,
-                        m_intake,
-                        l_limelight_april,
-                        m_pivot,
-                        m_shooter,
-                        s_swerve,
-                        l_candle,
-                        () -> true);
-
-        private final TestAuto testTestBlue = new TestAuto(
-                        "TestTestBlue",
-                        5,
-                        m_feeder,
-                        m_intake,
-                        l_limelight_april,
-                        m_pivot,
-                        m_shooter,
-                        s_swerve,
-                        l_candle,
-                        () -> !alliance);
         
-        private final TestAuto testTestRed = new TestAuto(
-                        "TestTestRed",
-                        5,
+
+        private final ExampleAuto plsWork = new ExampleAuto(
+                        "TestAuto",
+                        1,
                         m_feeder,
                         m_intake,
                         l_limelight_april,
@@ -122,11 +100,8 @@ public class RobotContainer {
                         m_shooter,
                         s_swerve,
                         l_candle,
-                        () -> alliance);
+                        () -> false);
 
-        /**
-         * The container for the robot. Contains subsystems, OI devices, and commands.
-         */
         public RobotContainer() {
                 l_candle.setLEDs(170, 247, 250);
                 s_swerve.setDefaultCommand(
@@ -141,11 +116,7 @@ public class RobotContainer {
                 // Configure the trigger bindings
                 configureBindings();
 
-                m_chooser.addOption("FourPiece", fourPiece.followTrajectory());
-                //m_chooser.addOption("TestAuto", testAuto.followTrajectory());
-                m_chooser.addOption("TestTestRed", testTestRed.followTrajectory());
-                m_chooser.addOption("TestTestBlue", testTestBlue.followTrajectory());
-
+                m_chooser.addOption("PlsWork", plsWork.followTrajectory());
                 //m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);
