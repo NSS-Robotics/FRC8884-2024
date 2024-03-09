@@ -97,6 +97,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroGyro() {
+        gyro.zeroYaw();
         setHeading(new Rotation2d(Units.degreesToRadians(isRed() ? 180 : 0)));
     }
 

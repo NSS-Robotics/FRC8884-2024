@@ -39,8 +39,19 @@ public class Limelight extends SubsystemBase {
         double[] pos = table
             .getEntry("botpose_wpiblue")
             .getDoubleArray(new double[6]);
+
+        double rz = pos[5] + 180;
+        if (rz > 180) {
+            while (rz > 180) {
+                rz -= 360;
+            }
+        } else if (rz < -180) {
+            while (rz < -180) {
+                rz += 360;
+            }
+        }
         botPose =
-            new Pose2d(pos[0], pos[1], new Rotation2d(Math.toRadians(pos[5])));
+            new Pose2d(pos[0], pos[1], new Rotation2d(Math.toRadians(rz)));
 
         String[] names = {
             "pos x",

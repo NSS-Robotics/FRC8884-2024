@@ -19,7 +19,7 @@ public class SpeakerShoot extends Command {
 
     @Override
     public void execute() {
-        double rotations = pivot.getRotations();
+        double rotations = (Math.max(0, pivot.getRotations()));
         shooter.shoot(Constants.ShooterConstants.speed);
         pivot.setPivot(rotations);
         candle.flow(140, 0, 255);

@@ -48,6 +48,18 @@ public class AimLimelight extends PIDCommand {
                 rotationZ += 360;
             }
         }
+
+        rotationZ += 180;
+        if (rotationZ > 180) {
+            while (rotationZ > 180) {
+                rotationZ -= 360;
+            }
+        } else if (rotationZ < -180) {
+            while (rotationZ < -180) {
+                rotationZ += 360;
+            }
+        }
+
         System.out.println(
                 "\n-----------------------------speaker align data:");
         System.out.println("Speaker angle final:    " + angleToSpeaker);
