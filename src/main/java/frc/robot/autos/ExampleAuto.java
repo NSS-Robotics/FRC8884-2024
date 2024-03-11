@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.commands.AimLimelight;
 import frc.robot.commands.IntakePos;
 import frc.robot.commands.NoteIntake;
 import frc.robot.commands.SpeakerShoot;
@@ -117,11 +118,12 @@ public class ExampleAuto extends Command {
             new InstantCommand(s_swerve::zeroGyro),
             Commands.runOnce(() -> s_swerve.setPose(traj.getInitialPose())),
             new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-            new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new WaitCommand(0.5),
             theCMD,
-            new ParallelDeadlineGroup(new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)),
-            new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-            new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1.5), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
             s_swerve.run(() -> s_swerve.drive(
                 new Translation2d(0, 0),
                 0,
