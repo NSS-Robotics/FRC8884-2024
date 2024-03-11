@@ -18,7 +18,8 @@ public class Candle extends SubsystemBase {
         0,
         0,
         0.3,
-        8,
+        //TODO: Check if this is right #
+        111,
         Direction.Forward
     );
 
