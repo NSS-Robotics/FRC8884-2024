@@ -123,8 +123,6 @@ public class ExampleAuto extends Command {
             theCMD,
             new ParallelRaceGroup(new SpeakerShoot(m_shooter, m_pivot, l_candle), new WaitCommand(1)),
             new ParallelRaceGroup(new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-            new ParallelRaceGroup(new IntakePos(m_pivot)),
-            new ParallelRaceGroup(new InstantCommand(m_intake::stop)),
             s_swerve.run(() -> s_swerve.drive(
                 new Translation2d(0, 0),
                 0,
