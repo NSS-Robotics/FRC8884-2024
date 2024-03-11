@@ -91,7 +91,7 @@ public class RobotContainer {
         
 
         private final ExampleAuto plsWork = new ExampleAuto(
-                        "TestAuto",
+                        "PlxWork",
                         1,
                         m_feeder,
                         m_intake,
@@ -107,8 +107,8 @@ public class RobotContainer {
                 s_swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 s_swerve,
-                                                () -> -driverController.getRawAxis(translationAxis),
-                                                () -> -driverController.getRawAxis(strafeAxis),
+                                                () -> driverController.getRawAxis(translationAxis),
+                                                () -> driverController.getRawAxis(strafeAxis),
                                                 () -> -driverController.getRawAxis(rotationAxis) * 0.75,
                                                 () -> false));
                 l_limelight_april.setPipeline(0);
@@ -139,15 +139,16 @@ public class RobotContainer {
         private void configureBindings() {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
-                r2.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
-
+                rTrigger.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
+                rTrigger.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+                x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
+                lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
+                rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
+                
                 /* Operator Buttons */
                 up.whileTrue(new ClimbPos(m_pivot));
                 down.whileTrue(new IntakePos(m_pivot));
-                cross.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
-                l1.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
-                l2.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
-                r2.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+                
 
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }

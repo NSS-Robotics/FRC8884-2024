@@ -213,7 +213,7 @@ public final class Constants {
 
     public static final class AutoConstants {
 
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 2.5;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared =
@@ -268,7 +268,7 @@ public final class Constants {
         public static final int followerMotor = 15;
         public static final int currentLimit = 0;
         public static final int MaxRotation = 300;
-        public static final double kP = 0.1825;
+        public static final double kP = 0.0725;
         public static final double kI = 0.00;
         public static final double kD = 1;
         public static final double climbP = 0.1825;
