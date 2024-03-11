@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -75,7 +76,6 @@ public class ExampleAuto extends Command {
             s_swerve
         );
     }
-
     
     public Command followTrajectory() {
         Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
@@ -86,16 +86,12 @@ public class ExampleAuto extends Command {
         );
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
-        ChoreoTrajectory traj = Choreo.getTrajectory("PlsWork");
+        ChoreoTrajectory traj = Choreo.getTrajectory("PlxWork");
         
         s_swerve.setPose(traj.getInitialPose());
         fieldmirror = () -> {
-                        
-                            return alliance.isPresent() && alliance.get() == Alliance.Red;
-                    };
-
-        
-        
+            return alliance.isPresent() && alliance.get() == Alliance.Red;
+        };
         
         Command theCMD = Choreo.choreoSwerveCommand(
             traj, // 
@@ -120,12 +116,12 @@ public class ExampleAuto extends Command {
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
             Commands.runOnce(() -> s_swerve.setPose(traj.getInitialPose())),
-            
+            new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
             theCMD,
-            new ParallelRaceGroup(new SpeakerShoot(m_shooter, m_pivot, l_candle), new WaitCommand(1)),
-            new ParallelRaceGroup(new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-            new ParallelRaceGroup(new IntakePos(m_pivot)),
-            new ParallelRaceGroup(new InstantCommand(m_intake::stop)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle), new NoteIntake(m_intake, m_feeder, l_candle)),
             s_swerve.run(() -> s_swerve.drive(
                 new Translation2d(0, 0),
                 0,
@@ -133,6 +129,5 @@ public class ExampleAuto extends Command {
                 false
             ))
         );
-                
     }
 }

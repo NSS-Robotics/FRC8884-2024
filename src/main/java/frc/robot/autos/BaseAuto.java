@@ -27,7 +27,7 @@ public class BaseAuto extends Command {
 
     public BaseAuto(
         String pathName,
-        int stopPoints,
+        int trajCount,
         Feeder m_feeder,
         Intake m_intake,
         Limelight l_limelight_april,
@@ -37,13 +37,14 @@ public class BaseAuto extends Command {
         Candle l_candle,
         BooleanSupplier fieldmirror
     ) {
-        traj = new ChoreoTrajectory[stopPoints];
-        for (int i = 0; i < stopPoints; i++) {
-            String trajName = i == 0 ? pathName : pathName + "." + (i + 1);
+        traj = new ChoreoTrajectory[trajCount];
+        for (int i = 0; i < trajCount; i++) {
+            String trajName = pathName + "." + (i + 1);
             this.traj[i] = Choreo.getTrajectory(trajName);
+            System.out.println(trajName);
         }
 
-        this.stopPoints = stopPoints;
+        this.stopPoints = trajCount;
         this.m_feeder = m_feeder;
         this.m_intake = m_intake;
         this.l_limelight_april = l_limelight_april;

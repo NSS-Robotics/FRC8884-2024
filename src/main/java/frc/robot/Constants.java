@@ -268,7 +268,7 @@ public final class Constants {
         public static final int followerMotor = 15;
         public static final int currentLimit = 0;
         public static final int MaxRotation = 300;
-        public static final double kP = 0.1825;
+        public static final double kP = 0.0725;
         public static final double kI = 0.00;
         public static final double kD = 1;
         public static final double climbP = 0.1825;

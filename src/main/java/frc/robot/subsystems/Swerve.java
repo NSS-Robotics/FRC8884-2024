@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = createOdometry(new Pose2d(0, 0, new Rotation2d()));
         m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
-        driveInvert = (isRed() ? -1 : 1);
+        // driveInvert = (isRed() ? 1 : -1);
         l_limelight = limelight;
     }
 
@@ -60,8 +60,8 @@ public class Swerve extends SubsystemBase {
         SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    translation.getX() * driveInvert,
-                    translation.getY() * driveInvert,
+                    translation.getX(),
+                    translation.getY(),
                     rotation,
                     getGyroYaw()
                 )
@@ -97,7 +97,8 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroGyro() {
-        gyro.zeroYaw();
+        // gyro.zeroYaw();
+        gyro.reset();
         setHeading(new Rotation2d(Units.degreesToRadians(isRed() ? 180 : 0)));
     }
 
@@ -147,7 +148,7 @@ public class Swerve extends SubsystemBase {
 
     public Rotation2d getGyroYaw() {
         return isRed()
-        ? Rotation2d.fromDegrees(360 - gyro.getYaw() + 360)
+        ? Rotation2d.fromDegrees(360 - gyro.getYaw())
         : Rotation2d.fromDegrees(360 - gyro.getYaw());
     }
 
@@ -203,6 +204,8 @@ public class Swerve extends SubsystemBase {
         System.out.println("Pos Y: " + m_pose.getY());
         System.out.println("Pos R: " + m_pose.getRotation().getDegrees());
         System.out.println("Yaw: " + gyro.getAngle());
+
+        System.out.println("isRed: " + isRed());
     }
 
     @Override

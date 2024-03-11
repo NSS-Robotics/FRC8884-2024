@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Remaining Match Time", DriverStation.getMatchTime());
         SmartDashboard.putBoolean("Shooter Ready", shooter.isFullSpeed());
 
-        SmartDashboard.putBoolean("s_swerve.isRed()", DriverStation.getAlliance().get() == Alliance.Red);
+        // SmartDashboard.putBoolean("s_swerve.isRed()", DriverStation.getAlliance().get() == Alliance.Red);
 
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled

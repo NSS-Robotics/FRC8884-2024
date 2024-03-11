@@ -100,10 +100,8 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         s_swerve.printPosData();
-        // System.out.println("Dto speaker: " + distance);
-        // System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
-        // System.out.println("shoot rot: " + getRotations());
-
-
+        System.out.println("Dto speaker: " + distance);
+        System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
+        System.out.println("shoot rot: " + getRotations());
     }
 }
