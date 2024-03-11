@@ -10,9 +10,10 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Candle;
 
 public class Feeder extends SubsystemBase {
-
+    private Candle candle;
     private CANSparkMax feederMotor = new CANSparkMax(
             Constants.FeederConstants.feederIn,
             MotorType.kBrushless);
@@ -31,6 +32,7 @@ public class Feeder extends SubsystemBase {
     private Shooter shooter;
 
     public void setupMotors() {
+
         feederMotorFollower.restoreFactoryDefaults();
         feederMotor.restoreFactoryDefaults();
 
@@ -107,6 +109,7 @@ public class Feeder extends SubsystemBase {
 
     public void feed(double speed) {
         if (shooter.isFullSpeed()) {
+            candle.flow(0,0,0);
             setVelocity(speed);
         }
     }
@@ -123,10 +126,11 @@ public class Feeder extends SubsystemBase {
         feederMotor.setVoltage(Constants.FeederConstants.holdingVoltage);
     }
 
-    public Feeder(Shooter shooter) {
+    public Feeder(Shooter shooter, Candle candle) {
         setupMotors();
         setupLaserCAN();
         this.shooter = shooter;
+        this.candle = candle;
     }
 
     @Override
@@ -138,6 +142,7 @@ public class Feeder extends SubsystemBase {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
                 hasBeenDetected = true;
+                candle.flow(0,0,0);
                 setVelocity(-2);
             } else if (shooter.isShooting()){
                 hasBeenDetected = false;
