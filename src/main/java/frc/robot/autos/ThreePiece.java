@@ -27,7 +27,7 @@ import frc.robot.subsystems.*;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-public class ExampleAuto extends Command {
+public class ThreePiece extends Command {
 
     protected final String pathName;
     protected final Feeder m_feeder;
@@ -42,7 +42,7 @@ public class ExampleAuto extends Command {
     protected ChoreoTrajectory[] traj;
     protected BooleanSupplier fieldmirror;
 
-    public ExampleAuto(
+    public ThreePiece(
             String pathName,
             int trajCount,
             Feeder m_feeder,
@@ -54,11 +54,12 @@ public class ExampleAuto extends Command {
             Candle l_candle,
             BooleanSupplier fieldmirror) {
         traj = new ChoreoTrajectory[trajCount];
+        String fileName = pathName + (s_swerve.isRed() ? "RED" : "BLUE");
         for (int i = 0; i < trajCount; i++) {
-            String trajName = pathName + "." + (i + 1);
+            String trajName = fileName + "." + (i + 1);
             this.traj[i] = Choreo.getTrajectory(trajName);
             System.out.println(trajName);
-        }
+        } 
         this.pathName = pathName;
         this.trajCount = trajCount;
         this.m_feeder = m_feeder;
@@ -79,23 +80,18 @@ public class ExampleAuto extends Command {
     }
 
     public Command followTrajectory() {
-        Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
         PIDController thetaController = new PIDController(
                 0.12,
                 0,
                 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
-        ChoreoTrajectory traj1 = Choreo.getTrajectory("PlxWorkRED.1");
-        ChoreoTrajectory traj2 = Choreo.getTrajectory("PlxWorkRED.2");
 
-        fieldmirror = () -> {
-            return alliance.isPresent() && alliance.get() == Alliance.Red;
-        };
-
-        s_swerve.setPose(traj1.getInitialPose());
-        Command theCMD1 = Choreo.choreoSwerveCommand(
-                traj1, //
+        Command[] theCMDs = new Command[trajCount];
+        for (int i = 0; i < trajCount; i++) {
+            s_swerve.setPose(traj[i].getInitialPose());
+            theCMDs[i] = Choreo.choreoSwerveCommand(
+                traj[i], //
                 s_swerve::getPose, //
                 new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
                 new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
@@ -111,41 +107,25 @@ public class ExampleAuto extends Command {
                 () -> false, //
                 s_swerve //
         );
-
-        s_swerve.setPose(traj2.getInitialPose());
-        Command theCMD2 = Choreo.choreoSwerveCommand(
-                traj2, //
-                s_swerve::getPose, //
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
-                thetaController, //
-                (ChassisSpeeds speeds) -> //
-                s_swerve.drive(
-                        new Translation2d(
-                                speeds.vxMetersPerSecond,
-                                speeds.vyMetersPerSecond),
-                        speeds.omegaRadiansPerSecond,
-                        true,
-                        false),
-                () -> false, //
-                s_swerve //
-        );
+        }
+        
+        
 
         return Commands.sequence(
                 new InstantCommand(s_swerve::zeroGyro),
-                Commands.runOnce(() -> s_swerve.setPose(traj1.getInitialPose())),
+                Commands.runOnce(() -> s_swerve.setPose(traj[0].getInitialPose())),
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 new WaitCommand(1),
-                theCMD1,
+                theCMDs[0],
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
-                theCMD2,
+                theCMDs[1],
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
