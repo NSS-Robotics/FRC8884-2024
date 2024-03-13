@@ -55,6 +55,8 @@ public class RobotContainer {
         Trigger x = driverController.x();
         Trigger a = driverController.a();
         Trigger b = driverController.b();
+        Trigger dpadUp = driverController.povUp();
+        Trigger dpadDn = driverController.povDown();
 
         Trigger rb = driverController.rightBumper();
         Trigger lb = driverController.leftBumper();
@@ -87,8 +89,6 @@ public class RobotContainer {
         public final Pivot m_pivot = new Pivot(s_swerve);
         private boolean alliance = s_swerve.isRed();
         private final SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-        
 
         private final TwoPiece twoPiecePlxWork = new TwoPiece(
                         "PlxWork",
@@ -145,7 +145,7 @@ public class RobotContainer {
                 m_chooser.addOption("ThreePiecePlxWork", threePieceMidPlxWork.followTrajectory());
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
-                //m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
+                // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);
         }
@@ -172,18 +172,17 @@ public class RobotContainer {
                 x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
                 rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
-                
+                dpadUp.whileTrue(new ClimbPos(m_pivot));
+                dpadDn.whileTrue(new IntakePos(m_pivot));
+
                 /* Operator Buttons */
-                up.whileTrue(new ClimbPos(m_pivot));
-                down.whileTrue(new IntakePos(m_pivot));
-                
 
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 
         /**
          * Use this to pass the autonomous command to the main {@link Robot} class.
-         *  
+         * 
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
