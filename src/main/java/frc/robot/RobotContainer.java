@@ -90,7 +90,7 @@ public class RobotContainer {
 
         
 
-        private final ExampleAuto plsWork = new ExampleAuto(
+        private final TwoPiece twoPiecePlxWork = new TwoPiece(
                         "PlxWork",
                         1,
                         m_feeder,
@@ -101,6 +101,31 @@ public class RobotContainer {
                         s_swerve,
                         l_candle,
                         () -> false);
+
+        private final ThreePiece threePieceMidPlxWork= new ThreePiece(
+                        "PlxWork",
+                        2,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false);
+
+                        
+        private final FourPiece fourPieceMidPlxWork= new FourPiece(
+                        "FourPieceMidPlxWork",
+                        3,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false);        
 
         public RobotContainer() {
                 l_candle.setLEDs(170, 247, 250);
@@ -116,7 +141,10 @@ public class RobotContainer {
                 // Configure the trigger bindings
                 configureBindings();
 
-                m_chooser.addOption("PlsWork", plsWork.followTrajectory());
+                m_chooser.addOption("TwoPiecePlxWork", twoPiecePlxWork.followTrajectory());
+                m_chooser.addOption("ThreePiecePlxWork", threePieceMidPlxWork.followTrajectory());
+                m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
+
                 //m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
 
                 SmartDashboard.putData("Auto mode", m_chooser);

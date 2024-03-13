@@ -100,6 +100,17 @@ public class Feeder extends SubsystemBase {
     }
 
     public void intake(double speed) {
+
+        if (shooter.isFullSpeed())  {
+            setVelocity(speed);
+            candle.Strobe();
+        } else if (hasBeenDetected) {
+            candle.strobe();
+
+        } else {
+            candle.flow(255,0,0);
+        }
+
         if (!hasBeenDetected) {
             setVelocity(speed);
         } else {
@@ -109,7 +120,6 @@ public class Feeder extends SubsystemBase {
 
     public void feed(double speed) {
         if (shooter.isFullSpeed()) {
-            candle.flow(0,0,0);
             setVelocity(speed);
         }
     }
@@ -142,7 +152,6 @@ public class Feeder extends SubsystemBase {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
                 hasBeenDetected = true;
-                candle.flow(0,0,0);
                 setVelocity(-2);
             } else if (shooter.isShooting()){
                 hasBeenDetected = false;
@@ -153,6 +162,8 @@ public class Feeder extends SubsystemBase {
             // }
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
+            candle.strobe();
+
         }
     }
 }

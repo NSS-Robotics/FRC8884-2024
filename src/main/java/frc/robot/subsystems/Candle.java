@@ -12,13 +12,15 @@ public class Candle extends SubsystemBase {
 
     RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.6, 64);
     TwinkleAnimation twinkleAnim = new TwinkleAnimation(0, 255, 0);
+    StrobeAnimation strobeAnim = new StrobeAnimation(0, 255, 0);
+    StrobeAnimation StrobeAnim = new StrobeAnimation(51,41,37);
+
     ColorFlowAnimation colorFlowAnim = new ColorFlowAnimation(
         0,
         0,
         0,
         0,
         0.3,
-        //TODO: Check if this is right #
         111,
         Direction.Forward
     );
@@ -44,6 +46,17 @@ public class Candle extends SubsystemBase {
     public void twinkle() {
         candleLeft.animate(twinkleAnim);
         candleRight.animate(twinkleAnim);
+    }
+
+    public void strobe() {
+        candleLeft.animate(strobeAnim);
+        candleRight.animate(strobeAnim);
+    }
+    public void Strobe() { 
+        candleLeft.animate(StrobeAnim);
+        candleRight.animate(StrobeAnim);
+
+
     }
 
     public void flow(int r, int g, int b) {

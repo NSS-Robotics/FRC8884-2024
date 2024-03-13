@@ -86,8 +86,7 @@ public class TwoPiece extends Command {
                 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         System.out.println("AUTO");
-        ChoreoTrajectory traj1 = Choreo.getTrajectory("PlxWorkRED.1");
-        ChoreoTrajectory traj2 = Choreo.getTrajectory("PlxWorkRED.2");
+        ChoreoTrajectory traj1 = Choreo.getTrajectory("PlxWork");
 
         fieldmirror = () -> {
             return alliance.isPresent() && alliance.get() == Alliance.Red;
@@ -112,25 +111,6 @@ public class TwoPiece extends Command {
                 s_swerve //
         );
 
-        s_swerve.setPose(traj2.getInitialPose());
-        Command theCMD2 = Choreo.choreoSwerveCommand(
-                traj2, //
-                s_swerve::getPose, //
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), //
-                thetaController, //
-                (ChassisSpeeds speeds) -> //
-                s_swerve.drive(
-                        new Translation2d(
-                                speeds.vxMetersPerSecond,
-                                speeds.vyMetersPerSecond),
-                        speeds.omegaRadiansPerSecond,
-                        true,
-                        false),
-                () -> false, //
-                s_swerve //
-        );
-
         return Commands.sequence(
                 new InstantCommand(s_swerve::zeroGyro),
                 Commands.runOnce(() -> s_swerve.setPose(traj1.getInitialPose())),
@@ -139,19 +119,14 @@ public class TwoPiece extends Command {
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 new WaitCommand(1),
-                theCMD1,
+                new ParallelDeadlineGroup(theCMD1, new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
+                        new ParallelDeadlineGroup(new WaitCommand(2.5), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(1), new AimLimelight(s_swerve, l_limelight_april),
+                                new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
-                theCMD2,
-                new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
-                new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
-                                new NoteIntake(m_intake, m_feeder, l_candle),
-                                new AimLimelight(s_swerve, l_limelight_april))),
+                
                 s_swerve.run(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
