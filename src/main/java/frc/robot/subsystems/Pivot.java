@@ -18,6 +18,7 @@ public class Pivot extends SubsystemBase {
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
     private Swerve s_swerve;
+    private int yInt;
 
     public boolean pivotReset = false;
 
@@ -34,7 +35,7 @@ public class Pivot extends SubsystemBase {
             );
         pivotEncoder = pivotMotor.getEncoder();
         followerEncoder = pivotFollower.getEncoder();
-        Encoder = new CANcoder(13);
+        
         pivotMotor.restoreFactoryDefaults();
         pivotFollower.restoreFactoryDefaults();
         pivotFollower.follow(pivotMotor, true);
@@ -58,7 +59,6 @@ public class Pivot extends SubsystemBase {
     }
 
     public void resetEncoders() {
-        Encoder.setPosition(0);
         pivotEncoder.setPosition(0);
         followerEncoder.setPosition(0);
     }
@@ -73,7 +73,7 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations =
-            87.5-
+            yInt -
             46.1 * distance +
             16.2 * Math.pow(distance, 2) -
             2.81 * Math.pow(distance, 3) +
@@ -87,23 +87,26 @@ public class Pivot extends SubsystemBase {
         return rotations;
     }
 
+    public void printPivotData() {
+        double[] dist = s_swerve.getSpeakerDistances();
+        double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
+        System.out.println("Dto speaker: " + distance);
+        System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
+        System.out.println("shoot rot:   " + getRotations());
+        // System.out.println("rot:       " + Constants.PivotConstants.PivotAgainstRotations);
+    }
+
     public Pivot(Swerve swerve) {
         pivotSetup();
         s_swerve = swerve;
     }
 
+    public void setYInt(Integer x) {
+        yInt = x;
+    }
+
     @Override
     public void periodic() {
-        double[] dist = s_swerve.getSpeakerDistances();
-        double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
-        // s_swerve.printPosData();
-        System.out.println("Dto speaker: " + distance);
-        System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
-        System.out.println("shoot rot: " + getRotations());
-        // System.out.println("rot:       " + Constants.PivotConstants.PivotAgainstRotations);
-
-        if (Encoder.getPosition().getValueAsDouble() < 0) {
-            resetEncoders();
-        }
+        
     }
 }

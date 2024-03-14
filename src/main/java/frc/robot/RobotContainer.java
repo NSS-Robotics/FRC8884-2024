@@ -89,6 +89,7 @@ public class RobotContainer {
         public final Pivot m_pivot = new Pivot(s_swerve);
         private boolean alliance = s_swerve.isRed();
         private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+        private final SendableChooser<Integer> m_y_int_chooser = new SendableChooser<>();
 
         private final TwoPiece twoPiecePlxWork = new TwoPiece(
                         "PlxWork",
@@ -146,8 +147,12 @@ public class RobotContainer {
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
-
+                m_y_int_chooser.setDefaultOption("88", 88);
+                m_y_int_chooser.addOption("87", 87);
+                m_y_int_chooser.addOption("89", 89);
                 SmartDashboard.putData("Auto mode", m_chooser);
+                SmartDashboard.putData("Y-Int", m_y_int_chooser);
+                
         }
 
         /**
@@ -164,6 +169,11 @@ public class RobotContainer {
          * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
          * joysticks}.
          */
+
+        public void setYInt() {
+                m_pivot.setYInt(m_y_int_chooser.getSelected());
+        }
+
         private void configureBindings() {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
@@ -185,6 +195,8 @@ public class RobotContainer {
          * 
          * @return the command to run in autonomous
          */
+
+
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("AUTO");
