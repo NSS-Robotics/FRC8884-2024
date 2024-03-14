@@ -6,10 +6,12 @@ import frc.robot.subsystems.*;
 
 public class Feed extends Command {
     private Feeder feeder;
+    private Shooter shooter;
 
     public Feed(Shooter m_shooter, Feeder feeder) {
         this.feeder = feeder;
-        addRequirements(feeder);
+        this.shooter = m_shooter;
+        addRequirements(feeder, shooter);
     }
 
     @Override

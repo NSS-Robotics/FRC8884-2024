@@ -255,11 +255,11 @@ public final class Constants {
         public static final double climbD = 0;
         public static final double PivotIntakeRotation = 0;
         public static final double PivotAgainstRotations = 34.65;
-        public static final double TrapAgainstRotations = 21;
+        public static final double TrapAgainstRotations = 20;
         public static final double AmpRotations = 116.5;
-        public static final double JiggleRotations = 60;
+        public static final double DownLobRotations = 16;
         public static final double ClimbRotations = 90;
-        public static final double LobRotations = 43;
+        public static final double UpLobRotations = 48;
         // public static final double AmpRotations = 23;
     }
 

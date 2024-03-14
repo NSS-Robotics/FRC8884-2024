@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AimLimelight;
+import frc.robot.commands.Gyro180;
 import frc.robot.commands.Lob;
 import frc.robot.commands.NoteIntake;
 import frc.robot.commands.SpeakerShoot;
@@ -153,7 +154,8 @@ public class ThreePiece extends Command {
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle),
-                                new AimLimelight(s_swerve, l_limelight_april)))
+                                new AimLimelight(s_swerve, l_limelight_april))),
+                new Gyro180(s_swerve)
         );
     }
 }

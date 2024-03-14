@@ -55,8 +55,6 @@ public class RobotContainer {
         Trigger x = driverController.x();
         Trigger a = driverController.a();
         Trigger b = driverController.b();
-        Trigger dpadUp = driverController.povUp();
-        Trigger dpadDn = driverController.povDown();
 
         Trigger rb = driverController.rightBumper();
         Trigger lb = driverController.leftBumper();
@@ -192,14 +190,16 @@ public class RobotContainer {
                 x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
                 rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
-                dpadUp.whileTrue(new ClimbPos(m_pivot));
-                dpadDn.whileTrue(new Lob(m_pivot));
-                r2.whileTrue(new Lob(m_pivot));
-                r2.whileFalse(new IntakePos(m_pivot));
+                up.whileTrue(new ClimbPos(m_pivot));
+                down.whileTrue(new IntakePos(m_pivot));
+
 
                 /* Operator Buttons */
                 triangle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,255,0)));
                 circle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,0,0)));
+                r2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
+                l2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.DownLobRotations));
+
                 //circle.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
