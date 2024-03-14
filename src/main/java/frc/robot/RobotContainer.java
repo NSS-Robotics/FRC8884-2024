@@ -136,7 +136,6 @@ public class RobotContainer {
                         () -> false);        
 
         public RobotContainer() {
-                l_candle.setLEDs(170, 247, 250);
                 s_swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 s_swerve,
@@ -193,7 +192,8 @@ public class RobotContainer {
                 dpadDn.whileTrue(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
-                circle.whileTrue(new InstantCommand(() -> l_candle.flow(255,255,0)));
+                circle.whileTrue(new InstantCommand(() -> l_candle.strobe(255,255,0)));
+                circle.whileFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 

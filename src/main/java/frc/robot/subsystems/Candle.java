@@ -62,4 +62,12 @@ public class Candle extends SubsystemBase {
         candleLeft.animate(colorFlowAnim);
         candleRight.animate(colorFlowAnim);
     }
+
+    public void ledsOff(){
+        candleLeft.clearAnimation(0);
+        candleRight.clearAnimation(0);
+        config.brightnessScalar = 0;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+    }
 }
