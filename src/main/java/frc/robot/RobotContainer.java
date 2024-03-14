@@ -110,7 +110,7 @@ public class RobotContainer {
                         l_candle,
                         () -> false);
 
-        private final ThreePiece threePieceMidPlxWork= new ThreePiece(
+        private final ThreePieceMid threePieceMidPlxWork= new ThreePieceMid(
                         "PlxWork",
                         2,
                         m_feeder,
@@ -123,7 +123,7 @@ public class RobotContainer {
                         () -> false);
 
                         
-        private final FourPiece fourPieceMidPlxWork= new FourPiece(
+        private final FourPieceAmp fourPieceMidPlxWork= new FourPieceAmp(
                         "FourPieceMidPlxWork",
                         3,
                         m_feeder,
