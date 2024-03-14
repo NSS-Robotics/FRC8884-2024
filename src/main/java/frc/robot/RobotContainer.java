@@ -193,7 +193,7 @@ public class RobotContainer {
                 dpadDn.whileTrue(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
-                circle.toggleOnTrue(new InstantCommand(() -> l_candle.flow(255,255,0)));
+                circle.whileTrue(new InstantCommand(() -> l_candle.flow(255,255,0)));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 

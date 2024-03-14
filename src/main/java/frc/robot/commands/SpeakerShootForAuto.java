@@ -37,6 +37,5 @@ public class SpeakerShootForAuto extends Command {
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
         feeder.stop();
-        candle.setLEDs(170, 247, 250);
     }
 }

@@ -21,7 +21,7 @@ public class AmpShoot extends Command {
     public void execute() {
         shooter.shoot(Constants.ShooterConstants.ampspeed);
         pivot.setPivot(Constants.PivotConstants.AmpRotations);
-        candle.flow(255, 0, 0);
+        
     }
 
     @Override
@@ -32,6 +32,6 @@ public class AmpShoot extends Command {
     public void end(boolean interrupted) {
         shooter.stop();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
-        candle.setLEDs(170, 247, 250);
+
     }
 }
