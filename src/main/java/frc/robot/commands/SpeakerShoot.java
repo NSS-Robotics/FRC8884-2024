@@ -21,8 +21,8 @@ public class SpeakerShoot extends Command {
     public void execute() {
         double rotations = (Math.max(0, pivot.getRotations()));
         shooter.shoot(Constants.ShooterConstants.speed);
+        // pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
         pivot.setPivot(rotations);
-        candle.flow(140, 0, 255);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class SpeakerShoot extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        candle.ledsOff();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
-        candle.setLEDs(170, 247, 250);
     }
 }

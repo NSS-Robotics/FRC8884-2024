@@ -55,14 +55,21 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isFullSpeed() {
-        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 5280;
+        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 5100;
     }
 
     public void shoot(double speed) {
         setVelocity(speed);
     }
+    
+    public void printAngularVelocity() {
+        System.out.println("Shooter angular v: " + (shooterMotor.getVelocity().getValueAsDouble() * 60));
+    }
 
     public void stop() {
         setVoltage(0);
+    }@Override
+    public void periodic() {
+        
     }
 }

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Candle extends SubsystemBase {
+    
 
     CANdle candleLeft = new CANdle(Constants.CandleConstants.candleLeft);
     CANdle candleRight = new CANdle(Constants.CandleConstants.candleRight);
@@ -13,7 +14,9 @@ public class Candle extends SubsystemBase {
     RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.6, 64);
     TwinkleAnimation twinkleAnim = new TwinkleAnimation(0, 255, 0);
     StrobeAnimation strobeAnim = new StrobeAnimation(0, 255, 0);
-    StrobeAnimation StrobeAnim = new StrobeAnimation(51,41,37);
+
+    boolean on = false;
+    boolean button = false;
 
     ColorFlowAnimation colorFlowAnim = new ColorFlowAnimation(
         0,
@@ -28,7 +31,8 @@ public class Candle extends SubsystemBase {
     CANdleConfiguration config = new CANdleConfiguration();
 
     public Candle() {
-        config.brightnessScalar = 0.5;
+        on = true;
+        config.brightnessScalar = 1;
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
     }
@@ -48,15 +52,26 @@ public class Candle extends SubsystemBase {
         candleRight.animate(twinkleAnim);
     }
 
-    public void strobe() {
+    public void strobe(int r, int g, int b) {
+        this.ledsOn();
+        strobeAnim.setR(r);
+        strobeAnim.setB(b);
+        strobeAnim.setG(g);
         candleLeft.animate(strobeAnim);
         candleRight.animate(strobeAnim);
+        on = false;
     }
-    public void Strobe() { 
-        candleLeft.animate(StrobeAnim);
-        candleRight.animate(StrobeAnim);
-
-
+    public void toggle(int r, int g, int b){
+        
+       if(on){
+            button = true;
+            this.strobe(r,g,b);
+        }
+        else{
+            button = false;
+            this.ledsOff();
+            on = true;
+        } 
     }
 
     public void flow(int r, int g, int b) {
@@ -65,5 +80,18 @@ public class Candle extends SubsystemBase {
         colorFlowAnim.setB(b);
         candleLeft.animate(colorFlowAnim);
         candleRight.animate(colorFlowAnim);
+    }
+
+    public void ledsOff(){
+        config.brightnessScalar = 0;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+        on = false;
+    }
+    public void ledsOn(){
+        config.brightnessScalar = 1;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+        on = true;
     }
 }

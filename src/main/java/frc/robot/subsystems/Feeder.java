@@ -103,12 +103,6 @@ public class Feeder extends SubsystemBase {
 
         if (shooter.isFullSpeed())  {
             setVelocity(speed);
-            candle.Strobe();
-        } else if (hasBeenDetected) {
-            candle.strobe();
-
-        } else {
-            candle.flow(255,0,0);
         }
 
         if (!hasBeenDetected) {
@@ -160,9 +154,14 @@ public class Feeder extends SubsystemBase {
             //     feederMotor.set(Constants.FeederConstants.speed);
             //     hasBeenDetected = false;
             // }
+            if (shooter.isFullSpeed()&&!candle.button)  {
+            candle.strobe(0,0,255);
+            }
+            else if(hasBeenDetected&&!candle.button){
+                candle.strobe(0,255,0);
+            }   
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
-            candle.strobe();
 
         }
     }

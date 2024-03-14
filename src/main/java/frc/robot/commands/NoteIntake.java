@@ -21,9 +21,9 @@ public class NoteIntake extends Command {
 
     @Override
     public void execute() {
-        intake.intake(Constants.IntakeConstants.speed);
+        // intake.intake(Constants.IntakeConstants.speed);
         feeder.intake(Constants.FeederConstants.speed);
-        candle.flow(255, 242, 0);
+
     }
 
     @Override
@@ -33,6 +33,5 @@ public class NoteIntake extends Command {
     public void end(boolean interrupted) {
         intake.stop();
         feeder.stop();
-        candle.setLEDs(170, 247, 250);
     }
 }

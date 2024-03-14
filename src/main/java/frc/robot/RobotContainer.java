@@ -64,6 +64,9 @@ public class RobotContainer {
         Trigger rTrigger = driverController.rightTrigger();
         Trigger lTrigger = driverController.leftTrigger();
 
+        Trigger up = driverController.povUp();
+        Trigger down = driverController.povDown();
+
         /* Operator Buttons */
         Trigger circle = operatorController.circle();
         Trigger square = operatorController.square();
@@ -76,8 +79,12 @@ public class RobotContainer {
         Trigger r2 = operatorController.R2();
         Trigger l2 = operatorController.L2();
 
-        Trigger up = operatorController.povUp();
-        Trigger down = operatorController.povDown();
+        Trigger upDawg = operatorController.povUp();
+        Trigger downDawg = operatorController.povDown();
+        Trigger rightDawg = operatorController.povRight();
+        Trigger leftDawg = operatorController.povLeft();
+
+        
         /* Subsystems */
         public final Candle l_candle = new Candle();
         public final Shooter m_shooter = new Shooter();
@@ -89,6 +96,7 @@ public class RobotContainer {
         public final Pivot m_pivot = new Pivot(s_swerve);
         private boolean alliance = s_swerve.isRed();
         private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+        private final SendableChooser<Integer> m_y_int_chooser = new SendableChooser<>();
 
         private final TwoPiece twoPiecePlxWork = new TwoPiece(
                         "PlxWork",
@@ -102,9 +110,9 @@ public class RobotContainer {
                         l_candle,
                         () -> false);
 
-        private final ThreePiece threePieceMidPlxWork= new ThreePiece(
-                        "PlxWork",
-                        2,
+        private final ThreePieceMid threePieceMidPlxWork = new ThreePieceMid(
+                        "ThreePieceMidPlxWork",
+                        3,
                         m_feeder,
                         m_intake,
                         l_limelight_april,
@@ -128,7 +136,6 @@ public class RobotContainer {
                         () -> false);        
 
         public RobotContainer() {
-                l_candle.setLEDs(170, 247, 250);
                 s_swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 s_swerve,
@@ -146,8 +153,15 @@ public class RobotContainer {
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
+                m_y_int_chooser.setDefaultOption("88", 88);
+                m_y_int_chooser.addOption("87", 87);
+                m_y_int_chooser.addOption("89", 89);
+                m_y_int_chooser.addOption("90", 90);
+                m_y_int_chooser.addOption("91", 91);
 
                 SmartDashboard.putData("Auto mode", m_chooser);
+                SmartDashboard.putData("Y-Int", m_y_int_chooser);
+                
         }
 
         /**
@@ -164,19 +178,29 @@ public class RobotContainer {
          * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
          * joysticks}.
          */
+
+        public void setYInt() {
+                m_pivot.setYInt(m_y_int_chooser.getSelected());
+        }
+
         private void configureBindings() {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
                 rTrigger.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
                 rTrigger.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+                rTrigger.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
                 rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
                 dpadUp.whileTrue(new ClimbPos(m_pivot));
-                dpadDn.whileTrue(new IntakePos(m_pivot));
+                dpadDn.whileTrue(new Lob(m_pivot));
+                r2.whileTrue(new Lob(m_pivot));
+                r2.whileFalse(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
-
+                triangle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,255,0)));
+                circle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,0,0)));
+                //circle.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 
@@ -185,6 +209,8 @@ public class RobotContainer {
          * 
          * @return the command to run in autonomous
          */
+
+
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("AUTO");

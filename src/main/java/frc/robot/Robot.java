@@ -116,11 +116,17 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.s_swerve.zeroGyro();
+        m_robotContainer.s_swerve.setLimelightStatus(true);
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        m_robotContainer.s_swerve.printPosData();
+        m_robotContainer.m_pivot.printPivotData();
+        m_robotContainer.m_shooter.printAngularVelocity();
+        m_robotContainer.setYInt();
     }
 
     @Override

@@ -27,7 +27,7 @@ import frc.robot.subsystems.*;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-public class FourPiece extends Command {
+public class FourPieceAmp extends Command {
 
     protected final String pathName;
     protected final Feeder m_feeder;
@@ -42,7 +42,7 @@ public class FourPiece extends Command {
     protected ChoreoTrajectory[] traj;
     protected BooleanSupplier fieldmirror;
 
-    public FourPiece(
+    public FourPieceAmp(
             String pathName,
             int trajCount,
             Feeder m_feeder,
