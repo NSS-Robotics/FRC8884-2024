@@ -16,6 +16,7 @@ public class Candle extends SubsystemBase {
     StrobeAnimation strobeAnim = new StrobeAnimation(0, 255, 0);
 
     boolean on = false;
+    boolean button = false;
 
     ColorFlowAnimation colorFlowAnim = new ColorFlowAnimation(
         0,
@@ -31,7 +32,7 @@ public class Candle extends SubsystemBase {
 
     public Candle() {
         on = true;
-        config.brightnessScalar = 0.5;
+        config.brightnessScalar = 1;
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
     }
@@ -58,6 +59,19 @@ public class Candle extends SubsystemBase {
         strobeAnim.setG(g);
         candleLeft.animate(strobeAnim);
         candleRight.animate(strobeAnim);
+        on = false;
+    }
+    public void toggle(int r, int g, int b){
+        
+       if(on){
+            button = true;
+            this.strobe(r,g,b);
+        }
+        else{
+            button = false;
+            this.ledsOff();
+            on = true;
+        } 
     }
 
     public void flow(int r, int g, int b) {
@@ -75,17 +89,9 @@ public class Candle extends SubsystemBase {
         on = false;
     }
     public void ledsOn(){
-        config.brightnessScalar = 0.5;
+        config.brightnessScalar = 1;
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
         on = true;
-    }
-    public void toggle(){
-        if(on){
-            ledsOff();
-        }
-        else if(!on){
-            ledsOn();
-        }
     }
 }
