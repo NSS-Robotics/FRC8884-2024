@@ -120,13 +120,15 @@ public class TwoPiece extends Command {
                 new WaitCommand(1),
 
                 new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
-                Commands.runOnce(() -> s_swerve.setPose(traj1.getInitialPose())),
+                new InstantCommand(() -> s_swerve.setPose(traj1.getInitialPose())),
                 new ParallelDeadlineGroup(theCMD1, new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-                s_swerve.run(() -> s_swerve.drive(
+                new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
                         false)),
+                new InstantCommand(() -> System.out.println("urbad")),
+                new InstantCommand(() -> m_pivot.printPivotData()),
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
                 
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),

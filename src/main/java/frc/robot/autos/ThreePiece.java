@@ -121,9 +121,9 @@ public class ThreePiece extends Command {
                 new WaitCommand(1),
 
                 new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
-                Commands.runOnce(() -> s_swerve.setPose(traj[0].getInitialPose())),
+                new InstantCommand(() -> s_swerve.setPose(traj[0].getInitialPose())),
                 new ParallelDeadlineGroup(theCMDs[0], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-                s_swerve.run(() -> s_swerve.drive(
+                new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
@@ -138,9 +138,9 @@ public class ThreePiece extends Command {
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 
                 new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
-                Commands.runOnce(() -> s_swerve.setPose(traj[1].getInitialPose())),
+                new InstantCommand(() -> s_swerve.setPose(traj[1].getInitialPose())),
                 new ParallelDeadlineGroup(theCMDs[1], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-                s_swerve.run(() -> s_swerve.drive(
+                new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
