@@ -154,6 +154,12 @@ public class Feeder extends SubsystemBase {
             //     feederMotor.set(Constants.FeederConstants.speed);
             //     hasBeenDetected = false;
             // }
+            if (shooter.isFullSpeed()&&!candle.button)  {
+            candle.strobe(0,0,255);
+            }
+            else if(hasBeenDetected&&!candle.button){
+                candle.strobe(0,255,0);
+            }   
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
 

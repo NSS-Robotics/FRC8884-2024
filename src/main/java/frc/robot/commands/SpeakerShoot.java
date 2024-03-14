@@ -31,6 +31,7 @@ public class SpeakerShoot extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        candle.ledsOff();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
     }

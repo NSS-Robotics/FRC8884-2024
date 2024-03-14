@@ -185,6 +185,7 @@ public class RobotContainer {
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
                 rTrigger.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
                 rTrigger.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+                rTrigger.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
                 rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
@@ -192,8 +193,9 @@ public class RobotContainer {
                 dpadDn.whileTrue(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
-                circle.whileTrue(new InstantCommand(() -> l_candle.strobe(255,255,0)));
-                circle.whileFalse(new InstantCommand(() -> l_candle.ledsOff()));
+                triangle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,255,0)));
+                circle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,0,0)));
+                //circle.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 
