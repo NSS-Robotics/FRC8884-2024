@@ -110,9 +110,9 @@ public class RobotContainer {
                         l_candle,
                         () -> false);
 
-        private final ThreePieceMid threePieceMidPlxWork= new ThreePieceMid(
-                        "PlxWork",
-                        2,
+        private final ThreePieceMid threePieceMidPlxWork = new ThreePieceMid(
+                        "ThreePieceMidPlxWork",
+                        3,
                         m_feeder,
                         m_intake,
                         l_limelight_april,
@@ -123,7 +123,7 @@ public class RobotContainer {
                         () -> false);
 
                         
-        private final FourPieceAmp fourPieceMidPlxWork= new FourPieceAmp(
+        private final FourPiece fourPieceMidPlxWork= new FourPiece(
                         "FourPieceMidPlxWork",
                         3,
                         m_feeder,
@@ -192,7 +192,9 @@ public class RobotContainer {
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
                 rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
                 dpadUp.whileTrue(new ClimbPos(m_pivot));
-                dpadDn.whileTrue(new IntakePos(m_pivot));
+                dpadDn.whileTrue(new Lob(m_pivot));
+                r2.whileTrue(new Lob(m_pivot));
+                r2.whileFalse(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
                 circle.whileTrue(new InstantCommand(() -> l_candle.strobe(255,255,0)));
