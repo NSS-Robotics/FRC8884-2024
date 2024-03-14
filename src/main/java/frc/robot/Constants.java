@@ -237,7 +237,7 @@ public final class Constants {
         public static final double kP = 3.3219E-05;
         public static final double kI = 0;
         public static final double kD = 0;
-        public static final double FF = 2.0e-3;
+        public static final double FF = 2.5e-3;
         public static final double speed = 200;
     }
 
