@@ -73,15 +73,12 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations =
-            24.5 +
-            2.94 *
-            distance -
-            4.73 *
-            Math.pow(distance, 2) +
-            1.29 *
-            Math.pow(distance, 3) -
-            0.109 *
-            Math.pow(distance, 4);
+            87.5-
+            46.1 * distance +
+            16.2 * Math.pow(distance, 2) -
+            2.81 * Math.pow(distance, 3) +
+            0.194 * Math.pow(distance, 4);
+            
         // System.out.println("distance: " + distance);
         // System.out.println("rotations: " + rotations);
         // System.out.println(
@@ -99,9 +96,14 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
         double[] dist = s_swerve.getSpeakerDistances();
         double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
-        s_swerve.printPosData();
+        // s_swerve.printPosData();
         System.out.println("Dto speaker: " + distance);
         System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
         System.out.println("shoot rot: " + getRotations());
+        // System.out.println("rot:       " + Constants.PivotConstants.PivotAgainstRotations);
+
+        if (Encoder.getPosition().getValueAsDouble() < 0) {
+            resetEncoders();
+        }
     }
 }

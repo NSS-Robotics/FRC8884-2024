@@ -32,6 +32,7 @@ public class Swerve extends SubsystemBase {
     private Pose2d m_pose;
     private int driveInvert;
     private Limelight l_limelight;
+    private boolean limelightStatus;
 
     public Swerve(Limelight limelight) {
         gyro = new AHRS(SPI.Port.kMXP);
@@ -208,9 +209,20 @@ public class Swerve extends SubsystemBase {
         System.out.println("isRed: " + isRed());
     }
 
+    public void setLimelightStatus(boolean x) {
+        limelightStatus = x;
+    }
+
     @Override
     public void periodic() {
-        if (l_limelight.tv > 0) {
+        // if (l_limelight.tv > 0) {
+        //     swerveOdometry = createOdometry(l_limelight.botPose);
+        //     m_pose = l_limelight.botPose;
+        // } else {
+        //     m_pose = swerveOdometry.update(getGyroYaw(), getModulePositions());
+        // }
+
+        if (l_limelight.tv > 0 && limelightStatus) {
             swerveOdometry = createOdometry(l_limelight.botPose);
             m_pose = l_limelight.botPose;
         } else {

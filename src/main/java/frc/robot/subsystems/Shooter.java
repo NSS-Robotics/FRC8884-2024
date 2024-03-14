@@ -64,5 +64,8 @@ public class Shooter extends SubsystemBase {
 
     public void stop() {
         setVoltage(0);
+    }@Override
+    public void periodic() {
+        System.out.println("Shooter Velocity: " + (shooterMotor.getVelocity().getValueAsDouble() * 60));
     }
 }

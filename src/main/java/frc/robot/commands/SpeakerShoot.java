@@ -21,6 +21,7 @@ public class SpeakerShoot extends Command {
     public void execute() {
         double rotations = (Math.max(0, pivot.getRotations()));
         shooter.shoot(Constants.ShooterConstants.speed);
+        // pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
         pivot.setPivot(rotations);
         candle.flow(140, 0, 255);
     }
