@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Candle extends SubsystemBase {
+    
 
     CANdle candleLeft = new CANdle(Constants.CandleConstants.candleLeft);
     CANdle candleRight = new CANdle(Constants.CandleConstants.candleRight);
@@ -13,6 +14,8 @@ public class Candle extends SubsystemBase {
     RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.6, 64);
     TwinkleAnimation twinkleAnim = new TwinkleAnimation(0, 255, 0);
     StrobeAnimation strobeAnim = new StrobeAnimation(0, 255, 0);
+
+    boolean on = false;
 
     ColorFlowAnimation colorFlowAnim = new ColorFlowAnimation(
         0,
@@ -27,6 +30,7 @@ public class Candle extends SubsystemBase {
     CANdleConfiguration config = new CANdleConfiguration();
 
     public Candle() {
+        on = true;
         config.brightnessScalar = 0.5;
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
@@ -48,6 +52,7 @@ public class Candle extends SubsystemBase {
     }
 
     public void strobe(int r, int g, int b) {
+        this.ledsOn();
         strobeAnim.setR(r);
         strobeAnim.setB(b);
         strobeAnim.setG(g);
@@ -64,10 +69,18 @@ public class Candle extends SubsystemBase {
     }
 
     public void ledsOff(){
-        candleLeft.clearAnimation(0);
-        candleRight.clearAnimation(0);
         config.brightnessScalar = 0;
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
+        on = false;
+    }
+    public void ledsOn(){
+        config.brightnessScalar = 0.5;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+        on = true;
+    }
+    public void toggle(){
+        if()
     }
 }
