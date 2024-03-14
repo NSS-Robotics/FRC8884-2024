@@ -153,6 +153,10 @@ public class Swerve extends SubsystemBase {
         : Rotation2d.fromDegrees(360 - gyro.getYaw());
     }
 
+    public double getGyroDegrees() {
+        return gyro.getYaw();
+    }
+
     public Pose2d getLimelightBotPose() {
         return m_pose;
     }
