@@ -193,7 +193,7 @@ public class RobotContainer {
 
                 /* Operator Buttons */
                 circle.whileTrue(new InstantCommand(() -> l_candle.strobe(255,255,0)));
-                // circle.whileFalse(new InstantCommand(() -> l_candle.l));
+                circle.whileFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 
