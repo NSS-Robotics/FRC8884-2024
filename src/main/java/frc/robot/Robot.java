@@ -116,6 +116,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.s_swerve.zeroGyro();
         m_robotContainer.s_swerve.setLimelightStatus(true);
     }
 

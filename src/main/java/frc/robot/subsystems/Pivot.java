@@ -121,6 +121,7 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
+        s_swerve.printPosData();
+        printPivotData();
     }
 }

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AimLimelight;
-import frc.robot.commands.IntakePos;
+import frc.robot.commands.Lob;
 import frc.robot.commands.NoteIntake;
 import frc.robot.commands.SpeakerShoot;
 import frc.robot.commands.SpeakerShootForAuto;
@@ -150,10 +150,20 @@ public class ThreePieceMid extends Command {
 
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
-                                new NoteIntake(m_intake, m_feeder, l_candle),
-                                new AimLimelight(s_swerve, l_limelight_april)))
+                        new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(1), 
+                                new SpeakerShoot(m_shooter, m_pivot, l_candle),
+                                new NoteIntake(m_intake, m_feeder, l_candle))),
+                
+                new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
+                new InstantCommand(() -> s_swerve.setPose(traj[2].getInitialPose())),
+                new ParallelDeadlineGroup(theCMDs[2], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
+                new InstantCommand(() -> s_swerve.drive(
+                        new Translation2d(0, 0),
+                        0,
+                        true,
+                        false)),
+                new InstantCommand(() -> s_swerve.setLimelightStatus(true))
         );
     }
 }
