@@ -156,6 +156,9 @@ public class RobotContainer {
                 m_y_int_chooser.setDefaultOption("88", 88);
                 m_y_int_chooser.addOption("87", 87);
                 m_y_int_chooser.addOption("89", 89);
+                m_y_int_chooser.addOption("90", 90);
+                m_y_int_chooser.addOption("91", 91);
+
                 SmartDashboard.putData("Auto mode", m_chooser);
                 SmartDashboard.putData("Y-Int", m_y_int_chooser);
                 
