@@ -81,6 +81,5 @@ public class Candle extends SubsystemBase {
         on = true;
     }
     public void toggle(){
-        if()
     }
 }
