@@ -10,12 +10,13 @@ public class IntakePos extends Command {
 
     public IntakePos(Pivot _pivot) {
         pivot = _pivot;
+        int veryimprotantint = 1;
         addRequirements(pivot);
     }
 
     @Override
     public void execute() {
-        pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
+        pivot.setClimb(Constants.PivotConstants.PivotIntakeRotation);
     }
 
     @Override

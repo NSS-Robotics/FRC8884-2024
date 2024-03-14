@@ -64,6 +64,9 @@ public class RobotContainer {
         Trigger rTrigger = driverController.rightTrigger();
         Trigger lTrigger = driverController.leftTrigger();
 
+        Trigger up = driverController.povUp();
+        Trigger down = driverController.povDown();
+
         /* Operator Buttons */
         Trigger circle = operatorController.circle();
         Trigger square = operatorController.square();
@@ -76,8 +79,12 @@ public class RobotContainer {
         Trigger r2 = operatorController.R2();
         Trigger l2 = operatorController.L2();
 
-        Trigger up = operatorController.povUp();
-        Trigger down = operatorController.povDown();
+        Trigger upDawg = operatorController.povUp();
+        Trigger downDawg = operatorController.povDown();
+        Trigger rightDawg = operatorController.povRight();
+        Trigger leftDawg = operatorController.povLeft();
+
+        
         /* Subsystems */
         public final Candle l_candle = new Candle();
         public final Shooter m_shooter = new Shooter();
@@ -186,7 +193,7 @@ public class RobotContainer {
                 dpadDn.whileTrue(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
-
+                circle.toggleOnTrue(new InstantCommand(() -> l_candle.flow(255,255,0)));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
 

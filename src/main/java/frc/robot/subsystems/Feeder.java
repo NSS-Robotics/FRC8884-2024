@@ -103,9 +103,9 @@ public class Feeder extends SubsystemBase {
 
         if (shooter.isFullSpeed())  {
             setVelocity(speed);
-            candle.Strobe();
+            candle.strobe(0,255,0);
         } else if (hasBeenDetected) {
-            candle.strobe();
+            candle.strobe(184, 18,255);
 
         } else {
             candle.flow(255,0,0);
@@ -162,7 +162,7 @@ public class Feeder extends SubsystemBase {
             // }
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
-            candle.strobe();
+            candle.strobe(184, 18,255);
 
         }
     }

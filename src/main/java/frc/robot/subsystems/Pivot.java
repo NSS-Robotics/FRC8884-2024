@@ -56,6 +56,16 @@ public class Pivot extends SubsystemBase {
             Constants.GlobalVariables.outputRangeMax,
             0
         );
+
+        pivotPID.setP(Constants.PivotConstants.climbP, 1);
+        pivotPID.setI(Constants.PivotConstants.climbI, 1);
+        pivotPID.setD(Constants.PivotConstants.climbD, 1);
+        pivotPID.setIZone(0, 1);
+        pivotPID.setOutputRange(
+            Constants.GlobalVariables.outputRangeMin,
+            Constants.GlobalVariables.outputRangeMax,
+            1
+        );
     }
 
     public void resetEncoders() {
@@ -65,6 +75,10 @@ public class Pivot extends SubsystemBase {
 
     public void setPivot(double position) {
         pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 0);
+    }
+
+    public void setClimb(double position) {
+        pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 1);
     }
 
     public double getRotations() {
