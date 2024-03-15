@@ -151,11 +151,15 @@ public class RobotContainer {
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
-                m_y_int_chooser.setDefaultOption("88", 88);
+                m_y_int_chooser.addOption("85", 85);
+                m_y_int_chooser.addOption("86", 86);
                 m_y_int_chooser.addOption("87", 87);
+                m_y_int_chooser.setDefaultOption("88", 88);
                 m_y_int_chooser.addOption("89", 89);
                 m_y_int_chooser.addOption("90", 90);
                 m_y_int_chooser.addOption("91", 91);
+                m_y_int_chooser.addOption("92", 92);
+                m_y_int_chooser.addOption("93", 93);
 
                 SmartDashboard.putData("Auto mode", m_chooser);
                 SmartDashboard.putData("Y-Int", m_y_int_chooser);
