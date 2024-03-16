@@ -11,7 +11,7 @@ public class Candle extends SubsystemBase {
     CANdle candleLeft = new CANdle(Constants.CandleConstants.candleLeft);
     CANdle candleRight = new CANdle(Constants.CandleConstants.candleRight);
 
-    RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.6, 64);
+    RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.6, 133);
     TwinkleAnimation twinkleAnim = new TwinkleAnimation(0, 255, 0);
     StrobeAnimation strobeAnim = new StrobeAnimation(0, 255, 0);
 
@@ -24,7 +24,7 @@ public class Candle extends SubsystemBase {
         0,
         0,
         0.3,
-        111,
+        133,
         Direction.Forward
     );
 

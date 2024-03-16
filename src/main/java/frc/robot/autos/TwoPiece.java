@@ -127,7 +127,7 @@ public class TwoPiece extends Command {
                                                 true,
                                                 false)),
                                 new InstantCommand(() -> System.out.println("urbad")),
-                                new InstantCommand(() -> m_pivot.printPivotData()),
+                                
                                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
                                 new ParallelDeadlineGroup(new WaitCommand(1.5),

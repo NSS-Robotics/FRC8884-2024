@@ -21,7 +21,8 @@ public class Pivot extends SubsystemBase {
     private CANcoder Encoder;
     private SparkPIDController pivotPID;
     private Swerve s_swerve;
-    private int yInt;
+    private double yInt;
+    private double amp;
 
     public boolean pivotReset = false;
 
@@ -107,22 +108,44 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot(Swerve swerve) {
+        yInt = 88;
+        amp = Constants.PivotConstants.AmpRotations;
+
         pivotSetup();
         s_swerve = swerve;
     }
 
-    public void setYInt(int x) {
+    public void setYInt(double x) {
         yInt = x;
     }
 
-    public int getYInt() {
+    public double getYInt() {
         return yInt;
+    }
+
+    public void setAmp(double x) {
+        amp = x;
+    }
+
+    public double getAmp() {
+        return amp;
+    }
+
+    public void changeYInt(double x) {
+        yInt += x;
     }
 
     @Override
     public void periodic() {
         // s_swerve.printPosData();
         // printPivotData();
+        double[] dist = s_swerve.getSpeakerDistances();
+        double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         SmartDashboard.putNumber("Y-Int", yInt);
+        SmartDashboard.putNumber("Amp rotations", amp);
+        SmartDashboard.putNumber("rotations", pivotEncoder.getPosition());
+        SmartDashboard.putNumber("exp rot", getRotations());
+        SmartDashboard.putNumber("dto speaker", distance);
+
     }
 }

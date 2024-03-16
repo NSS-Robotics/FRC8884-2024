@@ -206,8 +206,11 @@ public class RobotContainer {
                 circle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,0,0)));
                 r2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
                 l2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.DownLobRotations));
-                upDawg.onTrue(new InstantCommand(() -> m_pivot.setYInt(m_pivot.getYInt() + 1)));
-                downDawg.onTrue(new InstantCommand(() -> m_pivot.setYInt(m_pivot.getYInt() - 1)));
+                upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(1)));
+                downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-1)));
+                rightDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() + 0.5)));
+                leftDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() - 0.5)));
+                r1.whileTrue(new Lob(m_pivot, m_shooter, 51));
                 //circle.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }

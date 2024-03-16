@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        // m_robotContainer.m_pivot.printPivotData();
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
@@ -125,9 +126,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         // m_robotContainer.s_swerve.printPosData();
-        m_robotContainer.m_pivot.printPivotData();
         // m_robotContainer.m_shooter.printAngularVelocity();
-        m_robotContainer.setYInt();
+        // m_robotContainer.setYInt();
     }
 
     @Override

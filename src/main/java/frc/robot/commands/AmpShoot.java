@@ -20,7 +20,7 @@ public class AmpShoot extends Command {
     @Override
     public void execute() {
         shooter.shoot(Constants.ShooterConstants.ampspeed);
-        pivot.setPivot(Constants.PivotConstants.AmpRotations);
+        pivot.setPivot(pivot.getAmp());
         
     }
 
