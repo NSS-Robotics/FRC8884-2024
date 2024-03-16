@@ -120,29 +120,29 @@ public class RobotContainer {
                         l_candle,
                         () -> false);
         
-        private final ThreePieceMid threePieceAmpSidePlxWork = new ThreePieceMid(
-                        "PlxWorkAmpSide",
-                        3,
-                        m_feeder,
-                        m_intake,
-                        l_limelight_april,
-                        m_pivot,
-                        m_shooter,
-                        s_swerve,
-                        l_candle,
-                        () -> false);
+        // private final ThreePieceSide threePieceAmpSidePlxWork = new ThreePieceSide(
+        //                 "PlxWorkAmpSide",
+        //                 2,
+        //                 m_feeder,
+        //                 m_intake,
+        //                 l_limelight_april,
+        //                 m_pivot,
+        //                 m_shooter,
+        //                 s_swerve,
+        //                 l_candle,
+        //                 () -> false);
         
-        private final ThreePieceMid threePieceSourceSidePlxWork = new ThreePieceMid(
-                        "PlxWorkSourceSide",
-                        3,
-                        m_feeder,
-                        m_intake,
-                        l_limelight_april,
-                        m_pivot,
-                        m_shooter,
-                        s_swerve,
-                        l_candle,
-                        () -> false);
+        // private final ThreePieceSide threePieceSourceSidePlxWork = new ThreePieceSide(
+        //                 "PlxWorkSourceSide",
+        //                 2,
+        //                 m_feeder,
+        //                 m_intake,
+        //                 l_limelight_april,
+        //                 m_pivot,
+        //                 m_shooter,
+        //                 s_swerve,
+        //                 l_candle,
+        //                 () -> false);
 
                         
         private final FourPiece fourPieceMidPlxWork= new FourPiece(
@@ -156,6 +156,15 @@ public class RobotContainer {
                         s_swerve,
                         l_candle,
                         () -> false);      
+        private final OnePiece onePiecePlxWork = new OnePiece(
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false);    
 
         public RobotContainer() {
                 s_swerve.setDefaultCommand(
@@ -172,8 +181,9 @@ public class RobotContainer {
 
                 m_chooser.addOption("TwoPiecePlxWork", twoPiecePlxWork.followTrajectory());
                 m_chooser.addOption("ThreePiecePlxWork", threePieceMidPlxWork.followTrajectory());
-                m_chooser.addOption("ThreePieceAmpPlxWork", threePieceAmpSidePlxWork.followTrajectory());
-                m_chooser.addOption("ThreePieceSourcePlxWork", threePieceSourceSidePlxWork.followTrajectory());
+                // m_chooser.addOption("ThreePieceAmpPlxWork", threePieceAmpSidePlxWork.followTrajectory());
+                // m_chooser.addOption("ThreePieceSourcePlxWork", threePieceSourceSidePlxWork.followTrajectory());
+                m_chooser.addOption("OnePiecePlxWork", onePiecePlxWork);
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
@@ -187,7 +197,6 @@ public class RobotContainer {
                 // m_y_int_chooser.addOption("92", 92);
                 // m_y_int_chooser.addOption("93", 93);
 
-                m_pivot.setYInt(88);
                 SmartDashboard.putData("Auto mode", m_chooser);
                 // SmartDashboard.putData("Y-Int", m_y_int_chooser);
                 

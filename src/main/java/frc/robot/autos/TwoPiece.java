@@ -109,11 +109,12 @@ public class TwoPiece extends Command {
 
                 return Commands.sequence(
                                 new InstantCommand(s_swerve::zeroGyro),
+                                new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
                                 new SequentialCommandGroup(
+                                                new ParallelDeadlineGroup(new WaitCommand(2),
+                                                                new Lob(m_pivot, m_shooter, 51)),
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, l_candle)),
-                                                new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, l_candle),
+                                                                new Lob(m_pivot, m_shooter, 51),
                                                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                                 new WaitCommand(1),
 

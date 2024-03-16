@@ -27,7 +27,7 @@ import frc.robot.subsystems.*;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-public class ThreePieceMid extends Command {
+public class ThreePieceSide extends Command {
 
     protected final String pathName;
     protected final Feeder m_feeder;
@@ -42,7 +42,7 @@ public class ThreePieceMid extends Command {
     protected ChoreoTrajectory[] traj;
     protected BooleanSupplier fieldmirror;
 
-    public ThreePieceMid(
+    public ThreePieceSide(
             String pathName,
             int trajCount,
             Feeder m_feeder,
@@ -113,11 +113,10 @@ public class ThreePieceMid extends Command {
 
         return Commands.sequence(
                 new InstantCommand(s_swerve::zeroGyro),
-                new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
-
+                
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new Lob(m_pivot, m_shooter, 51)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new Lob(m_pivot, m_shooter, 51),
+                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 new WaitCommand(1),
 
@@ -149,22 +148,13 @@ public class ThreePieceMid extends Command {
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
 
-                new ParallelDeadlineGroup(new WaitCommand(3), new NoteIntake(m_intake, m_feeder, l_candle)),
+                new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), 
                                 new SpeakerShoot(m_shooter, m_pivot, l_candle),
-                                new NoteIntake(m_intake, m_feeder, l_candle))),
-                
-                new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
-                new InstantCommand(() -> s_swerve.setPose(traj[2].getInitialPose())),
-                new ParallelDeadlineGroup(theCMDs[2], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
-                new InstantCommand(() -> s_swerve.drive(
-                        new Translation2d(0, 0),
-                        0,
-                        true,
-                        false)),
-                new InstantCommand(() -> s_swerve.setLimelightStatus(true))
+                                new NoteIntake(m_intake, m_feeder, l_candle)))
+    
         );
     }
 }

@@ -49,6 +49,7 @@ public class Pivot extends SubsystemBase {
         pivotPID.setP(Constants.PivotConstants.kP, 0);
         pivotPID.setI(Constants.PivotConstants.kI, 0);
         pivotPID.setD(Constants.PivotConstants.kD, 0);
+        //pivotPID.setReference(, null, 0, amp, null)
         pivotPID.setIZone(0, 0);
         pivotPID.setOutputRange(
                 Constants.GlobalVariables.outputRangeMin,
@@ -108,7 +109,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot(Swerve swerve) {
-        yInt = 88;
+        yInt = 87;
         amp = Constants.PivotConstants.AmpRotations;
 
         pivotSetup();
