@@ -6,8 +6,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
 
 public class Pivot extends SubsystemBase {
 
@@ -108,13 +111,18 @@ public class Pivot extends SubsystemBase {
         s_swerve = swerve;
     }
 
-    public void setYInt(Integer x) {
+    public void setYInt(int x) {
         yInt = x;
+    }
+
+    public int getYInt() {
+        return yInt;
     }
 
     @Override
     public void periodic() {
         // s_swerve.printPosData();
         // printPivotData();
+        SmartDashboard.putNumber("Y-Int", yInt);
     }
 }

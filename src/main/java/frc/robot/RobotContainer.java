@@ -151,21 +151,26 @@ public class RobotContainer {
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
-                m_y_int_chooser.addOption("85", 85);
-                m_y_int_chooser.addOption("86", 86);
-                m_y_int_chooser.addOption("87", 87);
-                m_y_int_chooser.setDefaultOption("88", 88);
-                m_y_int_chooser.addOption("89", 89);
-                m_y_int_chooser.addOption("90", 90);
-                m_y_int_chooser.addOption("91", 91);
-                m_y_int_chooser.addOption("92", 92);
-                m_y_int_chooser.addOption("93", 93);
+                // m_y_int_chooser.addOption("85", 85);
+                // m_y_int_chooser.addOption("86", 86);
+                // m_y_int_chooser.addOption("87", 87);
+                // m_y_int_chooser.setDefaultOption("88", 88);
+                // m_y_int_chooser.addOption("89", 89);
+                // m_y_int_chooser.addOption("90", 90);
+                // m_y_int_chooser.addOption("91", 91);
+                // m_y_int_chooser.addOption("92", 92);
+                // m_y_int_chooser.addOption("93", 93);
 
+                m_pivot.setYInt(88);
                 SmartDashboard.putData("Auto mode", m_chooser);
-                SmartDashboard.putData("Y-Int", m_y_int_chooser);
+                // SmartDashboard.putData("Y-Int", m_y_int_chooser);
                 
         }
 
+        public void setYInt() {
+                m_pivot.setYInt(m_y_int_chooser.getSelected());
+        }
+        
         /**
          * Use this method to define your trigger->command mappings. Triggers can be
          * created via the
@@ -181,9 +186,7 @@ public class RobotContainer {
          * joysticks}.
          */
 
-        public void setYInt() {
-                m_pivot.setYInt(m_y_int_chooser.getSelected());
-        }
+        
 
         private void configureBindings() {
                 /* Driver Buttons */
@@ -203,7 +206,8 @@ public class RobotContainer {
                 circle.toggleOnTrue(new InstantCommand(() -> l_candle.toggle(255,0,0)));
                 r2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
                 l2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.DownLobRotations));
-
+                upDawg.onTrue(new InstantCommand(() -> m_pivot.setYInt(m_pivot.getYInt() + 1)));
+                downDawg.onTrue(new InstantCommand(() -> m_pivot.setYInt(m_pivot.getYInt() - 1)));
                 //circle.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 // rb.whileTrue(new Feed(m_shooter, m_feeder));
         }
