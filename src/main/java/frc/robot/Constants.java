@@ -250,13 +250,14 @@ public final class Constants {
         public static final double kP = 0.4;
         public static final double kI = 0.00;
         public static final double kD = 4;
-        public static final double climbP = 1.01;
+        public static final double climbP = 2;
         public static final double climbI = 0.00;
         public static final double climbD = 0;
         public static final double PivotIntakeRotation = 0;
+        public static final double PivotDownRotation = -4;
         public static final double PivotAgainstRotations = 34.65;
         public static final double TrapAgainstRotations = 20;
-        public static final double AmpRotations = 116.5;
+        public static final double AmpRotations = 119.5;
         public static final double DownLobRotations = 16;
         public static final double ClimbRotations = 90;
         public static final double UpLobRotations = 48;

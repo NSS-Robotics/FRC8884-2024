@@ -23,27 +23,22 @@ public class Pivot extends SubsystemBase {
     public boolean pivotReset = false;
 
     public void pivotSetup() {
-        pivotMotor =
-            new CANSparkMax(
+        pivotMotor = new CANSparkMax(
                 Constants.PivotConstants.pivotMotor,
-                MotorType.kBrushless
-            );
-        pivotFollower =
-            new CANSparkMax(
+                MotorType.kBrushless);
+        pivotFollower = new CANSparkMax(
                 Constants.PivotConstants.followerMotor,
-                MotorType.kBrushless
-            );
+                MotorType.kBrushless);
         pivotEncoder = pivotMotor.getEncoder();
         followerEncoder = pivotFollower.getEncoder();
-        
+
         pivotMotor.restoreFactoryDefaults();
         pivotFollower.restoreFactoryDefaults();
         pivotFollower.follow(pivotMotor, true);
 
         pivotMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
         pivotFollower.setSmartCurrentLimit(
-            Constants.IntakeConstants.currentLimit
-        );
+                Constants.IntakeConstants.currentLimit);
 
         pivotPID = pivotMotor.getPIDController();
 
@@ -52,20 +47,18 @@ public class Pivot extends SubsystemBase {
         pivotPID.setD(Constants.PivotConstants.kD, 0);
         pivotPID.setIZone(0, 0);
         pivotPID.setOutputRange(
-            Constants.GlobalVariables.outputRangeMin,
-            Constants.GlobalVariables.outputRangeMax,
-            0
-        );
+                Constants.GlobalVariables.outputRangeMin,
+                Constants.GlobalVariables.outputRangeMax,
+                0);
 
         pivotPID.setP(Constants.PivotConstants.climbP, 1);
         pivotPID.setI(Constants.PivotConstants.climbI, 1);
         pivotPID.setD(Constants.PivotConstants.climbD, 1);
         pivotPID.setIZone(0, 1);
         pivotPID.setOutputRange(
-            Constants.GlobalVariables.outputRangeMin,
-            Constants.GlobalVariables.outputRangeMax,
-            1
-        );
+                Constants.GlobalVariables.outputRangeMin,
+                Constants.GlobalVariables.outputRangeMax,
+                1);
     }
 
     public void resetEncoders() {
@@ -86,17 +79,16 @@ public class Pivot extends SubsystemBase {
 
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
-        double rotations =
-            yInt -
-            46.1 * distance +
-            16.2 * Math.pow(distance, 2) -
-            2.81 * Math.pow(distance, 3) +
-            0.194 * Math.pow(distance, 4);
-            
+        double rotations = yInt -
+                46.1 * distance +
+                16.2 * Math.pow(distance, 2) -
+                2.81 * Math.pow(distance, 3) +
+                0.194 * Math.pow(distance, 4);
+
         // System.out.println("distance: " + distance);
         // System.out.println("rotations: " + rotations);
         // System.out.println(
-        //     "rotations off: " + (rotations - pivotEncoder.getPosition())
+        // "rotations off: " + (rotations - pivotEncoder.getPosition())
         // );
         return rotations;
     }
@@ -107,7 +99,8 @@ public class Pivot extends SubsystemBase {
         System.out.println("Dto speaker: " + distance);
         System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
         System.out.println("shoot rot:   " + getRotations());
-        // System.out.println("rot:       " + Constants.PivotConstants.PivotAgainstRotations);
+        System.out.println("diff:" + (getRotations() - pivotEncoder.getPosition()));
+        // System.out.println("rot: " + Constants.PivotConstants.PivotAgainstRotations);
     }
 
     public Pivot(Swerve swerve) {
@@ -121,7 +114,7 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        s_swerve.printPosData();
-        printPivotData();
+        // s_swerve.printPosData();
+        // printPivotData();
     }
 }

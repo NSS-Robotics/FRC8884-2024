@@ -67,7 +67,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Remaining Match Time", DriverStation.getMatchTime());
         SmartDashboard.putBoolean("Shooter Ready", shooter.isFullSpeed());
 
-        // SmartDashboard.putBoolean("s_swerve.isRed()", DriverStation.getAlliance().get() == Alliance.Red);
+        // SmartDashboard.putBoolean("s_swerve.isRed()",
+        // DriverStation.getAlliance().get() == Alliance.Red);
 
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled
@@ -123,9 +124,9 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        m_robotContainer.s_swerve.printPosData();
+        // m_robotContainer.s_swerve.printPosData();
         m_robotContainer.m_pivot.printPivotData();
-        m_robotContainer.m_shooter.printAngularVelocity();
+        // m_robotContainer.m_shooter.printAngularVelocity();
         m_robotContainer.setYInt();
     }
 
