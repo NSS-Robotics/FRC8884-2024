@@ -119,6 +119,30 @@ public class RobotContainer {
                         s_swerve,
                         l_candle,
                         () -> false);
+        
+        private final ThreePieceMid threePieceAmpSidePlxWork = new ThreePieceMid(
+                        "PlxWorkAmpSide",
+                        3,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false);
+        
+        private final ThreePieceMid threePieceSourceSidePlxWork = new ThreePieceMid(
+                        "PlxWorkSourceSide",
+                        3,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false);
 
                         
         private final FourPiece fourPieceMidPlxWork= new FourPiece(
@@ -131,7 +155,7 @@ public class RobotContainer {
                         m_shooter,
                         s_swerve,
                         l_candle,
-                        () -> false);        
+                        () -> false);      
 
         public RobotContainer() {
                 s_swerve.setDefaultCommand(
@@ -148,6 +172,8 @@ public class RobotContainer {
 
                 m_chooser.addOption("TwoPiecePlxWork", twoPiecePlxWork.followTrajectory());
                 m_chooser.addOption("ThreePiecePlxWork", threePieceMidPlxWork.followTrajectory());
+                m_chooser.addOption("ThreePieceAmpPlxWork", threePieceAmpSidePlxWork.followTrajectory());
+                m_chooser.addOption("ThreePieceSourcePlxWork", threePieceSourceSidePlxWork.followTrajectory());
                 m_chooser.addOption("FourPieceMidPlxWork", fourPieceMidPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
