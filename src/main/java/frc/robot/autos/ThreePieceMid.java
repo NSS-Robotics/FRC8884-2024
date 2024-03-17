@@ -116,7 +116,7 @@ public class ThreePieceMid extends Command {
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new Lob(m_pivot, m_shooter, 51)),
+                        new ParallelDeadlineGroup(new WaitCommand(1.5), new Lob(m_pivot, m_shooter, 51)),
                         new ParallelDeadlineGroup(new WaitCommand(1), new Lob(m_pivot, m_shooter, 51),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 new WaitCommand(1),
@@ -149,7 +149,7 @@ public class ThreePieceMid extends Command {
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
 
-                new ParallelDeadlineGroup(new WaitCommand(3), new NoteIntake(m_intake, m_feeder, l_candle)),
+                new ParallelDeadlineGroup(new WaitCommand(2), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShoot(m_shooter, m_pivot, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), 
