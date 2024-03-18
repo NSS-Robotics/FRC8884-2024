@@ -11,8 +11,8 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-    private static TalonFX shooterMotor = new TalonFX(20);
-    private static TalonFX shooterFollower = new TalonFX(21);
+    private static TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.shooterMotor);
+    private static TalonFX shooterFollower = new TalonFX(Constants.ShooterConstants.followerMotor);
     private static VelocityVoltage shooterVelocityVoltage;
     private static VelocityVoltage followerVelocityVoltage;
 
@@ -57,20 +57,22 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isFullSpeed() {
-        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 5100;
+        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4700;
     }
 
     public void shoot(double speed) {
         setVelocity(speed);
     }
-    
+
     public void printAngularVelocity() {
         System.out.println("Shooter angular v: " + (shooterMotor.getVelocity().getValueAsDouble() * 60));
     }
 
     public void stop() {
         setVoltage(0);
-    }@Override
+    }
+
+    @Override
     public void periodic() {
         SmartDashboard.putNumber("shoot speed", shooterMotor.getVelocity().getValueAsDouble() * 60);
     }

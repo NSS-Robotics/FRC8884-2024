@@ -247,7 +247,7 @@ public final class Constants {
         public static final int followerMotor = 15;
         public static final int currentLimit = 0;
         public static final int MaxRotation = 300;
-        public static final double kP = 0.4;
+        public static final double kP = 0.35;
         public static final double kI = 0.00;
         public static final double kD = 4;
         public static final double climbP = 2;
@@ -266,8 +266,8 @@ public final class Constants {
 
     public static final class ShooterConstants {
 
-        public static final int shooterMotor = 14;
-        public static final int followerMotor = 15;
+        public static final int shooterMotor = 20;
+        public static final int followerMotor = 21;
         public static final int currentLimit = 0;
         public static final double holdingVoltage = 0;
         public static final double kS = 0.3237;
