@@ -118,8 +118,12 @@ public class Feeder extends SubsystemBase {
         }
     }
 
-    public void setbool(boolean bool) {
+    public void setHasBeenDetected(boolean bool) {
         hasBeenDetected = bool;
+    }
+
+    private boolean getHasBeenDetected() {
+        return hasBeenDetected;
     }
 
     public void outtake(double speed) {
@@ -145,10 +149,10 @@ public class Feeder extends SubsystemBase {
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
-                hasBeenDetected = true;
+                setHasBeenDetected(true);
                 setVelocity(-2);
-            } else if (shooter.isShooting()){
-                hasBeenDetected = false;
+            //} else if (shooter.isShooting()){
+            //    hasBeenDetected = false;
             }
             // else if (hasBeenDetected && shooter.isFullSpeed()) {
             //     feederMotor.set(Constants.FeederConstants.speed);
@@ -159,7 +163,11 @@ public class Feeder extends SubsystemBase {
             }
             else if(hasBeenDetected&&!candle.button){
                 candle.strobe(0,255,0);
-            }   
+            }
+            
+            if (getHasBeenDetected()) {
+                shooter.shoot(Constants.ShooterConstants.speed);
+            }
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
 

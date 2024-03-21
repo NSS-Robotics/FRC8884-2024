@@ -1,10 +1,15 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,11 +19,11 @@ import frc.robot.Constants;
 
 public class Pivot extends SubsystemBase {
 
-    private CANSparkMax pivotMotor;
-    private CANSparkMax pivotFollower;
-    private RelativeEncoder pivotEncoder;
-    private RelativeEncoder followerEncoder;
-    private CANcoder Encoder;
+    private static TalonFX pivotMotor = new TalonFX(Constants.PivotConstants.pivotMotor);
+    private static TalonFX pivotFollower = new TalonFX(Constants.PivotConstants.followerMotor);
+    private static PositionVoltage pivotPositionVoltage;
+    private CANcoder encoder = new CANcoder(13);
+
     private SparkPIDController pivotPID;
     private Swerve s_swerve;
     private double yInt;
@@ -27,52 +32,34 @@ public class Pivot extends SubsystemBase {
     public boolean pivotReset = false;
 
     public void pivotSetup() {
-        pivotMotor = new CANSparkMax(
-                Constants.PivotConstants.pivotMotor,
-                MotorType.kBrushless);
-        pivotFollower = new CANSparkMax(
-                Constants.PivotConstants.followerMotor,
-                MotorType.kBrushless);
-        pivotEncoder = pivotMotor.getEncoder();
-        followerEncoder = pivotFollower.getEncoder();
+        var talonFXConfigs = new TalonFXConfiguration();
 
-        pivotMotor.restoreFactoryDefaults();
-        pivotFollower.restoreFactoryDefaults();
-        pivotFollower.follow(pivotMotor, true);
+        // set slot 0 gains
+        var slot0Configs = talonFXConfigs.Slot0;
+        slot0Configs.kP = Constants.PivotConstants.kS;
+        slot0Configs.kP = Constants.PivotConstants.kV;
+        slot0Configs.kP = Constants.PivotConstants.kP; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = Constants.PivotConstants.kI;
+        slot0Configs.kD = Constants.PivotConstants.kD;
 
-        pivotMotor.setSmartCurrentLimit(Constants.IntakeConstants.currentLimit);
-        pivotFollower.setSmartCurrentLimit(
-                Constants.IntakeConstants.currentLimit);
-
-        pivotPID = pivotMotor.getPIDController();
-
-        pivotPID.setP(Constants.PivotConstants.kP, 0);
-        pivotPID.setI(Constants.PivotConstants.kI, 0);
-        pivotPID.setD(Constants.PivotConstants.kD, 0);
-        //pivotPID.setReference(, null, 0, amp, null)
-        pivotPID.setIZone(0, 0);
-        pivotPID.setOutputRange(
-                Constants.GlobalVariables.outputRangeMin,
-                Constants.GlobalVariables.outputRangeMax,
-                0);
-
-        pivotPID.setP(Constants.PivotConstants.climbP, 1);
-        pivotPID.setI(Constants.PivotConstants.climbI, 1);
-        pivotPID.setD(Constants.PivotConstants.climbD, 1);
-        pivotPID.setIZone(0, 1);
-        pivotPID.setOutputRange(
-                Constants.GlobalVariables.outputRangeMin,
-                Constants.GlobalVariables.outputRangeMax,
-                1);
+        
+        var motionMagicConfigs = talonFXConfigs.MotionMagic;
+        motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 400 rps/s (0.25 seconds to max)
+        motionMagicConfigs.MotionMagicJerk = 4000; // Target jerk of 4000 rps/s/s (0.1 seconds)
+        
+        pivotMotor.getConfigurator().apply(talonFXConfigs);
     }
 
     public void resetEncoders() {
-        pivotEncoder.setPosition(0);
-        followerEncoder.setPosition(0);
+        encoder.setPosition(0);
     }
 
     public void setPivot(double position) {
-        pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 0);
+        pivotPositionVoltage = new PositionVoltage(position);
+
+        pivotMotor.setControl(pivotPositionVoltage);
+        pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, false));
+        
     }
 
     public void setClimb(double position) {
@@ -98,13 +85,17 @@ public class Pivot extends SubsystemBase {
         return rotations;
     }
 
+    public double encoderPosition() {
+        return encoder.getPosition().getValueAsDouble();
+    }
+
     public void printPivotData() {
         double[] dist = s_swerve.getSpeakerDistances();
         double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         System.out.println("Dto speaker: " + distance);
-        System.out.println("Pivot pos:   " + pivotEncoder.getPosition());
+        System.out.println("Pivot pos:   " + encoderPosition());
         System.out.println("shoot rot:   " + getRotations());
-        System.out.println("diff:" + (getRotations() - pivotEncoder.getPosition()));
+        System.out.println("diff:" + (getRotations() - encoderPosition()));
         // System.out.println("rot: " + Constants.PivotConstants.PivotAgainstRotations);
     }
 
@@ -144,7 +135,7 @@ public class Pivot extends SubsystemBase {
         double distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         SmartDashboard.putNumber("Y-Int", yInt);
         SmartDashboard.putNumber("Amp rotations", amp);
-        SmartDashboard.putNumber("rotations", pivotEncoder.getPosition());
+        SmartDashboard.putNumber("rotations", pivotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("exp rot", getRotations());
         SmartDashboard.putNumber("dto speaker", distance);
 

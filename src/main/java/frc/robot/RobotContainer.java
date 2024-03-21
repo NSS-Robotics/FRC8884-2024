@@ -227,7 +227,7 @@ public class RobotContainer {
                 /* Driver Buttons */
                 y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
                 rTrigger.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
-                rTrigger.whileTrue(new SpeakerShoot(m_shooter, m_pivot, l_candle));
+                rTrigger.whileTrue(new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle));
                 rTrigger.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
                 x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
                 lTrigger.whileTrue(new NoteIntake(m_intake, m_feeder, l_candle));
