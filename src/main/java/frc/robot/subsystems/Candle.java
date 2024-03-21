@@ -38,16 +38,19 @@ public class Candle extends SubsystemBase {
     }
 
     public void setLEDs(int R, int G, int B) {
+        this.ledsOn();
         candleLeft.setLEDs(R, G, B);
         candleRight.setLEDs(R, G, B);
     }
 
     public void rainbow() {
+        this.ledsOn();
         candleLeft.animate(rainbowAnim);
         candleRight.animate(rainbowAnim);
     }
 
     public void twinkle() {
+        this.ledsOn();
         candleLeft.animate(twinkleAnim);
         candleRight.animate(twinkleAnim);
     }
@@ -59,13 +62,13 @@ public class Candle extends SubsystemBase {
         strobeAnim.setG(g);
         candleLeft.animate(strobeAnim);
         candleRight.animate(strobeAnim);
-        on = false;
     }
     public void toggle(int r, int g, int b){
         
-       if(on){
+        if(on){
             button = true;
             this.strobe(r,g,b);
+            on = false;
         }
         else{
             button = false;
@@ -75,6 +78,7 @@ public class Candle extends SubsystemBase {
     }
 
     public void flow(int r, int g, int b) {
+        this.ledsOn();
         colorFlowAnim.setR(r);
         colorFlowAnim.setG(g);
         colorFlowAnim.setB(b);
@@ -93,5 +97,12 @@ public class Candle extends SubsystemBase {
         candleLeft.configAllSettings(config);
         candleRight.configAllSettings(config);
         on = true;
+    }
+    public void reset(){
+        config.brightnessScalar = 0;
+        candleLeft.configAllSettings(config);
+        candleRight.configAllSettings(config);
+        on = false;
+        button = false;
     }
 }
