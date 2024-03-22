@@ -29,6 +29,7 @@ public class Feeder extends SubsystemBase {
     private LaserCan laserCAN = new LaserCan(
             Constants.LaserCanConstants.laserCan);
     private boolean hasBeenDetected;
+    private boolean shouldRev;
     private boolean shouldShoot;
     private boolean lemmeShootBro;
     private Shooter shooter;
@@ -103,7 +104,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shooter.isFullSpeed() || lemmeShootBro || !hasBeenDetected)  {
+        if (shooter.isFullSpeed() && lemmeShootBro || !hasBeenDetected)  {
             setVelocity(speed);
         } else {
             setVelocity(-2);
@@ -124,12 +125,12 @@ public class Feeder extends SubsystemBase {
         return hasBeenDetected;
     }
 
-    public void setShouldShoot(boolean bool) {
-        shouldShoot = bool;
+    public void setShouldRev(boolean bool) {
+        shouldRev = bool;
     }
 
-    public boolean getShouldShoot() {
-        return shouldShoot;
+    public boolean getShouldRev() {
+        return shouldRev;
     }
 
     public void setLemmeShootBro(boolean bool) {
@@ -138,6 +139,14 @@ public class Feeder extends SubsystemBase {
 
     public boolean getLemmeShootBro() {
         return lemmeShootBro;
+    }
+
+    public void setShouldShoot(boolean bool) {
+        shouldShoot = bool;
+    }
+
+    public boolean getShouldShoot() {
+        return shouldShoot;
     }
 
     public void outtake(double speed) {
@@ -152,7 +161,7 @@ public class Feeder extends SubsystemBase {
         setupMotors();
         setupLaserCAN();
         setHasBeenDetected(false);
-        setShouldShoot(false);
+        setShouldRev(false);
         setLemmeShootBro(false);
         this.shooter = shooter;
         this.candle = candle;
@@ -166,9 +175,9 @@ public class Feeder extends SubsystemBase {
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
-                setVelocity(-2);
+                setVelocity(-1);
             //} else if (shooter.isShooting()){
-               setHasBeenDetected(true);
+                setHasBeenDetected(true);
             }
             // else if (hasBeenDetected && shooter.isFullSpeed()) {
             //     feederMotor.set(Constants.FeederConstants.speed);
@@ -181,12 +190,13 @@ public class Feeder extends SubsystemBase {
                 candle.strobe(0,255,0);
             }
             
-            if (getShouldShoot()) {
+            if (getShouldRev()) {
+                shooter.shoot(Constants.ShooterConstants.revSpeed);
+            } else if (getShouldShoot()) {
                 shooter.shoot(Constants.ShooterConstants.speed);
             }
 
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
-
         }
     }
 }

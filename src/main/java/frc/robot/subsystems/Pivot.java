@@ -2,12 +2,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.SparkPIDController;
@@ -28,23 +35,34 @@ public class Pivot extends SubsystemBase {
     private Swerve s_swerve;
     private double yInt;
     private double amp;
-
+    private double testRotations;
     public boolean pivotReset = false;
 
     public void pivotSetup() {
-        var talonFXConfigs = new TalonFXConfiguration();
+        CANcoderConfiguration CANcoderConfig = new CANcoderConfiguration();
 
-        // set slot 0 gains
-        var slot0Configs = talonFXConfigs.Slot0;
+        CANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        CANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        CANcoderConfig.MagnetSensor.MagnetOffset = 0.376708984375;
+        encoder.getConfigurator().apply(CANcoderConfig);
+        
+        TalonFXConfiguration talonFXConfig = new TalonFXConfiguration();
+
+        var slot0Configs = talonFXConfig.Slot0;
         slot0Configs.kP = Constants.PivotConstants.kS;
         slot0Configs.kP = Constants.PivotConstants.kV;
-        slot0Configs.kP = Constants.PivotConstants.kP; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kP = Constants.PivotConstants.kP;
         slot0Configs.kI = Constants.PivotConstants.kI;
         slot0Configs.kD = Constants.PivotConstants.kD;
 
+        talonFXConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
+        talonFXConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+
         
 
-        pivotMotor.getConfigurator().apply(talonFXConfigs);
+        pivotMotor.getConfigurator().apply(talonFXConfig);
+        pivotMotor.setNeutralMode(NeutralModeValue.Brake);
+        pivotFollower.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public void resetEncoders() {
@@ -79,7 +97,8 @@ public class Pivot extends SubsystemBase {
         // System.out.println(
         // "rotations off: " + (rotations - pivotEncoder.getPosition())
         // );
-        return rotations;
+        // return rotations;
+        return testRotations;
     }
 
     public double encoderPosition() {
@@ -99,6 +118,8 @@ public class Pivot extends SubsystemBase {
     public Pivot(Swerve swerve) {
         yInt = 87;
         amp = Constants.PivotConstants.AmpRotations;
+        testRotations = 0.4;
+        SmartDashboard.putNumber("Test Rot", testRotations);
 
         pivotSetup();
         s_swerve = swerve;
@@ -135,6 +156,7 @@ public class Pivot extends SubsystemBase {
         SmartDashboard.putNumber("rotations", pivotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("exp rot", getRotations());
         SmartDashboard.putNumber("dto speaker", distance);
-
+        SmartDashboard.putNumber("pivot cancoder", encoder.getPosition().getValueAsDouble());
+        testRotations = SmartDashboard.getNumber("Test Rot", 0.25);
     }
 }

@@ -249,20 +249,20 @@ public final class Constants {
         public static final int MaxRotation = 300;
         public static final double kS = 0; //TODO
         public static final double kV = 0; //TODO
-        public static final double kP = 2;
+        public static final double kP = 60;
         public static final double kI = 0.00;
-        public static final double kD = 0.15;
+        public static final double kD = 0.1;
         public static final double climbP = 2;
         public static final double climbI = 0.00;
         public static final double climbD = 0;
         public static final double PivotIntakeRotation = 0;
         public static final double PivotDownRotation = -4;
-        public static final double PivotAgainstRotations = 34.65;
-        public static final double TrapAgainstRotations = 20;
-        public static final double AmpRotations = 118;
-        public static final double DownLobRotations = 16;
-        public static final double ClimbRotations = 90;
-        public static final double UpLobRotations = 48;
+        public static final double PivotAgainstRotations = 0;
+        public static final double TrapAgainstRotations = 0;
+        public static final double AmpRotations = 1.5;
+        public static final double DownLobRotations = 0;
+        public static final double ClimbRotations = 0;
+        public static final double UpLobRotations = 0;
         // public static final double AmpRotations = 23;
     }
 
@@ -275,11 +275,12 @@ public final class Constants {
         public static final double kS = 0.3237;
         public static final double kV = 0.1171;
         public static final double kA = 0.023513;
-        public static final double kP = 0.0044114;
+        public static final double kP = 0.007;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
         public static final double speed = 5000; // Should be 3500 for trap
+        public static final double revSpeed = 2000;
         public static final double ampspeed = 1800;
     }
 

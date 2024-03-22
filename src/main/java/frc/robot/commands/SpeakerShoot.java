@@ -21,7 +21,12 @@ public class SpeakerShoot extends Command {
 
     @Override
     public void execute() {
-        double rotations = (Math.max(0, pivot.getRotations()));
+        if (feeder.getShouldRev()) {
+            feeder.setShouldRev(false);
+            feeder.setShouldShoot(true);
+        }
+        
+        double rotations = Math.min(1,(Math.max(0, pivot.getRotations())));
         // pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
         pivot.setPivot(rotations);
     }
@@ -33,8 +38,9 @@ public class SpeakerShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         feeder.setHasBeenDetected(false);
-        feeder.setShouldShoot(false);
+        feeder.setShouldRev(false);
         feeder.setLemmeShootBro(false);
+        feeder.setShouldShoot(false);
         candle.ledsOff();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
