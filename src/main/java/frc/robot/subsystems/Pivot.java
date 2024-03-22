@@ -43,10 +43,7 @@ public class Pivot extends SubsystemBase {
         slot0Configs.kD = Constants.PivotConstants.kD;
 
         
-        var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 400 rps/s (0.25 seconds to max)
-        motionMagicConfigs.MotionMagicJerk = 4000; // Target jerk of 4000 rps/s/s (0.1 seconds)
-        
+
         pivotMotor.getConfigurator().apply(talonFXConfigs);
     }
 
@@ -58,7 +55,7 @@ public class Pivot extends SubsystemBase {
         pivotPositionVoltage = new PositionVoltage(position);
 
         pivotMotor.setControl(pivotPositionVoltage);
-        pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, false));
+        pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, true));
         
     }
 

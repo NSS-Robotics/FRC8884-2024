@@ -28,10 +28,16 @@ public class NoteIntake extends Command {
 
     @Override
     public void initialize() {
+        if (feeder.getHasBeenDetected()) {
+            feeder.setLemmeShootBro(true);
+        } 
     }
 
     @Override
     public void end(boolean interrupted) {
+        if (feeder.getHasBeenDetected()) {
+            feeder.setShouldShoot(true);
+        }  
         intake.stop();
         feeder.stop();
     }

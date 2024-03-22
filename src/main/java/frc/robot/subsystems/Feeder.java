@@ -28,7 +28,9 @@ public class Feeder extends SubsystemBase {
             Constants.FeederConstants.kA);
     private LaserCan laserCAN = new LaserCan(
             Constants.LaserCanConstants.laserCan);
-    private boolean hasBeenDetected = false;
+    private boolean hasBeenDetected;
+    private boolean shouldShoot;
+    private boolean lemmeShootBro;
     private Shooter shooter;
 
     public void setupMotors() {
@@ -101,11 +103,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shooter.isFullSpeed())  {
-            setVelocity(speed);
-        }
-
-        if (!hasBeenDetected) {
+        if (shooter.isFullSpeed() || lemmeShootBro || !hasBeenDetected)  {
             setVelocity(speed);
         } else {
             setVelocity(-2);
@@ -122,8 +120,24 @@ public class Feeder extends SubsystemBase {
         hasBeenDetected = bool;
     }
 
-    private boolean getHasBeenDetected() {
+    public boolean getHasBeenDetected() {
         return hasBeenDetected;
+    }
+
+    public void setShouldShoot(boolean bool) {
+        shouldShoot = bool;
+    }
+
+    public boolean getShouldShoot() {
+        return shouldShoot;
+    }
+
+    public void setLemmeShootBro(boolean bool) {
+        lemmeShootBro = bool;
+    }
+
+    public boolean getLemmeShootBro() {
+        return lemmeShootBro;
     }
 
     public void outtake(double speed) {
@@ -137,6 +151,9 @@ public class Feeder extends SubsystemBase {
     public Feeder(Shooter shooter, Candle candle) {
         setupMotors();
         setupLaserCAN();
+        setHasBeenDetected(false);
+        setShouldShoot(false);
+        setLemmeShootBro(false);
         this.shooter = shooter;
         this.candle = candle;
     }
@@ -149,10 +166,9 @@ public class Feeder extends SubsystemBase {
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
             if (distance <= 50 && !shooter.isShooting()) {
-                setHasBeenDetected(true);
                 setVelocity(-2);
             //} else if (shooter.isShooting()){
-            //    hasBeenDetected = false;
+               setHasBeenDetected(true);
             }
             // else if (hasBeenDetected && shooter.isFullSpeed()) {
             //     feederMotor.set(Constants.FeederConstants.speed);
@@ -165,7 +181,7 @@ public class Feeder extends SubsystemBase {
                 candle.strobe(0,255,0);
             }
             
-            if (getHasBeenDetected()) {
+            if (getShouldShoot()) {
                 shooter.shoot(Constants.ShooterConstants.speed);
             }
 

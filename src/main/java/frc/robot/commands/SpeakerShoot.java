@@ -16,7 +16,7 @@ public class SpeakerShoot extends Command {
         pivot = _pivot;
         feeder = _feeder;
         this.candle = candle;
-        addRequirements(shooter, pivot, feeder);
+        addRequirements(shooter, pivot);
     }
 
     @Override
@@ -33,6 +33,8 @@ public class SpeakerShoot extends Command {
     @Override
     public void end(boolean interrupted) {
         feeder.setHasBeenDetected(false);
+        feeder.setShouldShoot(false);
+        feeder.setLemmeShootBro(false);
         candle.ledsOff();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();

@@ -249,9 +249,9 @@ public final class Constants {
         public static final int MaxRotation = 300;
         public static final double kS = 0; //TODO
         public static final double kV = 0; //TODO
-        public static final double kP = 0.35;
+        public static final double kP = 2;
         public static final double kI = 0.00;
-        public static final double kD = 4;
+        public static final double kD = 0.15;
         public static final double climbP = 2;
         public static final double climbI = 0.00;
         public static final double climbD = 0;
