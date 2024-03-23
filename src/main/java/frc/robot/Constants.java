@@ -263,6 +263,7 @@ public final class Constants {
         public static final double DownLobRotations = 0;
         public static final double ClimbRotations = 0;
         public static final double UpLobRotations = 0;
+        public static final double AgainstSpeakerRotations = 0;
         // public static final double AmpRotations = 23;
     }
 

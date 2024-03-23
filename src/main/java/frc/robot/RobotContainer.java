@@ -246,7 +246,7 @@ public class RobotContainer {
                 downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-1)));
                 leftDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() + 0.5)));
                 rightDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() - 0.5)));
-                r1.whileTrue(new Lob(m_pivot, m_shooter, 51));
+                r1.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.AgainstSpeakerRotations));
         }
 
         /**
