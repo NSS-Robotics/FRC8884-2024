@@ -64,7 +64,6 @@ public class Candle extends SubsystemBase {
         candleRight.animate(strobeAnim);
     }
     public void toggle(int r, int g, int b){
-        
         if(on){
             button = true;
             this.strobe(r,g,b);

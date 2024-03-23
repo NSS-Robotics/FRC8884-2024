@@ -242,11 +242,11 @@ public class RobotContainer {
                 cross.onTrue(new InstantCommand(() -> l_candle.reset()));
                 r2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
                 l2.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.DownLobRotations));
-                upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(1)));
-                downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-1)));
-                leftDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() + 0.5)));
-                rightDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() - 0.5)));
-                r1.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.AgainstSpeakerRotations));
+                upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.01))); // todo
+                downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.01))); // todo
+                leftDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() + 0.01))); // todo
+                rightDawg.onFalse(new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() - 0.01))); // todo
+                r1.whileTrue(new Lob(m_pivot, m_shooter, Constants.PivotConstants.AgainstSpeakerRotations)); // todo
         }
 
         /**

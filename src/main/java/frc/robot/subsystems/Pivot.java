@@ -116,7 +116,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot(Swerve swerve) {
-        yInt = 87;
+        yInt = 0;
         amp = Constants.PivotConstants.AmpRotations;
         testRotations = 0.4;
         SmartDashboard.putNumber("Test Rot", testRotations);
