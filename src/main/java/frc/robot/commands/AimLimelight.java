@@ -15,11 +15,12 @@ public class AimLimelight extends PIDCommand {
 
     public AimLimelight(Swerve swerve, Limelight limelight) {
         super(
-                new PIDController(0.1, 0, 0.01),
-                () -> getAngle(swerve),
-                0.0,
-                tx -> swerve.turnStates(tx),
-                swerve);
+            new PIDController(0.1, 0, 0.01),
+            () -> getAngle(swerve),
+            0.0,
+            tx -> swerve.turnStates(tx),
+            swerve
+        );
         this.limelight = limelight;
         this.swerve = swerve;
         addRequirements(this.swerve, this.limelight);
@@ -38,9 +39,9 @@ public class AimLimelight extends PIDCommand {
         double[] dists = swerve.getSpeakerDistances();
         double angleToSpeaker = Math.toDegrees(Math.atan(dists[1] / dists[0]));
         double rotationZ = swerve
-                .getLimelightBotPose()
-                .getRotation()
-                .getDegrees();
+            .getLimelightBotPose()
+            .getRotation()
+            .getDegrees();
 
         if (!swerve.isRed()) {
             angleToSpeaker += 180;
@@ -61,7 +62,8 @@ public class AimLimelight extends PIDCommand {
         }
 
         System.out.println(
-                "\n-----------------------------speaker align data:");
+            "\n-----------------------------speaker align data:"
+        );
         System.out.println("Speaker angle final:    " + angleToSpeaker);
         System.out.println("Rotation angle initial: " + rotationZ);
 
