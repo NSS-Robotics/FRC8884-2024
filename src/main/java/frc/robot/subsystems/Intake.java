@@ -5,23 +5,31 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.NoteAlign;
 
 public class Intake extends SubsystemBase {
 
+    private Swerve swerve;
+    private Limelight limelight;
+
     private CANSparkMax intakeMotor = new CANSparkMax(
-            Constants.IntakeConstants.inner,
-            MotorType.kBrushless);
+        Constants.IntakeConstants.inner,
+        MotorType.kBrushless
+    );
     private CANSparkMax intakeMotorFollower = new CANSparkMax(
-            Constants.IntakeConstants.outer,
-            MotorType.kBrushless);
+        Constants.IntakeConstants.outer,
+        MotorType.kBrushless
+    );
 
     private SparkPIDController intakePID;
     SimpleMotorFeedforward intakeFF = new SimpleMotorFeedforward(
-            Constants.IntakeConstants.kS,
-            Constants.IntakeConstants.kV,
-            Constants.IntakeConstants.kA);
+        Constants.IntakeConstants.kS,
+        Constants.IntakeConstants.kV,
+        Constants.IntakeConstants.kA
+    );
 
     public void setupMotors() {
         intakeMotorFollower.restoreFactoryDefaults();
@@ -32,9 +40,11 @@ public class Intake extends SubsystemBase {
         intakeMotor.setInverted(true);
 
         intakeMotor.setSmartCurrentLimit(
-                Constants.IntakeConstants.currentLimit);
+            Constants.IntakeConstants.currentLimit
+        );
         intakeMotorFollower.setSmartCurrentLimit(
-                Constants.IntakeConstants.currentLimit);
+            Constants.IntakeConstants.currentLimit
+        );
 
         intakePID = intakeMotor.getPIDController();
 
@@ -44,9 +54,10 @@ public class Intake extends SubsystemBase {
         intakePID.setIZone(0, 0);
         intakePID.setFF(Constants.IntakeConstants.FF, 0);
         intakePID.setOutputRange(
-                Constants.GlobalVariables.outputRangeMin,
-                Constants.GlobalVariables.outputRangeMax,
-                0);
+            Constants.GlobalVariables.outputRangeMin,
+            Constants.GlobalVariables.outputRangeMax,
+            0
+        );
 
         intakeMotor.setOpenLoopRampRate(0.05);
         intakeMotor.burnFlash();
@@ -60,11 +71,12 @@ public class Intake extends SubsystemBase {
         // SmartDashboard.putNumber("Intake velocity target", velocity);
 
         intakePID.setReference(
-                velocity,
-                ControlType.kVelocity,
-                0,
-                arbFF,
-                SparkPIDController.ArbFFUnits.kVoltage);
+            velocity,
+            ControlType.kVelocity,
+            0,
+            arbFF,
+            SparkPIDController.ArbFFUnits.kVoltage
+        );
     }
 
     public void stop() {
@@ -80,7 +92,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void outtake(double speed) {
-        setVelocity(-1 * speed);
+        setVelocity(-speed);
     }
 
     public void setHoldingCurrent() {
@@ -92,6 +104,5 @@ public class Intake extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 }
