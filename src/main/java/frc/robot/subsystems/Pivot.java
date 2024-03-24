@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -28,6 +29,9 @@ public class Pivot extends SubsystemBase {
 
     private static TalonFX pivotMotor = new TalonFX(Constants.PivotConstants.pivotMotor);
     private static TalonFX pivotFollower = new TalonFX(Constants.PivotConstants.followerMotor);
+    private static TalonFXConfiguration talonFXConfig = new TalonFXConfiguration();
+    private static Slot0Configs slot0Configs = talonFXConfig.Slot0;
+    private static Slot1Configs slot1Configs = talonFXConfig.Slot1;
     private static PositionVoltage pivotPositionVoltage;
     private CANcoder encoder = new CANcoder(13);
 
@@ -43,24 +47,27 @@ public class Pivot extends SubsystemBase {
 
         CANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
         CANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        CANcoderConfig.MagnetSensor.MagnetOffset = 0.376708984375;
+        CANcoderConfig.MagnetSensor.MagnetOffset = 0.091796875 + 0.01953125; //0.376708984375 + 0.29296875;
         encoder.getConfigurator().apply(CANcoderConfig);
-        
-        TalonFXConfiguration talonFXConfig = new TalonFXConfiguration();
 
-        var slot0Configs = talonFXConfig.Slot0;
         slot0Configs.kP = Constants.PivotConstants.kS;
         slot0Configs.kP = Constants.PivotConstants.kV;
         slot0Configs.kP = Constants.PivotConstants.kP;
         slot0Configs.kI = Constants.PivotConstants.kI;
         slot0Configs.kD = Constants.PivotConstants.kD;
 
+        slot1Configs.kP = Constants.PivotConstants.kV;
+        slot1Configs.kP = Constants.PivotConstants.kS;
+        slot1Configs.kP = Constants.PivotConstants.climbP;
+        slot1Configs.kI = Constants.PivotConstants.climbI;
+        slot1Configs.kD = Constants.PivotConstants.climbD;
+
         talonFXConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
         talonFXConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
 
         
 
-        pivotMotor.getConfigurator().apply(talonFXConfig);
+        pivotMotor.getConfigurator().apply(slot0Configs);
         pivotMotor.setNeutralMode(NeutralModeValue.Brake);
         pivotFollower.setNeutralMode(NeutralModeValue.Brake);
     }
@@ -70,6 +77,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public void setPivot(double position) {
+        pivotMotor.getConfigurator().apply(slot0Configs);
         pivotPositionVoltage = new PositionVoltage(position);
 
         pivotMotor.setControl(pivotPositionVoltage);
@@ -78,7 +86,11 @@ public class Pivot extends SubsystemBase {
     }
 
     public void setClimb(double position) {
-        pivotPID.setReference(position, CANSparkBase.ControlType.kPosition, 1);
+        pivotMotor.getConfigurator().apply(slot1Configs);
+        pivotPositionVoltage = new PositionVoltage(position);
+
+        pivotMotor.setControl(pivotPositionVoltage);
+        pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, true));
     }
 
     public double getRotations() {
@@ -87,18 +99,17 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations = yInt -
-                46.1 * distance +
-                16.2 * Math.pow(distance, 2) -
-                2.81 * Math.pow(distance, 3) +
-                0.194 * Math.pow(distance, 4);
+                0.482 * distance +
+                0.131 * Math.pow(distance, 2) -
+                0.0132 * Math.pow(distance, 3);
 
         // System.out.println("distance: " + distance);
         // System.out.println("rotations: " + rotations);
         // System.out.println(
         // "rotations off: " + (rotations - pivotEncoder.getPosition())
         // );
-        // return rotations;
-        return testRotations;
+        return rotations;
+        // return testRotations;
     }
 
     public double encoderPosition() {
@@ -116,7 +127,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot(Swerve swerve) {
-        yInt = 0;
+        yInt = 1.07;
         amp = Constants.PivotConstants.AmpRotations;
         testRotations = 0.4;
         SmartDashboard.putNumber("Test Rot", testRotations);

@@ -25,7 +25,9 @@ public class NoteIntake extends Command {
             feeder.setLemmeShootBro(true);
         }
         
-        intake.intake(Constants.IntakeConstants.speed);
+        // if (!feeder.getLemmeShootBro()) {
+            intake.intake(Constants.IntakeConstants.speed);
+        // }
         feeder.intake(Constants.FeederConstants.speed);
 
     }
@@ -33,7 +35,7 @@ public class NoteIntake extends Command {
     @Override
     public void initialize() {
         
-    }
+    }   
 
     @Override
     public void end(boolean interrupted) {

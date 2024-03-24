@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
+import java.util.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 public class Limelight extends SubsystemBase {
 
     public NetworkTable table;
@@ -39,6 +39,10 @@ public class Limelight extends SubsystemBase {
         double[] pos = table
             .getEntry("botpose_wpiblue")
             .getDoubleArray(new double[6]);
+
+        if (pos.length < 6) {
+            return;
+        }
 
         double rz = pos[5] + 180;
         if (rz > 180) {

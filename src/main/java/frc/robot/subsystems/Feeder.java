@@ -104,7 +104,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shooter.isFullSpeed() && lemmeShootBro || !hasBeenDetected)  {
+        if (shooter.isFullSpeed () && lemmeShootBro || !hasBeenDetected)  {
             setVelocity(speed);
         } else {
             setVelocity(-2);
@@ -174,7 +174,7 @@ public class Feeder extends SubsystemBase {
             System.out.println("null");
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
-            if (distance <= 50 && !shooter.isShooting()) {
+            if (distance <= 80 && !shooter.isShooting()) {
                 setVelocity(-1);
             //} else if (shooter.isShooting()){
                 setHasBeenDetected(true);
