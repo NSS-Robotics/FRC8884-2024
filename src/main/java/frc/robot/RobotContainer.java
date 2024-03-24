@@ -88,7 +88,7 @@ public class RobotContainer {
     public final Limelight l_limelight_april = new Limelight("april");
     public final Limelight l_limelight_intake = new Limelight("intake");
     public final Swerve s_swerve = new Swerve(l_limelight_april);
-    public final Pivot m_pivot = new Pivot(s_swerve);
+    public final Pivot m_pivot = new Pivot(s_swerve, m_feeder);
     private boolean alliance = s_swerve.isRed();
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
     private final SendableChooser<Integer> m_y_int_chooser = new SendableChooser<>();
@@ -166,6 +166,19 @@ public class RobotContainer {
         () -> false
     );
 
+    private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
+        "FourPieceAmpPlxWork",
+        6,
+        m_feeder,
+        m_intake,
+        l_limelight_april,
+        m_pivot,
+        m_shooter,
+        s_swerve,
+        l_candle,
+        () -> false
+        );
+
     public RobotContainer() {
         s_swerve.setDefaultCommand(
             new TeleopSwerve(
@@ -195,6 +208,10 @@ public class RobotContainer {
         m_chooser.addOption(
             "FourPieceMidPlxWork",
             fourPieceMidPlxWork.followTrajectory()
+        );
+        m_chooser.addOption(
+            "FourPieceAmpPlxWork",
+            fourPieceAmpPlxWork.followTrajectory()
         );
 
         // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
@@ -243,7 +260,6 @@ public class RobotContainer {
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lTrigger.whileTrue(
             new SequentialCommandGroup(
-                new NoteAlign(s_swerve, l_limelight_intake),
                 new NoteIntake(m_intake, m_feeder, l_candle)
             )
         );
@@ -259,10 +275,10 @@ public class RobotContainer {
             new InstantCommand(() -> l_candle.toggle(255, 0, 0))
         );
         cross.onTrue(new InstantCommand(() -> l_candle.reset()));
-        r2.whileTrue(
+        r1.whileTrue(
             new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations)
         );
-        l2.whileTrue(
+        l1.whileTrue(
             new Lob(
                 m_pivot,
                 m_shooter,
@@ -271,13 +287,7 @@ public class RobotContainer {
         );
         upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.01))); // todo
         downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.01))); // todo
-        leftDawg.onFalse(
-            new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() + 0.01))
-        ); // todo
-        rightDawg.onFalse(
-            new InstantCommand(() -> m_pivot.setAmp(m_pivot.getAmp() - 0.01))
-        ); // todo
-        r1.whileTrue(
+        r2.whileTrue(
             new Lob(
                 m_pivot,
                 m_shooter,

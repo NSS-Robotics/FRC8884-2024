@@ -42,9 +42,18 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocity(double velocity) {
         double desiredrps = velocity / 60;
-        double mep = velocity / -180; // should be 130 for spin
+        double mep = velocity / -60; // should be 130 for spin
         shooterVelocityVoltage = new VelocityVoltage(desiredrps);
         followerVelocityVoltage = new VelocityVoltage(mep);
+        shooterMotor.setControl(shooterVelocityVoltage);
+        shooterFollower.setControl(followerVelocityVoltage);
+    }
+
+    public void setAmpVelocity(double velocity) {
+        double desiredrps = velocity / 60;
+        double mep2 = -velocity/120;
+        shooterVelocityVoltage = new VelocityVoltage(desiredrps);
+        followerVelocityVoltage = new VelocityVoltage(mep2);
         shooterMotor.setControl(shooterVelocityVoltage);
         shooterFollower.setControl(followerVelocityVoltage);
     }
@@ -60,7 +69,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isFullSpeed() {
-        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4700;
+        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4850;
+    }
+    
+    public boolean autoFullSpeed() {
+        return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4000;
     }
 
     public void shoot(double speed) {

@@ -2,8 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.Pivot;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 
 public class Lob extends Command {
 
@@ -21,8 +20,13 @@ public class Lob extends Command {
 
     @Override
     public void execute() {
-        shooter.shoot(Constants.ShooterConstants.speed);
+        if (pivot.iwannadie()) {
+            pivot.killme(false);
+            pivot.kys(true);
+        }
+
         pivot.setPivot(rotations);
+        shooter.shoot(Constants.ShooterConstants.speed);
     }
 
     @Override
@@ -30,6 +34,10 @@ public class Lob extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        pivot.hasBeenDetected(false);
+        pivot.killme(false);
+        pivot.kys(false);
+        pivot.shouldShoot(false);
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
     }

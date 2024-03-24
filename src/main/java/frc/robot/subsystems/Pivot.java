@@ -36,6 +36,7 @@ public class Pivot extends SubsystemBase {
     private CANcoder encoder = new CANcoder(13);
 
     private SparkPIDController pivotPID;
+    private Feeder feeder;
     private Swerve s_swerve;
     private double yInt;
     private double amp;
@@ -99,9 +100,9 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations = yInt -
-                0.482 * distance +
-                0.131 * Math.pow(distance, 2) -
-                0.0132 * Math.pow(distance, 3);
+                0.42 * distance +
+                0.101 * Math.pow(distance, 2) -
+                0.00839 * Math.pow(distance, 3);
 
         // System.out.println("distance: " + distance);
         // System.out.println("rotations: " + rotations);
@@ -126,26 +127,53 @@ public class Pivot extends SubsystemBase {
         // System.out.println("rot: " + Constants.PivotConstants.PivotAgainstRotations);
     }
 
-    public Pivot(Swerve swerve) {
-        yInt = 1.07;
+    public Pivot(Swerve swerve, Feeder feeder) {
+        yInt = 1.03;
         amp = Constants.PivotConstants.AmpRotations;
+        SmartDashboard.putNumber("Amp Rot", amp);
         testRotations = 0.4;
         SmartDashboard.putNumber("Test Rot", testRotations);
 
         pivotSetup();
         s_swerve = swerve;
+        this.feeder = feeder;
     }
 
     public void setYInt(double x) {
         yInt = x;
     }
 
+    public boolean iwannadie()
+    {
+        return feeder.getShouldRev();
+    }
+
+    public void killme(boolean kill)
+    {
+        feeder.setShouldRev(kill);
+    }
+
+    public void kys(boolean k)
+    {
+        feeder.setLemmeShootBro(k);
+    }
+
+    public void hasBeenDetected(boolean bool)
+    {
+        feeder.setHasBeenDetected(bool);
+    }
+
+    public void shouldShoot(boolean bool)
+    {
+        feeder.setShouldRev(bool);
+    }
+
     public double getYInt() {
         return yInt;
     }
 
-    public void setAmp(double x) {
-        amp = x;
+    public double setAmp() {
+        return amp;
     }
 
     public double getAmp() {
@@ -169,5 +197,6 @@ public class Pivot extends SubsystemBase {
         SmartDashboard.putNumber("dto speaker", distance);
         SmartDashboard.putNumber("pivot cancoder", encoder.getPosition().getValueAsDouble());
         testRotations = SmartDashboard.getNumber("Test Rot", 0.25);
+        amp = SmartDashboard.getNumber("Amp Rot", 1.5);
     }
 }
