@@ -274,6 +274,7 @@ public class RobotContainer {
         circle.toggleOnTrue(
             new InstantCommand(() -> l_candle.toggle(255, 0, 0))
         );
+        square.whileTrue(new NoteAlign(s_swerve, l_limelight_intake));
         cross.onTrue(new InstantCommand(() -> l_candle.reset()));
         r1.whileTrue(
             new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations)

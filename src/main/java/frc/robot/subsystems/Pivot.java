@@ -109,8 +109,8 @@ public class Pivot extends SubsystemBase {
         // System.out.println(
         // "rotations off: " + (rotations - pivotEncoder.getPosition())
         // );
-        return rotations;
-        // return testRotations;
+        // return rotations;
+        return testRotations;
     }
 
     public double encoderPosition() {

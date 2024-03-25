@@ -264,7 +264,6 @@ public final class Constants {
         public static final double ClimbRotations = 1.1;
         public static final double UpLobRotations = 0.6;
         public static final double AgainstSpeakerRotations = 0.65;
-        // public static final double AmpRotations = 23;
     }
 
     public static final class ShooterConstants {

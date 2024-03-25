@@ -14,7 +14,7 @@ public class NoteAlign extends PIDCommand {
 
     public NoteAlign(Swerve swerve, Limelight limelight) {
         super(
-            new PIDController(0.1, 0, 0.01),
+            new PIDController(0.04, 0, 0.003),
             limelight::gettx,
             0.0,
             tx -> swerve.turnStates(-tx),
