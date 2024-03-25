@@ -100,17 +100,17 @@ public class Pivot extends SubsystemBase {
         double[] dist = s_swerve.getSpeakerDistances();
         distance = Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]);
         double rotations = yInt -
-                0.42 * distance +
-                0.101 * Math.pow(distance, 2) -
-                0.00839 * Math.pow(distance, 3);
+                0.382 * distance +
+                0.0829 * Math.pow(distance, 2) -
+                0.0057 * Math.pow(distance, 3);
 
         // System.out.println("distance: " + distance);
         // System.out.println("rotations: " + rotations);
         // System.out.println(
         // "rotations off: " + (rotations - pivotEncoder.getPosition())
         // );
-        // return rotations;
-        return testRotations;
+        return rotations;
+        // return testRotations;
     }
 
     public double encoderPosition() {
@@ -128,7 +128,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public Pivot(Swerve swerve, Feeder feeder) {
-        yInt = 1.03;
+        yInt = 1.01;
         amp = Constants.PivotConstants.AmpRotations;
         SmartDashboard.putNumber("Amp Rot", amp);
         testRotations = 0.4;

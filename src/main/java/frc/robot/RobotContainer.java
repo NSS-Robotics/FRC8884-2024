@@ -286,8 +286,8 @@ public class RobotContainer {
                 Constants.PivotConstants.DownLobRotations
             )
         );
-        upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.01))); // todo
-        downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.01))); // todo
+        upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
+        downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
         r2.whileTrue(
             new Lob(
                 m_pivot,
