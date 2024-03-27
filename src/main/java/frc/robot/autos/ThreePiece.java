@@ -110,9 +110,9 @@ public class ThreePiece extends Command {
 
                                 new SequentialCommandGroup(
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                                 new WaitCommand(1),
 
@@ -131,9 +131,9 @@ public class ThreePiece extends Command {
                                                 new NoteIntake(m_intake, m_feeder, l_candle)),
                                 new SequentialCommandGroup(
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                                                 new NoteIntake(m_intake, m_feeder, l_candle))),
 
                                 new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
@@ -151,9 +151,9 @@ public class ThreePiece extends Command {
                                                 new NoteIntake(m_intake, m_feeder, l_candle)),
                                 new SequentialCommandGroup(
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
                                                 new ParallelDeadlineGroup(new WaitCommand(1),
-                                                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                                                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                                                 new NoteIntake(m_intake, m_feeder, l_candle),
                                                                 new AimLimelight(s_swerve, l_limelight_april))),
                                 new Gyro180(s_swerve));

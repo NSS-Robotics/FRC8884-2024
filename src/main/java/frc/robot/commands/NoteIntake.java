@@ -21,15 +21,20 @@ public class NoteIntake extends Command {
 
     @Override
     public void execute() {
-        if (feeder.getHasBeenDetected()) {
-            feeder.setLemmeShootBro(true);
-        }
-        
-        // if (!feeder.getLemmeShootBro()) {
-            intake.intake(Constants.IntakeConstants.speed);
+        // if (feeder.getHasBeenDetected()) {
+        //     feeder.setLemmeShootBro(true);
         // }
-        feeder.intake(Constants.FeederConstants.speed);
 
+        
+        // if (feeder.getLemmeShootBro()) {
+        if (feeder.getShouldShoot()) {
+            feeder.intake(Constants.FeederConstants.feedSpeed);
+        } else {
+            feeder.intake(Constants.FeederConstants.speed);
+            if (!feeder.getHasBeenDetected()) {
+            intake.intake(Constants.IntakeConstants.speed);
+            }
+        }
     }
 
     @Override

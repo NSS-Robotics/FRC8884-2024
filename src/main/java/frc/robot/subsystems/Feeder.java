@@ -104,7 +104,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shooter.isFullSpeed () && lemmeShootBro || !hasBeenDetected)  {
+        if (shouldShoot || !hasBeenDetected)  {
             setVelocity(speed);
         } else {
             setVelocity(-0.01);

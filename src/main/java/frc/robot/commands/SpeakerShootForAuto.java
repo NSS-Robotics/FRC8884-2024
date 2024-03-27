@@ -1,10 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
@@ -12,20 +8,27 @@ public class SpeakerShootForAuto extends Command {
 
     private final Shooter shooter;
     private final Pivot pivot;
-    private final Candle candle;
     private final Feeder feeder;
+    private final Candle candle;
 
-    public SpeakerShootForAuto(Shooter _shooter, Pivot _pivot, Candle candle, Feeder feeder) {
-        this.shooter = _shooter;
-        this.pivot = _pivot;
+    public SpeakerShootForAuto(Shooter _shooter, Pivot _pivot, Feeder _feeder, Candle candle) {
+        shooter = _shooter;
+        pivot = _pivot;
+        feeder = _feeder;
         this.candle = candle;
-        this.feeder = feeder;
-        addRequirements(shooter, pivot, candle, feeder);
+        addRequirements(shooter, pivot);
     }
 
     @Override
     public void execute() {
-
+        if (feeder.getShouldRev()) {
+            feeder.setShouldRev(false);
+            feeder.setShouldShoot(true);
+        }
+        
+        double rotations = Math.min(1,(Math.max(0, pivot.getRotations())));
+        // pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
+        pivot.setPivot(rotations);
     }
 
     @Override
@@ -34,8 +37,11 @@ public class SpeakerShootForAuto extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
+        feeder.setHasBeenDetected(false);
+        feeder.setShouldRev(false);
+        feeder.setLemmeShootBro(false);
+        feeder.setShouldShoot(false);
+        candle.ledsOff();
         shooter.stop();
-        feeder.stop();
     }
 }

@@ -239,6 +239,7 @@ public final class Constants {
         public static final double kD = 0;
         public static final double FF = 2.5e-3;
         public static final double speed = 200;
+        public static final double feedSpeed = 600;
     }
 
     public static final class PivotConstants {
@@ -275,7 +276,7 @@ public final class Constants {
         public static final double kS = 0.3237;
         public static final double kV = 0.1171;
         public static final double kA = 0.023513;
-        public static final double kP = 0.007;
+        public static final double kP = 0.05;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double FF = 1.5e-3;

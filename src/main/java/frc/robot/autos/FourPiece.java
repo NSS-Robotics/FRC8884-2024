@@ -113,11 +113,11 @@ public class FourPiece extends Command {
             new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)
                 ),
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                     new NoteIntake(m_intake, m_feeder, l_candle)
                 )
             ),
@@ -141,11 +141,11 @@ public class FourPiece extends Command {
             new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)
                 ),
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                     new NoteIntake(m_intake, m_feeder, l_candle)
                 )
             ),
@@ -168,11 +168,11 @@ public class FourPiece extends Command {
             new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)
                 ),
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                     new NoteIntake(m_intake, m_feeder, l_candle),
                     new AimLimelight(s_swerve, l_limelight_april)
                 )
@@ -196,11 +196,11 @@ public class FourPiece extends Command {
             new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)
                 ),
                 new ParallelDeadlineGroup(
                     new WaitCommand(1),
-                    new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                     new NoteIntake(m_intake, m_feeder, l_candle),
                     new AimLimelight(s_swerve, l_limelight_april)
                 )

@@ -119,31 +119,7 @@ public class RobotContainer {
         () -> false
     );
 
-    // private final ThreePieceSide threePieceAmpSidePlxWork = new ThreePieceSide(
-    //                 "PlxWorkAmpSide",
-    //                 2,
-    //                 m_feeder,
-    //                 m_intake,
-    //                 l_limelight_april,
-    //                 m_pivot,
-    //                 m_shooter,
-    //                 s_swerve,
-    //                 l_candle,
-    //                 () -> false);
-
-    // private final ThreePieceSide threePieceSourceSidePlxWork = new ThreePieceSide(
-    //                 "PlxWorkSourceSide",
-    //                 2,
-    //                 m_feeder,
-    //                 m_intake,
-    //                 l_limelight_april,
-    //                 m_pivot,
-    //                 m_shooter,
-    //                 s_swerve,
-    //                 l_candle,
-    //                 () -> false);
-
-    private final FourPiece fourPieceMidPlxWork = new FourPiece(
+    private final FourPieceMid fourPieceMidPlxWork = new FourPieceMid(
         "FourPieceMidPlxWork",
         3,
         m_feeder,
@@ -166,7 +142,7 @@ public class RobotContainer {
         () -> false
     );
 
-    private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
+    private final FourPieceMid fourPieceAmpPlxWork = new FourPieceMid(
         "FourPieceAmpPlxWork",
         6,
         m_feeder,
@@ -177,7 +153,7 @@ public class RobotContainer {
         s_swerve,
         l_candle,
         () -> false
-        );
+    );
 
     public RobotContainer() {
         s_swerve.setDefaultCommand(
@@ -204,7 +180,10 @@ public class RobotContainer {
         );
         // m_chooser.addOption("ThreePieceAmpPlxWork", threePieceAmpSidePlxWork.followTrajectory());
         // m_chooser.addOption("ThreePieceSourcePlxWork", threePieceSourceSidePlxWork.followTrajectory());
-        m_chooser.addOption("OnePiecePlxWork", onePiecePlxWork);
+        m_chooser.addOption(
+            "OnePiecePlxWork",
+            onePiecePlxWork
+        );
         m_chooser.addOption(
             "FourPieceMidPlxWork",
             fourPieceMidPlxWork.followTrajectory()
@@ -265,7 +244,7 @@ public class RobotContainer {
         );
         rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
         up.whileTrue(new ClimbPos(m_pivot));
-        down.whileTrue(new IntakePos(m_pivot));
+        down.whileTrue(new PivotDown(m_pivot));
 
         /* Operator Buttons */
         triangle.toggleOnTrue(

@@ -20,7 +20,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AimLimelight;
 import frc.robot.commands.Lob;
 import frc.robot.commands.NoteIntake;
-import frc.robot.commands.SpeakerShoot;
+import frc.robot.commands.SpeakerShootForAuto;
 import frc.robot.commands.SpeakerShootForAuto;
 import frc.robot.subsystems.*;
 
@@ -115,8 +115,8 @@ public class ThreePieceSide extends Command {
                 new InstantCommand(s_swerve::zeroGyro),
                 
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 new WaitCommand(1),
 
@@ -133,8 +133,8 @@ public class ThreePieceSide extends Command {
 
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle))),
                 
                 new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
@@ -150,9 +150,9 @@ public class ThreePieceSide extends Command {
 
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
                 new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)),
+                        new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
                         new ParallelDeadlineGroup(new WaitCommand(1), 
-                                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle),
+                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                                 new NoteIntake(m_intake, m_feeder, l_candle)))
     
         );
