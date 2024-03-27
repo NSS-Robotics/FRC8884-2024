@@ -150,9 +150,9 @@ public class FourPieceMid extends Command {
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
             // Shoot
-            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)),
             new ParallelDeadlineGroup(
-                new WaitCommand(2.5), 
+                new WaitCommand(3), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
                 new AimLimelight(s_swerve, l_limelight_april),
                 new SequentialCommandGroup(
@@ -176,7 +176,7 @@ public class FourPieceMid extends Command {
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
             // Shoot
-            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)),
             new ParallelDeadlineGroup(
                 new WaitCommand(3), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
@@ -198,7 +198,7 @@ public class FourPieceMid extends Command {
                     0,
                     true,
                     false)),
-            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)),
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
             new InstantCommand(() -> s_swerve.setPose(traj[3].getInitialPose())),
             theCMDs[3],            
