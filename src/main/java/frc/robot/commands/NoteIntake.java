@@ -29,6 +29,8 @@ public class NoteIntake extends Command {
         // if (feeder.getLemmeShootBro()) {
         if (feeder.getShouldShoot()) {
             feeder.intake(Constants.FeederConstants.feedSpeed);
+        } else if (feeder.getShouldAmp()) {
+            feeder.intake(Constants.FeederConstants.speed);
         } else {
             feeder.intake(Constants.FeederConstants.speed);
             if (!feeder.getHasBeenDetected()) {

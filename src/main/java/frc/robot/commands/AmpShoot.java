@@ -9,17 +9,22 @@ public class AmpShoot extends Command {
     private final Shooter shooter;
     private final Pivot pivot;
     private final Candle candle;
+    private final Feeder feeder;
 
-    public AmpShoot(Shooter shooter, Pivot pivot, Candle candle) {
+    public AmpShoot(Shooter shooter, Pivot pivot, Feeder feeder, Candle candle) {
         this.shooter = shooter;
         this.pivot = pivot;
+        this.feeder = feeder;
         this.candle = candle;
         addRequirements(shooter, pivot);
     }
 
     @Override
     public void execute() {
-        shooter.setAmpVelocity(Constants.ShooterConstants.ampspeed);
+        if (feeder.getShouldRev()) {
+            feeder.setShouldRev(false);
+            feeder.setShouldAmp(true);
+        }
         pivot.setPivot(pivot.getAmp());
     }
 
@@ -29,6 +34,10 @@ public class AmpShoot extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        feeder.setHasBeenDetected(false);
+        feeder.setShouldRev(false);
+        feeder.setLemmeShootBro(false);
+        feeder.setShouldAmp(false);
         shooter.stop();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
 

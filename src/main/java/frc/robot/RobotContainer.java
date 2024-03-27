@@ -242,7 +242,7 @@ public class RobotContainer {
                 new NoteIntake(m_intake, m_feeder, l_candle)
             )
         );
-        rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
+        rb.whileTrue(new AmpShoot(m_shooter, m_pivot, m_feeder, l_candle));
         up.whileTrue(new ClimbPos(m_pivot));
         down.whileTrue(new IntakePos(m_pivot));
 

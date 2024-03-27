@@ -124,6 +124,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.s_swerve.setLimelightStatus(true);
         m_robotContainer.l_candle.reset();
         m_robotContainer.m_feeder.setIsAuto(false);
+        m_robotContainer.m_feeder.setFirstShot(false);
     }
 
     /** This function is called periodically during operator control. */

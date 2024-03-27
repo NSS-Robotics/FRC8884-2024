@@ -33,6 +33,8 @@ public class Feeder extends SubsystemBase {
     private boolean shouldRev;
     private boolean shouldShoot;
     private boolean lemmeShootBro;
+    private boolean shouldAmp;
+    private boolean firstShot;
     private boolean isAuto;
     private Shooter shooter;
 
@@ -106,7 +108,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shouldShoot || !hasBeenDetected)  {
+        if (shouldShoot || shouldAmp || !hasBeenDetected)  {
             setVelocity(speed);
         } else {
             setVelocity(-0.01);
@@ -151,6 +153,22 @@ public class Feeder extends SubsystemBase {
         return shouldShoot;
     }
 
+    public void setShouldAmp(boolean bool) {
+        shouldAmp = bool;
+    }
+
+    public boolean getShouldAmp() {
+        return shouldAmp;
+    }
+
+    public void setFirstShot(boolean bool) {
+        firstShot = bool;
+    }
+
+    public boolean getFirstShot() {
+        return firstShot;
+    }
+
     public void setIsAuto(boolean bool) {
         isAuto = bool;
     }
@@ -169,6 +187,8 @@ public class Feeder extends SubsystemBase {
         setHasBeenDetected(false);
         setShouldRev(false);
         setLemmeShootBro(false);
+        setShouldAmp(false);
+        setFirstShot(true);
         this.isAuto = true;
         this.shooter = shooter;
         this.candle = candle;
@@ -199,7 +219,12 @@ public class Feeder extends SubsystemBase {
             
             
             if (getShouldShoot()) {
-                shooter.shoot(Constants.ShooterConstants.speed);
+                if (getFirstShot())
+                    shooter.shoot(4000);
+                else
+                    shooter.shoot(Constants.ShooterConstants.speed);
+            } else if (getShouldAmp()) {
+                shooter.shoot(Constants.ShooterConstants.ampspeed);
             } else if (getShouldRev()) {
                 if (isAuto) {
                     shooter.shoot(Constants.ShooterConstants.speed);
