@@ -178,11 +178,11 @@ public class FourPieceMid extends Command {
             // Shoot
             new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
             new ParallelDeadlineGroup(
-                new WaitCommand(2.5), 
+                new WaitCommand(3), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                 new AimLimelight(s_swerve, l_limelight_april),
                 new SequentialCommandGroup(
-                    new WaitCommand(1.5), 
+                    new WaitCommand(2), 
                     new ParallelDeadlineGroup(
                         new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
                     )
