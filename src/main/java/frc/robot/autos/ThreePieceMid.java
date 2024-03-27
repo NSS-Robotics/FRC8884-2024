@@ -20,6 +20,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AimLimelight;
 import frc.robot.commands.Lob;
 import frc.robot.commands.NoteIntake;
+import frc.robot.commands.PivotDown;
 import frc.robot.commands.SpeakerShootForAuto;
 import frc.robot.commands.SpeakerShootForAuto;
 import frc.robot.subsystems.*;
@@ -113,58 +114,77 @@ public class ThreePieceMid extends Command {
 
         return Commands.sequence(
                 new InstantCommand(s_swerve::zeroGyro),
+                new InstantCommand(() -> m_feeder.setShouldRev(true)),
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
-                new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(1.5), new Lob(m_pivot, m_shooter, 0.65)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new Lob(m_pivot, m_shooter, 0.65),
-                                new NoteIntake(m_intake, m_feeder, l_candle))),
+                new ParallelDeadlineGroup(
+                    new WaitCommand(2.5), 
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                    new AimLimelight(s_swerve, l_limelight_april),
+                    new SequentialCommandGroup(
+                        new WaitCommand(1.5), 
+                        new ParallelDeadlineGroup(
+                            new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                        )
+                    )
+                ),
                 new WaitCommand(1),
 
-                new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
                 new InstantCommand(() -> s_swerve.setPose(traj[0].getInitialPose())),
-                new ParallelDeadlineGroup(theCMDs[0], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
+                new ParallelDeadlineGroup(theCMDs[0], new PivotDown(m_pivot), new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
                 new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
                         false)),
-                new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
-
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
                 new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
-                new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                                new NoteIntake(m_intake, m_feeder, l_candle))),
+                new ParallelDeadlineGroup(
+                    new WaitCommand(2.5), 
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                    new AimLimelight(s_swerve, l_limelight_april),
+                    new SequentialCommandGroup(
+                        new WaitCommand(1.5), 
+                        new ParallelDeadlineGroup(
+                            new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                        )
+                    )
+                ),
                 
-                new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
                 new InstantCommand(() -> s_swerve.setPose(traj[1].getInitialPose())),
-                new ParallelDeadlineGroup(theCMDs[1], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
+                new ParallelDeadlineGroup(theCMDs[1], new PivotDown(m_pivot), new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
                 new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
                         false)),
-                new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
-
-                new ParallelDeadlineGroup(new WaitCommand(2), new NoteIntake(m_intake, m_feeder, l_candle)),
-                new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
-                        new ParallelDeadlineGroup(new WaitCommand(1), 
-                                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                                new NoteIntake(m_intake, m_feeder, l_candle))),
+                new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+                new ParallelDeadlineGroup(
+                    new WaitCommand(2.5), 
+                    new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                    new AimLimelight(s_swerve, l_limelight_april),
+                    new SequentialCommandGroup(
+                        new WaitCommand(1.5), 
+                        new ParallelDeadlineGroup(
+                            new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                        )
+                    )
+                ),
                 
-                new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(false)),
                 new InstantCommand(() -> s_swerve.setPose(traj[2].getInitialPose())),
-                new ParallelDeadlineGroup(theCMDs[2], new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
+                new ParallelDeadlineGroup(theCMDs[2], new PivotDown(m_pivot), new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
                 new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
                         0,
                         true,
-                        false)),
-                new InstantCommand(() -> s_swerve.setLimelightStatus(true))
+                        false))
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(true))
         );
     }
 }

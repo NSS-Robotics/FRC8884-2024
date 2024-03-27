@@ -1,7 +1,10 @@
 package frc.robot.autos;
 
+import java.util.function.BooleanSupplier;
+
 import com.choreo.lib.Choreo;
 import com.choreo.lib.ChoreoTrajectory;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -12,9 +15,17 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import java.util.function.BooleanSupplier;
+import frc.robot.commands.AimLimelight;
+import frc.robot.commands.NoteIntake;
+import frc.robot.commands.PivotDown;
+import frc.robot.commands.SpeakerShootForAuto;
+import frc.robot.subsystems.Candle;
+import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 public class FourPieceMid extends Command {
 
@@ -108,15 +119,24 @@ public class FourPieceMid extends Command {
                 );
         }
 
+
         return Commands.sequence(
             new InstantCommand(s_swerve::zeroGyro),
+            new InstantCommand(() -> m_feeder.setShouldRev(true)),
             new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
             // Shoot up against speaker
-            new SequentialCommandGroup(
-                    new ParallelDeadlineGroup(new WaitCommand(1.5), new Lob(m_pivot, m_shooter, 0.65)),
-                    new ParallelDeadlineGroup(new WaitCommand(1), new Lob(m_pivot, m_shooter, 0.65),
-                            new NoteIntake(m_intake, m_feeder, l_candle))),
+            new ParallelDeadlineGroup(
+                new WaitCommand(2.5), 
+                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                new AimLimelight(s_swerve, l_limelight_april),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5), 
+                    new ParallelDeadlineGroup(
+                        new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                    )
+                )
+            ),
             new WaitCommand(1),
 
             // traj 1 pick up amp side note
@@ -130,12 +150,19 @@ public class FourPieceMid extends Command {
                     false)),
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
-            // Shoot 
+            // Shoot
             new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
-            new SequentialCommandGroup(
-                    new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
-                    new ParallelDeadlineGroup(new WaitCommand(1), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                            new NoteIntake(m_intake, m_feeder, l_candle))),
+            new ParallelDeadlineGroup(
+                new WaitCommand(2.5), 
+                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                new AimLimelight(s_swerve, l_limelight_april),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5), 
+                    new ParallelDeadlineGroup(
+                        new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                    )
+                )
+            ),
                     
 
             // traj 2 pick up mid note
@@ -150,12 +177,18 @@ public class FourPieceMid extends Command {
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
             // Shoot
-            new ParallelDeadlineGroup(new WaitCommand(2), new NoteIntake(m_intake, m_feeder, l_candle)),
-            new SequentialCommandGroup(
-                    new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
-                    new ParallelDeadlineGroup(new WaitCommand(1), 
-                            new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                            new NoteIntake(m_intake, m_feeder, l_candle))),
+            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(
+                new WaitCommand(2.5), 
+                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
+                new AimLimelight(s_swerve, l_limelight_april),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5), 
+                    new ParallelDeadlineGroup(
+                        new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                    )
+                )
+            ),
 
             // traj 3 pick up stage side note
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
@@ -170,13 +203,19 @@ public class FourPieceMid extends Command {
 
             
             // Shoot
-            new ParallelDeadlineGroup(new WaitCommand(2), new NoteIntake(m_intake, m_feeder, l_candle)),
-            new SequentialCommandGroup(
-                    new ParallelDeadlineGroup(new WaitCommand(2), new AimLimelight(s_swerve, l_limelight_april), new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle)),
-                    new ParallelDeadlineGroup(new WaitCommand(1), 
-                            new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                            new NoteIntake(m_intake, m_feeder, l_candle)),
-                    new PivotDown(m_pivot))
+            new ParallelDeadlineGroup(new WaitCommand(1.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(
+                new WaitCommand(2.5), 
+                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                new AimLimelight(s_swerve, l_limelight_april),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5), 
+                    new ParallelDeadlineGroup(
+                        new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                    )
+                )
+            ),
+            new PivotDown(m_pivot)
         );
     }
 }

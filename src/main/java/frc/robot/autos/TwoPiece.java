@@ -109,6 +109,7 @@ public class TwoPiece extends Command {
 
                 return Commands.sequence(
                                 new InstantCommand(s_swerve::zeroGyro),
+                                new InstantCommand(() -> m_feeder.setShouldRev(true)),
                                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
                                 new SequentialCommandGroup(
                                                 new ParallelDeadlineGroup(new WaitCommand(2),
