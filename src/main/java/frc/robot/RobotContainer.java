@@ -121,7 +121,7 @@ public class RobotContainer {
 
     private final FourPieceMid fourPieceMidPlxWork = new FourPieceMid(
         "FourPieceMidPlxWork",
-        3,
+        4,
         m_feeder,
         m_intake,
         l_limelight_april,
@@ -142,7 +142,7 @@ public class RobotContainer {
         () -> false
     );
 
-    private final FourPieceMid fourPieceAmpPlxWork = new FourPieceMid(
+    private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
         "FourPieceAmpPlxWork",
         6,
         m_feeder,
