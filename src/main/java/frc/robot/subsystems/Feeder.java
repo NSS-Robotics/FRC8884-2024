@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Candle;
 
+
 public class Feeder extends SubsystemBase {
     private Candle candle;
     private CANSparkMax feederMotor = new CANSparkMax(
@@ -32,6 +33,7 @@ public class Feeder extends SubsystemBase {
     private boolean shouldRev;
     private boolean shouldShoot;
     private boolean lemmeShootBro;
+    private boolean isAuto;
     private Shooter shooter;
 
     public void setupMotors() {
@@ -149,6 +151,10 @@ public class Feeder extends SubsystemBase {
         return shouldShoot;
     }
 
+    public void setIsAuto(boolean bool) {
+        isAuto = bool;
+    }
+
     public void outtake(double speed) {
         setVelocity(-1 * speed);
     }
@@ -163,6 +169,7 @@ public class Feeder extends SubsystemBase {
         setHasBeenDetected(false);
         setShouldRev(false);
         setLemmeShootBro(false);
+        this.isAuto = true;
         this.shooter = shooter;
         this.candle = candle;
     }
@@ -190,12 +197,16 @@ public class Feeder extends SubsystemBase {
                 candle.strobe(0,255,0);
             }
             
-            if (getShouldRev()) {
-                shooter.shoot(Constants.ShooterConstants.revSpeed);
-            } else if (getShouldShoot()) {
+            
+            if (getShouldShoot()) {
                 shooter.shoot(Constants.ShooterConstants.speed);
+            } else if (getShouldRev()) {
+                if (isAuto) {
+                    shooter.shoot(Constants.ShooterConstants.speed);
+                } else {
+                    shooter.shoot(Constants.ShooterConstants.revSpeed);
+                }
             }
-
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
         }
     }

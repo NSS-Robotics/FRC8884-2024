@@ -127,12 +127,12 @@ public class FourPieceMid extends Command {
 
             // Shoot up against speaker
             new ParallelDeadlineGroup(
-                new WaitCommand(2.5), 
+                new WaitCommand(2), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                 new SequentialCommandGroup(
                     new WaitCommand(1.5), 
                     new ParallelDeadlineGroup(
-                        new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
+                        new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)
                     )
                 )
             ),
@@ -178,11 +178,11 @@ public class FourPieceMid extends Command {
             // Shoot
             new ParallelDeadlineGroup(new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)),
             new ParallelDeadlineGroup(
-                new WaitCommand(3), 
+                new WaitCommand(2), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                 new AimLimelight(s_swerve, l_limelight_april),
                 new SequentialCommandGroup(
-                    new WaitCommand(2), 
+                    new WaitCommand(1), 
                     new ParallelDeadlineGroup(
                         new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
                     )
@@ -198,23 +198,33 @@ public class FourPieceMid extends Command {
                     0,
                     true,
                     false)),
-            new ParallelDeadlineGroup(new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)),
+            new ParallelDeadlineGroup(new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)),
             // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
             new InstantCommand(() -> s_swerve.setPose(traj[3].getInitialPose())),
-            theCMDs[3],            
-            new InstantCommand(() -> s_swerve.drive(
-                    new Translation2d(0, 0),
-                    0,
-                    true,
-                    false)),
+            
+
+            
+            
             
             // Shoot
+            
             new ParallelDeadlineGroup(
-                new WaitCommand(2.5), 
-                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
-                new AimLimelight(s_swerve, l_limelight_april),
+                new WaitCommand(2), 
                 new SequentialCommandGroup(
-                    new WaitCommand(1.5), 
+                    theCMDs[3],
+                    new InstantCommand(() -> s_swerve.drive(
+                        new Translation2d(0, 0),
+                        0,
+                        true,
+                        false)),
+                    new ParallelDeadlineGroup(
+                        new AimLimelight(s_swerve, l_limelight_april),
+                        new WaitCommand(0.5)
+                    )
+                ),
+                new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle), 
+                new SequentialCommandGroup(
+                    new WaitCommand(1), 
                     new ParallelDeadlineGroup(
                         new WaitCommand(1), new NoteIntake(m_intake, m_feeder, l_candle)
                     )

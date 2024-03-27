@@ -244,7 +244,7 @@ public class RobotContainer {
         );
         rb.whileTrue(new AmpShoot(m_shooter, m_pivot, l_candle));
         up.whileTrue(new ClimbPos(m_pivot));
-        down.whileTrue(new PivotDown(m_pivot));
+        down.whileTrue(new IntakePos(m_pivot));
 
         /* Operator Buttons */
         triangle.toggleOnTrue(
