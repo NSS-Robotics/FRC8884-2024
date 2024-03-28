@@ -121,16 +121,17 @@ public class FourPieceMid extends Command {
 
 
         return Commands.sequence(
+            new InstantCommand(() -> m_feeder.setFirstShot(true)),
             new InstantCommand(s_swerve::zeroGyro),
             new InstantCommand(() -> m_feeder.setShouldRev(true)),
             new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
 
             // Shoot up against speaker
             new ParallelDeadlineGroup(
-                new WaitCommand(2), 
+                new WaitCommand(1.5), 
                 new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
                 new SequentialCommandGroup(
-                    new WaitCommand(1.5), 
+                    new WaitCommand(1), 
                     new ParallelDeadlineGroup(
                         new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)
                     )

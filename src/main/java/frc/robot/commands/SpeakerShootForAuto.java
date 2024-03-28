@@ -21,11 +21,7 @@ public class SpeakerShootForAuto extends Command {
 
     @Override
     public void execute() {
-        if (feeder.getShouldRev()) {
-            feeder.setShouldRev(false);
-            feeder.setShouldShoot(true);
-        }
-        
+        feeder.setShouldShoot(true);
         double rotations = Math.min(1,(Math.max(0, pivot.getRotations())));
         // pivot.setPivot(Constants.PivotConstants.PivotAgainstRotations);
         pivot.setPivot(rotations);

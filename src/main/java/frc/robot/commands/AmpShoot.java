@@ -21,10 +21,7 @@ public class AmpShoot extends Command {
 
     @Override
     public void execute() {
-        if (feeder.getShouldRev()) {
-            feeder.setShouldRev(false);
-            feeder.setShouldAmp(true);
-        }
+        feeder.setShouldAmp(true);
         pivot.setPivot(pivot.getAmp());
     }
 

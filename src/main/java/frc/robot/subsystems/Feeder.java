@@ -35,6 +35,7 @@ public class Feeder extends SubsystemBase {
     private boolean lemmeShootBro;
     private boolean shouldAmp;
     private boolean firstShot;
+    private boolean isIntaking;
     private boolean isAuto;
     private Shooter shooter;
 
@@ -169,6 +170,14 @@ public class Feeder extends SubsystemBase {
         return firstShot;
     }
 
+    public void setIsIntaking(boolean bool) {
+        isIntaking = bool;
+    }
+
+    public boolean getIsIntaking() {
+        return isIntaking;
+    }
+
     public void setIsAuto(boolean bool) {
         isAuto = bool;
     }
@@ -189,6 +198,7 @@ public class Feeder extends SubsystemBase {
         setLemmeShootBro(false);
         setShouldAmp(false);
         setFirstShot(true);
+        setIsIntaking(false);
         this.isAuto = true;
         this.shooter = shooter;
         this.candle = candle;
@@ -217,22 +227,36 @@ public class Feeder extends SubsystemBase {
                 candle.strobe(0,255,0);
             }
             
+
             
+            if (!isIntaking && hasBeenDetected) {
+                setShouldRev(true);
+            }
+            if (shouldRev && !hasBeenDetected) {
+                setShouldRev(false);
+            }
             if (getShouldShoot()) {
-                if (getFirstShot())
-                    shooter.shoot(4000);
-                else
+                if (getFirstShot()) {
+                    shooter.shoot(1750);
+                } else {
                     shooter.shoot(Constants.ShooterConstants.speed);
+                }
             } else if (getShouldAmp()) {
                 shooter.shoot(Constants.ShooterConstants.ampspeed);
             } else if (getShouldRev()) {
                 if (isAuto) {
-                    shooter.shoot(Constants.ShooterConstants.speed);
+                    if (firstShot)
+                        shooter.shoot(1750);
+                    else
+                        shooter.shoot(Constants.ShooterConstants.speed);
                 } else {
                     shooter.shoot(Constants.ShooterConstants.revSpeed);
                 }
             }
             SmartDashboard.putBoolean("Is Detected", hasBeenDetected);
+            SmartDashboard.putBoolean("ShouldRev", shouldRev);
+            SmartDashboard.putBoolean("ShouldShoot", shouldShoot);
+            SmartDashboard.putBoolean("FirstShot", firstShot);
         }
     }
 }

@@ -24,7 +24,7 @@ public class NoteIntake extends Command {
         // if (feeder.getHasBeenDetected()) {
         //     feeder.setLemmeShootBro(true);
         // }
-
+        feeder.setIsIntaking(true);
         
         // if (feeder.getLemmeShootBro()) {
         if (feeder.getShouldShoot()) {
@@ -46,9 +46,7 @@ public class NoteIntake extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        if (feeder.getHasBeenDetected()) {
-            feeder.setShouldRev(true);
-        }  
+        feeder.setIsIntaking(false);
         intake.stop();
         feeder.stop();
     }
