@@ -48,10 +48,12 @@ public class TwoPiece extends Command {
                         Shooter m_shooter,
                         Swerve s_swerve,
                         Candle l_candle,
-                        BooleanSupplier fieldmirror) {
+                        BooleanSupplier fieldmirror,
+                        boolean isRed) {
                 traj = new ChoreoTrajectory[trajCount];
+                String fileName = pathName + (isRed ? "RED" : "BLUE");
                 for (int i = 0; i < trajCount; i++) {
-                        String trajName = pathName + "." + (i + 1);
+                        String trajName = fileName + "." + (i + 1);
                         this.traj[i] = Choreo.getTrajectory(trajName);
                         System.out.println(trajName);
                 }

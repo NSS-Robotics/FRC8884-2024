@@ -242,7 +242,7 @@ public class Feeder extends SubsystemBase {
                     shooter.shoot(Constants.ShooterConstants.speed);
                 }
             } else if (getShouldAmp()) {
-                shooter.shoot(Constants.ShooterConstants.ampspeed);
+                shooter.setAmpVelocity(Constants.ShooterConstants.ampspeed);
             } else if (getShouldRev()) {
                 if (isAuto) {
                     if (firstShot)

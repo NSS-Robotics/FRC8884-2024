@@ -53,9 +53,10 @@ public class ThreePieceMid extends Command {
             Shooter m_shooter,
             Swerve s_swerve,
             Candle l_candle,
-            BooleanSupplier fieldmirror) {
+            BooleanSupplier fieldmirror,
+            boolean isRed) {
         traj = new ChoreoTrajectory[trajCount];
-        String fileName = pathName + (s_swerve.isRed() ? "RED" : "BLUE");
+        String fileName = pathName + (isRed ? "RED" : "BLUE");
         for (int i = 0; i < trajCount; i++) {
             String trajName = fileName + "." + (i + 1);
             this.traj[i] = Choreo.getTrajectory(trajName);
