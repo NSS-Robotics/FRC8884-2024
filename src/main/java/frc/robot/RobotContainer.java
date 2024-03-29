@@ -34,12 +34,10 @@ public class RobotContainer {
     /* Driver Controller */
 
     private final CommandXboxController driverController = new CommandXboxController(
-        Constants.ControllerConstants.kDriverControllerPort
-    );
+            Constants.ControllerConstants.kDriverControllerPort);
 
     private final CommandPS4Controller operatorController = new CommandPS4Controller(
-        Constants.ControllerConstants.kOperatorControllerPort
-    );
+            Constants.ControllerConstants.kOperatorControllerPort);
     // private final Swerve m_exampleSubsystem = new Swerve();
     // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -94,104 +92,94 @@ public class RobotContainer {
     private final SendableChooser<Integer> m_y_int_chooser = new SendableChooser<>();
 
     private final TwoPiece twoPiecePlxWork = new TwoPiece(
-        "PlxWork",
-        1,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false
-    );
+            "PlxWork",
+            1,
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
 
     private final ThreePieceMid threePieceMidPlxWork = new ThreePieceMid(
-        "ThreePieceMidPlxWork",
-        3,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false
-    );
+            "ThreePieceMidPlxWork",
+            3,
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
 
     private final FourPieceMid fourPieceMidPlxWork = new FourPieceMid(
-        "FourPieceMidPlxWork",
-        4,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false
-    );
+            "FourPieceMidPlxWork",
+            4,
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
     private final OnePiece onePiecePlxWork = new OnePiece(
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false
-    );
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
 
     private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
-        "FourPieceAmpPlxWork",
-        6,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false
-    );
+            "FourPieceAmpPlxWork",
+            6,
+            m_feeder,
+            m_intake,
+            l_limelight_april,
+            m_pivot,
+            m_shooter,
+            s_swerve,
+            l_candle,
+            () -> false);
 
     public RobotContainer() {
         s_swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_swerve,
-                () -> driverController.getRawAxis(translationAxis),
-                () -> driverController.getRawAxis(strafeAxis),
-                () -> -driverController.getRawAxis(rotationAxis) * 0.75,
-                () -> false
-            )
-        );
+                new TeleopSwerve(
+                        s_swerve,
+                        () -> driverController.getRawAxis(translationAxis),
+                        () -> driverController.getRawAxis(strafeAxis),
+                        () -> -driverController.getRawAxis(rotationAxis) * 0.75,
+                        () -> false));
         l_limelight_april.setPipeline(0);
 
         // Configure the trigger bindings
         configureBindings();
 
         m_chooser.addOption(
-            "TwoPiecePlxWork",
-            twoPiecePlxWork.followTrajectory()
-        );
+                "TwoPiecePlxWork",
+                twoPiecePlxWork.followTrajectory());
         m_chooser.addOption(
-            "ThreePiecePlxWork",
-            threePieceMidPlxWork.followTrajectory()
-        );
-        // m_chooser.addOption("ThreePieceAmpPlxWork", threePieceAmpSidePlxWork.followTrajectory());
-        // m_chooser.addOption("ThreePieceSourcePlxWork", threePieceSourceSidePlxWork.followTrajectory());
+                "ThreePiecePlxWork",
+                threePieceMidPlxWork.followTrajectory());
+        // m_chooser.addOption("ThreePieceAmpPlxWork",
+        // threePieceAmpSidePlxWork.followTrajectory());
+        // m_chooser.addOption("ThreePieceSourcePlxWork",
+        // threePieceSourceSidePlxWork.followTrajectory());
         m_chooser.addOption(
-            "OnePiecePlxWork",
-            onePiecePlxWork
-        );
+                "OnePiecePlxWork",
+                onePiecePlxWork);
         m_chooser.addOption(
-            "FourPieceMidPlxWork",
-            fourPieceMidPlxWork.followTrajectory()
-        );
+                "FourPieceMidPlxWork",
+                fourPieceMidPlxWork.followTrajectory());
         m_chooser.addOption(
-            "FourPieceAmpPlxWork",
-            fourPieceAmpPlxWork.followTrajectory()
-        );
+                "FourPieceAmpPlxWork",
+                fourPieceAmpPlxWork.followTrajectory());
 
         // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
         // m_y_int_chooser.addOption("85", 85);
@@ -233,47 +221,37 @@ public class RobotContainer {
         y.whileTrue(new InstantCommand(s_swerve::zeroGyro));
         rTrigger.whileTrue(new AimLimelight(s_swerve, l_limelight_april));
         rTrigger.whileTrue(
-            new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle)
-        );
+                new SpeakerShoot(m_shooter, m_pivot, m_feeder, l_candle));
         rTrigger.toggleOnFalse(new InstantCommand(() -> l_candle.ledsOff()));
         x.whileTrue(new NoteOuttake(m_intake, m_feeder, l_candle));
         lTrigger.whileTrue(
-            new SequentialCommandGroup(
-                new NoteIntake(m_intake, m_feeder, l_candle)
-            )
-        );
+                new SequentialCommandGroup(
+                        new NoteIntake(m_intake, m_feeder, l_candle)));
         rb.whileTrue(new AmpShoot(m_shooter, m_pivot, m_feeder, l_candle));
         up.whileTrue(new ClimbPos(m_pivot));
         down.whileTrue(new IntakePos(m_pivot));
 
         /* Operator Buttons */
         triangle.toggleOnTrue(
-            new InstantCommand(() -> l_candle.toggle(255, 255, 0))
-        );
+                new InstantCommand(() -> l_candle.toggle(255, 40, 0)));
         circle.toggleOnTrue(
-            new InstantCommand(() -> l_candle.toggle(255, 0, 0))
-        );
+                new InstantCommand(() -> l_candle.toggle(255, 192, 203)));
         square.whileTrue(new NoteAlign(s_swerve, l_limelight_intake));
         cross.onTrue(new InstantCommand(() -> l_candle.reset()));
         r1.whileTrue(
-            new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations)
-        );
+                new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
         l1.whileTrue(
-            new Lob(
-                m_pivot,
-                m_shooter,
-                Constants.PivotConstants.DownLobRotations
-            )
-        );
+                new Lob(
+                        m_pivot,
+                        m_shooter,
+                        Constants.PivotConstants.DownLobRotations));
         upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
         downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
         r2.whileTrue(
-            new Lob(
-                m_pivot,
-                m_shooter,
-                Constants.PivotConstants.AgainstSpeakerRotations
-            )
-        ); // todo
+                new Lob(
+                        m_pivot,
+                        m_shooter,
+                        Constants.PivotConstants.AgainstSpeakerRotations)); // todo
     }
 
     /**

@@ -248,8 +248,8 @@ public final class Constants {
         public static final int followerMotor = 15;
         public static final int currentLimit = 0;
         public static final int MaxRotation = 2;
-        public static final double kS = 0; //TODO
-        public static final double kV = 0; //TODO
+        public static final double kS = 0; // TODO
+        public static final double kV = 0; // TODO
         public static final double kP = 60;
         public static final double kI = 0.00;
         public static final double kD = 0.1;
@@ -261,7 +261,7 @@ public final class Constants {
         public static final double PivotAgainstRotations = 0;
         public static final double TrapAgainstRotations = 0;
         public static final double AmpRotations = 1.5;
-        public static final double DownLobRotations = 0;
+        public static final double DownLobRotations = 0.2;
         public static final double ClimbRotations = 1.1;
         public static final double UpLobRotations = 0.6;
         public static final double AgainstSpeakerRotations = 0.65;

@@ -51,7 +51,7 @@ public class Shooter extends SubsystemBase {
 
     public void setAmpVelocity(double velocity) {
         double desiredrps = velocity / 60;
-        double mep2 = -velocity/120;
+        double mep2 = -velocity / 60;
         shooterVelocityVoltage = new VelocityVoltage(desiredrps);
         followerVelocityVoltage = new VelocityVoltage(mep2);
         shooterMotor.setControl(shooterVelocityVoltage);
@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
     public boolean isFullSpeed() {
         return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4850;
     }
-    
+
     public boolean autoFullSpeed() {
         return shooterMotor.getVelocity().getValueAsDouble() * 60 > 4000;
     }
