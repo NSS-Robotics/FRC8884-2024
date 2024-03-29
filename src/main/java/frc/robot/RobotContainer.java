@@ -236,12 +236,15 @@ public class RobotContainer {
                         Constants.PivotConstants.DownLobRotations));
         upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
         downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
+        leftDawg.onFalse(new InstantCommand(() -> m_pivot.changeAmp(0.005)));
+        rightDawg.onFalse(new InstantCommand(() -> m_pivot.changeAmp(-0.005)));
         r2.whileTrue(
                 new Lob(
                         m_pivot,
                         m_shooter,
                         m_feeder,
-                        Constants.PivotConstants.AgainstSpeakerRotations)); // todo
+                        Constants.PivotConstants.AgainstSpeakerRotations));
+        l2.whileTrue(new SpinShooter(m_shooter));
     }
 
     /**

@@ -172,12 +172,16 @@ public class Pivot extends SubsystemBase {
         return yInt;
     }
 
-    public double setAmp() {
-        return amp;
+    public void setAmp(double x) {
+        amp = x;
     }
 
     public double getAmp() {
         return amp;
+    }
+
+    public void changeAmp(double x) {
+        amp += x;
     }
 
     public void changeYInt(double x) {
