@@ -126,15 +126,6 @@ public class RobotContainer {
             s_swerve,
             l_candle,
             () -> false);
-    private final OnePiece onePiecePlxWork = new OnePiece(
-            m_feeder,
-            m_intake,
-            l_limelight_april,
-            m_pivot,
-            m_shooter,
-            s_swerve,
-            l_candle,
-            () -> false);
 
     private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
             "FourPieceAmpPlxWork",
@@ -171,9 +162,6 @@ public class RobotContainer {
         // threePieceAmpSidePlxWork.followTrajectory());
         // m_chooser.addOption("ThreePieceSourcePlxWork",
         // threePieceSourceSidePlxWork.followTrajectory());
-        m_chooser.addOption(
-                "OnePiecePlxWork",
-                onePiecePlxWork);
         m_chooser.addOption(
                 "FourPieceMidPlxWork",
                 fourPieceMidPlxWork.followTrajectory());
@@ -239,11 +227,12 @@ public class RobotContainer {
         square.whileTrue(new NoteAlign(s_swerve, l_limelight_intake));
         cross.onTrue(new InstantCommand(() -> l_candle.reset()));
         r1.whileTrue(
-                new Lob(m_pivot, m_shooter, Constants.PivotConstants.UpLobRotations));
+                new Lob(m_pivot, m_shooter, m_feeder, Constants.PivotConstants.UpLobRotations));
         l1.whileTrue(
                 new Lob(
                         m_pivot,
                         m_shooter,
+                        m_feeder,
                         Constants.PivotConstants.DownLobRotations));
         upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
         downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
@@ -251,6 +240,7 @@ public class RobotContainer {
                 new Lob(
                         m_pivot,
                         m_shooter,
+                        m_feeder,
                         Constants.PivotConstants.AgainstSpeakerRotations)); // todo
     }
 

@@ -114,9 +114,9 @@ public class TwoPiece extends Command {
                         new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
                         new SequentialCommandGroup(
                                         new ParallelDeadlineGroup(new WaitCommand(2),
-                                                        new Lob(m_pivot, m_shooter, 0.65)),
+                                                        new Lob(m_pivot, m_shooter, m_feeder, 0.65)),
                                         new ParallelDeadlineGroup(new WaitCommand(1),
-                                                        new Lob(m_pivot, m_shooter, 0.65),
+                                                        new Lob(m_pivot, m_shooter, m_feeder, 0.65),
                                                         new NoteIntake(m_intake, m_feeder, l_candle))),
                         new WaitCommand(1),
 

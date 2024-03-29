@@ -8,25 +8,23 @@ public class Lob extends Command {
 
     private final Pivot pivot;
     private final Shooter shooter;
+    private final Feeder feeder;
     private final double rotations;
 
-    public Lob(Pivot _pivot, Shooter _shoooter, double _rotations) {
+    public Lob(Pivot _pivot, Shooter _shoooter, Feeder _feeder, double _rotations) {
         pivot = _pivot;
         shooter = _shoooter;
         rotations =  _rotations;
+        feeder = _feeder;
         addRequirements(pivot, shooter);
 
     }
 
     @Override
     public void execute() {
-        if (pivot.iwannadie()) {
-            pivot.killme(false);
-            pivot.kys(true);
-        }
+        feeder.setShouldShoot(true);
 
         pivot.setPivot(rotations);
-        shooter.shoot(Constants.ShooterConstants.speed);
     }
 
     @Override
@@ -34,10 +32,10 @@ public class Lob extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        pivot.hasBeenDetected(false);
-        pivot.killme(false);
-        pivot.kys(false);
-        pivot.shouldShoot(false);
+        feeder.setHasBeenDetected(false);
+        feeder.setShouldRev(false);
+        feeder.setLemmeShootBro(false);
+        feeder.setShouldShoot(false);
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
     }
