@@ -14,6 +14,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
@@ -33,6 +36,10 @@ public class Swerve extends SubsystemBase {
     private int driveInvert;
     private Limelight l_limelight;
     private boolean limelightStatus;
+
+    // WPILib
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+        .getStructTopic("MyPose", Pose2d.struct).publish();
 
     public Swerve(Limelight limelight) {
         gyro = new AHRS(SPI.Port.kMXP);
@@ -235,5 +242,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Pos Y", m_pose.getY());
         SmartDashboard.putNumber("Pos R", m_pose.getRotation().getDegrees());
         SmartDashboard.putNumber("Yaw", gyro.getAngle());
+
+        publisher.set(m_pose);
     }
 }
