@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -30,13 +31,12 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
 
     PowerDistribution pdh = new PowerDistribution(
-        25,
-        PowerDistribution.ModuleType.kRev
-    );
+            25,
+            PowerDistribution.ModuleType.kRev);
     Shooter shooter = new Shooter();
 
     /**
-     * This function is run when the robot is first started up and should be used
+     * This function is run when the 9robot is first started up and should be used
      * for any
      * initialization code.
      */
@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        DataLogManager.start();
     }
 
     /**
@@ -62,14 +63,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         SmartDashboard.putNumber(
-            "Battery Voltage",
-            RobotController.getBatteryVoltage()
-        );
+                "Battery Voltage",
+                RobotController.getBatteryVoltage());
         SmartDashboard.putNumber("Total Current", pdh.getTotalCurrent());
         SmartDashboard.putNumber(
-            "Remaining Match Time",
-            DriverStation.getMatchTime()
-        );
+                "Remaining Match Time",
+                DriverStation.getMatchTime());
         SmartDashboard.putBoolean("Shooter Ready", shooter.isFullSpeed());
 
         // SmartDashboard.putBoolean("s_swerve.isRed()",
@@ -88,10 +87,12 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -109,7 +110,8 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void teleopInit() {
@@ -143,13 +145,16 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+    }
 
     /** This function is called once when the robot is first started up. */
     @Override
-    public void simulationInit() {}
+    public void simulationInit() {
+    }
 
     /** This function is called periodically whilst in simulation. */
     @Override
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+    }
 }
