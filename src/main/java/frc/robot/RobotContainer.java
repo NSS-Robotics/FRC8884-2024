@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.FourPieceAmp;
+import frc.robot.autos.FourPieceDSAmp;
 import frc.robot.autos.FourPieceMid;
 import frc.robot.autos.ThreePieceMid;
 import frc.robot.autos.TwoPiece;
@@ -202,6 +203,19 @@ public class RobotContainer {
                         () -> false,
                         false);
 
+        // private final FourPieceDSAmp fourPieceDSBlue = new FourPieceDSAmp(
+        //                 "FourPieceAgainstDS",
+        //                 5,
+        //                 m_feeder,
+        //                 m_intake,
+        //                 l_limelight_april,
+        //                 m_pivot,
+        //                 m_shooter,
+        //                 s_swerve,
+        //                 l_candle,
+        //                 () -> false,
+        //                 false);
+
         private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
                         "FourPieceAmpPlxWork",
                         6,
@@ -253,6 +267,9 @@ public class RobotContainer {
                 m_chooser.addOption(
                                 "FourPieceGoodBlue",
                                 fourPieceGoodBlue.followTrajectory());
+                // m_chooser.addOption(
+                //                 "FourPieceDSBlue",
+                //                 fourPieceDSBlue.followTrajectory());
                 m_chooser.addOption(
                                 "FourPieceAmpPlxWork",
                                 fourPieceAmpPlxWork.followTrajectory());

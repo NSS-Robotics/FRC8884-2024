@@ -39,5 +39,6 @@ public class SpeakerShootForAuto extends Command {
         feeder.setShouldShoot(false);
         candle.ledsOff();
         shooter.stop();
+        feeder.stop();
     }
 }

@@ -41,5 +41,6 @@ public class SpeakerShoot extends Command {
         candle.ledsOff();
         pivot.setPivot(Constants.PivotConstants.PivotIntakeRotation);
         shooter.stop();
+        feeder.stop();
     }
 }

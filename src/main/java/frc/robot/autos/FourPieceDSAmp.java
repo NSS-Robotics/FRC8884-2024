@@ -27,7 +27,7 @@ import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
-public class FourPieceSideAmp extends Command {
+public class FourPieceDSAmp extends Command {
 
     protected final String pathName;
     protected final Feeder m_feeder;
@@ -42,7 +42,7 @@ public class FourPieceSideAmp extends Command {
     protected ChoreoTrajectory[] traj;
     protected BooleanSupplier fieldmirror;
 
-    public FourPieceSideAmp(
+    public FourPieceDSAmp(
             String pathName,
             int trajCount,
             Feeder m_feeder,
@@ -114,20 +114,9 @@ public class FourPieceSideAmp extends Command {
         }
 
         return Commands.sequence(
-                new InstantCommand(() -> m_feeder.setFirstShot(true)),
                 new InstantCommand(s_swerve::zeroGyro),
                 new InstantCommand(() -> m_feeder.setShouldRev(true)),
                 new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
-
-                // Shoot up against speaker
-                new ParallelDeadlineGroup(
-                        new WaitCommand(1.5),
-                        new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
-                        new SequentialCommandGroup(
-                                new WaitCommand(1),
-                                new ParallelDeadlineGroup(
-                                        new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)))),
-
                 new InstantCommand(() -> m_feeder.setFirstShot(false)),
 
                 // traj 1 pick up amp side note
@@ -176,10 +165,32 @@ public class FourPieceSideAmp extends Command {
                                 new ParallelDeadlineGroup(
                                         new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)))),
 
-                // traj 3 pick up stage side note
-                // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
+
                 new InstantCommand(() -> s_swerve.setPose(traj[2].getInitialPose())),
                 new ParallelDeadlineGroup(theCMDs[2], new PivotDown(m_pivot),
+                        new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
+                new InstantCommand(() -> s_swerve.drive(
+                        new Translation2d(0, 0),
+                        0,
+                        true,
+                        false)),
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
+
+                // Shoot
+                new ParallelDeadlineGroup(new WaitCommand(0.8), new NoteIntake(m_intake, m_feeder, l_candle)),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(2.5),
+                        new SpeakerShootForAuto(m_shooter, m_pivot, m_feeder, l_candle),
+                        new AimLimelight(s_swerve, l_limelight_april),
+                        new SequentialCommandGroup(
+                                new WaitCommand(1.5),
+                                new ParallelDeadlineGroup(
+                                        new WaitCommand(0.5), new NoteIntake(m_intake, m_feeder, l_candle)))),
+
+                // traj 3 pick up stage side note
+                // new InstantCommand(() -> s_swerve.setLimelightStatus(true)),
+                new InstantCommand(() -> s_swerve.setPose(traj[3].getInitialPose())),
+                new ParallelDeadlineGroup(theCMDs[3], new PivotDown(m_pivot),
                         new NoteIntake(m_intake, m_feeder, l_candle), new WaitCommand(2)),
                 new InstantCommand(() -> s_swerve.drive(
                         new Translation2d(0, 0),
@@ -195,7 +206,7 @@ public class FourPieceSideAmp extends Command {
                 new ParallelDeadlineGroup(
                         new WaitCommand(2),
                         new SequentialCommandGroup(
-                                theCMDs[3],
+                                theCMDs[4],
                                 new InstantCommand(() -> s_swerve.drive(
                                         new Translation2d(0, 0),
                                         0,
