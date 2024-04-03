@@ -150,6 +150,32 @@ public class RobotContainer {
                         () -> false,
                         false);
 
+        private final FourPieceMid fourPieceGoodRed = new FourPieceMid(
+                        "FourGoodMeasurements",
+                        4,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false,
+                        true);
+
+        private final FourPieceMid fourPieceGoodBlue = new FourPieceMid(
+                        "FourGoodMeasurements",
+                        4,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false,
+                        false);
+
         private final FourPieceMid fourPieceMidRed = new FourPieceMid(
                         "FourPieceMidPlxWork",
                         4,
@@ -221,6 +247,12 @@ public class RobotContainer {
                 m_chooser.addOption(
                                 "FourPieceMidBlue",
                                 fourPieceMidBlue.followTrajectory());
+                m_chooser.addOption(
+                                "FourPieceGoodRed",
+                                fourPieceGoodRed.followTrajectory());
+                m_chooser.addOption(
+                                "FourPieceGoodBlue",
+                                fourPieceGoodBlue.followTrajectory());
                 m_chooser.addOption(
                                 "FourPieceAmpPlxWork",
                                 fourPieceAmpPlxWork.followTrajectory());
