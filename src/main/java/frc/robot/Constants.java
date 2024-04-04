@@ -263,7 +263,7 @@ public final class Constants {
         public static final double AmpRotations = 1.5;
         public static final double DownLobRotations = 0.2;
         public static final double ClimbRotations = 1.1;
-        public static final double UpLobRotations = 0.6;
+        public static final double UpLobRotations = 0.55;
         public static final double AgainstSpeakerRotations = 0.65;
     }
 
@@ -281,8 +281,8 @@ public final class Constants {
         public static final double kD = 0;
         public static final double FF = 1.5e-3;
         public static final double speed = 5200; // Should be 3500 for trap
-        public static final double revSpeed = 1800;
-        public static final double ampspeed = 1800;
+        public static final double revSpeed = 2000;
+        public static final double ampspeed = 1750;
     }
 
     public static final class CandleConstants {

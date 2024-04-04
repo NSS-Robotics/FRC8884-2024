@@ -203,18 +203,18 @@ public class RobotContainer {
                         () -> false,
                         false);
 
-        // private final FourPieceDSAmp fourPieceDSBlue = new FourPieceDSAmp(
-        //                 "FourPieceAgainstDS",
-        //                 5,
-        //                 m_feeder,
-        //                 m_intake,
-        //                 l_limelight_april,
-        //                 m_pivot,
-        //                 m_shooter,
-        //                 s_swerve,
-        //                 l_candle,
-        //                 () -> false,
-        //                 false);
+        private final FourPieceDSAmp fourPieceDSBlue = new FourPieceDSAmp(
+        "FourPieceAgainstDS",
+        5,
+        m_feeder,
+        m_intake,
+        l_limelight_april,
+        m_pivot,
+        m_shooter,
+        s_swerve,
+        l_candle,
+        () -> false,
+        false);
 
         private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
                         "FourPieceAmpPlxWork",
@@ -267,9 +267,9 @@ public class RobotContainer {
                 m_chooser.addOption(
                                 "FourPieceGoodBlue",
                                 fourPieceGoodBlue.followTrajectory());
-                // m_chooser.addOption(
-                //                 "FourPieceDSBlue",
-                //                 fourPieceDSBlue.followTrajectory());
+                m_chooser.addOption(
+                "FourPieceDSBlue",
+                fourPieceDSBlue.followTrajectory());
                 m_chooser.addOption(
                                 "FourPieceAmpPlxWork",
                                 fourPieceAmpPlxWork.followTrajectory());
@@ -320,7 +320,7 @@ public class RobotContainer {
                 lTrigger.whileTrue(
                                 new SequentialCommandGroup(
                                                 new NoteIntake(m_intake, m_feeder, l_candle)));
-                rb.whileTrue(new AmpShoot(m_shooter, m_pivot, m_feeder, l_candle));
+                rb.toggleOnTrue(new AmpShoot(m_shooter, m_pivot, m_feeder, l_candle));
                 up.whileTrue(new ClimbPos(m_pivot));
                 down.whileTrue(new IntakePos(m_pivot));
 
