@@ -282,7 +282,7 @@ public final class Constants {
         public static final double FF = 1.5e-3;
         public static final double speed = 5200; // Should be 3500 for trap
         public static final double revSpeed = 2000;
-        public static final double ampspeed = 1750;
+        public static final double ampspeed = 1600;
     }
 
     public static final class CandleConstants {

@@ -37,6 +37,10 @@ public class Swerve extends SubsystemBase {
     private Limelight l_limelight;
     private boolean limelightStatus;
 
+    // WPILib
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+            .getStructTopic("MyPose", Pose2d.struct).publish();
+
     public Swerve(Limelight limelight) {
         gyro = new AHRS(SPI.Port.kMXP);
         gyro.zeroYaw();
@@ -238,5 +242,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Pos Y", m_pose.getY());
         SmartDashboard.putNumber("Pos R", m_pose.getRotation().getDegrees());
         SmartDashboard.putNumber("Yaw", gyro.getAngle());
+
+        publisher.set(m_pose);
     }
 }
