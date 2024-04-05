@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 public class Pivot extends SubsystemBase {
 
     private static TalonFX pivotMotor = new TalonFX(Constants.PivotConstants.pivotMotor);
@@ -48,7 +47,8 @@ public class Pivot extends SubsystemBase {
 
         CANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
         CANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        CANcoderConfig.MagnetSensor.MagnetOffset = 0.091796875 + 0.01953125; //0.376708984375 + 0.29296875;
+        CANcoderConfig.MagnetSensor.MagnetOffset = 0.128173828125; // 0.376708984375 + 0.29296875;
+        // 0.091796875 + 0.01953125
         encoder.getConfigurator().apply(CANcoderConfig);
 
         slot0Configs.kP = Constants.PivotConstants.kS;
@@ -66,8 +66,6 @@ public class Pivot extends SubsystemBase {
         talonFXConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
         talonFXConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
 
-        
-
         pivotMotor.getConfigurator().apply(slot0Configs);
         pivotMotor.setNeutralMode(NeutralModeValue.Brake);
         pivotFollower.setNeutralMode(NeutralModeValue.Brake);
@@ -83,7 +81,7 @@ public class Pivot extends SubsystemBase {
 
         pivotMotor.setControl(pivotPositionVoltage);
         pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, true));
-        
+
     }
 
     public void setClimb(double position) {
@@ -143,28 +141,23 @@ public class Pivot extends SubsystemBase {
         yInt = x;
     }
 
-    public boolean iwannadie()
-    {
+    public boolean iwannadie() {
         return feeder.getShouldRev();
     }
 
-    public void killme(boolean kill)
-    {
+    public void killme(boolean kill) {
         feeder.setShouldRev(kill);
     }
 
-    public void kys(boolean k)
-    {
+    public void kys(boolean k) {
         feeder.setLemmeShootBro(k);
     }
 
-    public void hasBeenDetected(boolean bool)
-    {
+    public void hasBeenDetected(boolean bool) {
         feeder.setHasBeenDetected(bool);
     }
 
-    public void shouldShoot(boolean bool)
-    {
+    public void shouldShoot(boolean bool) {
         feeder.setShouldRev(bool);
     }
 
