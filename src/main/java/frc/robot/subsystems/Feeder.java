@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Candle;
 
-
 public class Feeder extends SubsystemBase {
     private Candle candle;
     private CANSparkMax feederMotor = new CANSparkMax(
@@ -27,8 +26,7 @@ public class Feeder extends SubsystemBase {
             Constants.FeederConstants.kS,
             Constants.FeederConstants.kV,
             Constants.FeederConstants.kA);
-    private LaserCan laserCAN = new LaserCan(
-            Constants.LaserCanConstants.laserCan);
+    private LaserCan laserCAN;
     private boolean hasBeenDetected;
     private boolean shouldRev;
     private boolean shouldShoot;
@@ -75,6 +73,8 @@ public class Feeder extends SubsystemBase {
 
     public void setupLaserCAN() {
         try {
+            laserCAN = new LaserCan(
+                    Constants.LaserCanConstants.laserCan);
             laserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
             laserCAN.setRegionOfInterest(
                     new LaserCan.RegionOfInterest(0, 0, 12, 12));
@@ -109,7 +109,7 @@ public class Feeder extends SubsystemBase {
 
     public void intake(double speed) {
 
-        if (shouldShoot || shouldAmp || !hasBeenDetected)  {
+        if (shouldShoot || shouldAmp || !hasBeenDetected) {
             setVelocity(speed);
         } else {
             setVelocity(-0.01);
@@ -209,26 +209,24 @@ public class Feeder extends SubsystemBase {
         LaserCan.Measurement Measurement = laserCAN.getMeasurement();
         if (Measurement == null) {
             System.out.println("null");
+
         } else if (Measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             int distance = Measurement.distance_mm;
             if (distance <= 80 && !shooter.isShooting()) {
                 setVelocity(-0.01);
-            //} else if (shooter.isShooting()){
+                // } else if (shooter.isShooting()){
                 setHasBeenDetected(true);
             }
             // else if (hasBeenDetected && shooter.isFullSpeed()) {
-            //     feederMotor.set(Constants.FeederConstants.speed);
-            //     hasBeenDetected = false;
+            // feederMotor.set(Constants.FeederConstants.speed);
+            // hasBeenDetected = false;
             // }
-            if (shooter.isFullSpeed()&&!candle.button)  {
-            candle.strobe(0,0,255);
+            if (shooter.isFullSpeed() && !candle.button) {
+                candle.strobe(0, 0, 255);
+            } else if (hasBeenDetected && !candle.button) {
+                candle.strobe(0, 255, 0);
             }
-            else if(hasBeenDetected&&!candle.button){
-                candle.strobe(0,255,0);
-            }
-            
 
-            
             if (!isIntaking && hasBeenDetected) {
                 setShouldRev(true);
             }
