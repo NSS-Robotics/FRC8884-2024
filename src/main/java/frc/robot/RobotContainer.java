@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.FourPieceAmp;
 import frc.robot.autos.FourPieceDSAmp;
 import frc.robot.autos.FourPieceMid;
+import frc.robot.autos.ThreePiece;
 import frc.robot.autos.ThreePieceMid;
 import frc.robot.autos.TwoPiece;
 import frc.robot.commands.*;
@@ -203,22 +204,9 @@ public class RobotContainer {
                         () -> false,
                         false);
 
-        private final FourPieceDSAmp fourPieceDSBlue = new FourPieceDSAmp(
-        "FourPieceAgainstDS",
-        5,
-        m_feeder,
-        m_intake,
-        l_limelight_april,
-        m_pivot,
-        m_shooter,
-        s_swerve,
-        l_candle,
-        () -> false,
-        false);
-
-        private final FourPieceAmp fourPieceAmpPlxWork = new FourPieceAmp(
-                        "FourPieceAmpPlxWork",
-                        6,
+        private final FourPieceDSAmp fourPieceDSRed = new FourPieceDSAmp(
+                        "FourPieceAgainstDS",
+                        5,
                         m_feeder,
                         m_intake,
                         l_limelight_april,
@@ -226,7 +214,47 @@ public class RobotContainer {
                         m_shooter,
                         s_swerve,
                         l_candle,
-                        () -> false);
+                        () -> false,
+                        true);
+
+        private final FourPieceDSAmp fourPieceDSBlue = new FourPieceDSAmp(
+                        "FourPieceAgainstDS",
+                        5,
+                        m_feeder,
+                        m_intake,
+                        l_limelight_april,
+                        m_pivot,
+                        m_shooter,
+                        s_swerve,
+                        l_candle,
+                        () -> false,
+                        false);
+
+        // private final ThreePieceMid threePieceAmpRed = new ThreePieceMid(
+        // "ThreePieceAmpPlxWork",
+        // 2,
+        // m_feeder,
+        // m_intake,
+        // l_limelight_april,
+        // m_pivot,
+        // m_shooter,
+        // s_swerve,
+        // l_candle,
+        // () -> false,
+        // true);
+
+        // private final ThreePieceMid threePieceAmpBlue = new ThreePieceMid(
+        // "ThreePieceAmpPlxWork",
+        // 2,
+        // m_feeder,
+        // m_intake,
+        // l_limelight_april,
+        // m_pivot,
+        // m_shooter,
+        // s_swerve,
+        // l_candle,
+        // () -> false,
+        // false);
 
         public RobotContainer() {
                 s_swerve.setDefaultCommand(
@@ -251,28 +279,47 @@ public class RobotContainer {
                 m_chooser.addOption(
                                 "ThreePieceMidBlue",
                                 threePieceMidBlue.followTrajectory());
-                // m_chooser.addOption("ThreePieceAmpPlxWork",
-                // threePieceAmpSidePlxWork.followTrajectory());
-                // m_chooser.addOption("ThreePieceSourcePlxWork",
-                // threePieceSourceSidePlxWork.followTrajectory());
-                m_chooser.addOption(
-                                "FourPieceMidRed",
-                                fourPieceMidRed.followTrajectory());
                 m_chooser.addOption(
                                 "FourPieceMidBlue",
                                 fourPieceMidBlue.followTrajectory());
                 m_chooser.addOption(
-                                "FourPieceGoodRed",
-                                fourPieceGoodRed.followTrajectory());
+                                "FourPieceMidRed",
+                                fourPieceMidRed.followTrajectory());
                 m_chooser.addOption(
-                                "FourPieceGoodBlue",
-                                fourPieceGoodBlue.followTrajectory());
+                                "FourPieceDSBlue",
+                                fourPieceDSBlue.followTrajectory());
                 m_chooser.addOption(
-                "FourPieceDSBlue",
-                fourPieceDSBlue.followTrajectory());
-                m_chooser.addOption(
-                                "FourPieceAmpPlxWork",
-                                fourPieceAmpPlxWork.followTrajectory());
+                                "FourPieceDSRed",
+                                fourPieceDSRed.followTrajectory());
+
+                // m_chooser.addOption("ThreePieceAmpPlxWork",
+                // threePieceAmpSidePlxWork.followTrajectory());
+                // m_chooser.addOption("ThreePieceSourcePlxWork",
+                // threePieceSourceSidePlxWork.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceMidRed",
+                // fourPieceMidRed.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceMidBlue",
+                // fourPieceMidBlue.followTrajectory());
+                // m_chooser.addOption(
+                // "ThreePieceAmpRed",
+                // threePieceAmpRed.followTrajectory());
+                // m_chooser.addOption(
+                // "ThreePieceAmpBlue",
+                // threePieceAmpBlue.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceGoodRed",
+                // fourPieceGoodRed.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceGoodBlue",
+                // fourPieceGoodBlue.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceDSBlue",
+                // fourPieceDSBlue.followTrajectory());
+                // m_chooser.addOption(
+                // "FourPieceAmpPlxWork",
+                // fourPieceAmpPlxWork.followTrajectory());
 
                 // m_chooser.setDefaultOption("TestAuto", testAuto.followTrajectory());
                 // m_y_int_chooser.addOption("85", 85);
