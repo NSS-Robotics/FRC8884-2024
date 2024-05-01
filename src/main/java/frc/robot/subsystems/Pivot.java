@@ -47,7 +47,7 @@ public class Pivot extends SubsystemBase {
 
         CANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
         CANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        CANcoderConfig.MagnetSensor.MagnetOffset = 0.125732421875; // 0.376708984375 + 0.29296875;
+        CANcoderConfig.MagnetSensor.MagnetOffset = 0.134521484375; // 0.376708984375 + 0.29296875;
         // 0.091796875 + 0.01953125
         encoder.getConfigurator().apply(CANcoderConfig);
 
@@ -81,7 +81,6 @@ public class Pivot extends SubsystemBase {
 
         pivotMotor.setControl(pivotPositionVoltage);
         pivotFollower.setControl(new Follower(Constants.PivotConstants.pivotMotor, true));
-
     }
 
     public void setClimb(double position) {

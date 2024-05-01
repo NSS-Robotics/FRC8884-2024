@@ -255,6 +255,7 @@ public class Feeder extends SubsystemBase {
             SmartDashboard.putBoolean("ShouldRev", shouldRev);
             SmartDashboard.putBoolean("ShouldShoot", shouldShoot);
             SmartDashboard.putBoolean("FirstShot", firstShot);
+            SmartDashboard.putNumber("FeederSpeed", feederMotor.getEncoder().getVelocity());
         }
     }
 }
