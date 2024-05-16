@@ -47,8 +47,9 @@ public class Pivot extends SubsystemBase {
 
         CANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
         CANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        CANcoderConfig.MagnetSensor.MagnetOffset = 0.25146484375; // 0.376708984375 + 0.29296875;
+        CANcoderConfig.MagnetSensor.MagnetOffset = 0.301025390625; // 0.376708984375 + 0.29296875;
         // 0.091796875 + 0.01953125
+        // 0.25146484375
         encoder.getConfigurator().apply(CANcoderConfig);
 
         slot0Configs.kP = Constants.PivotConstants.kS;
