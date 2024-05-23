@@ -368,8 +368,8 @@ public class RobotContainer {
                                 new SequentialCommandGroup(
                                                 new NoteIntake(m_intake, m_feeder, l_candle)));
                 rb.toggleOnTrue(new AmpShoot(m_shooter, m_pivot, m_feeder, l_candle));
-                up.whileTrue(new ClimbPos(m_pivot));
-                down.whileTrue(new IntakePos(m_pivot));
+                // up.whileTrue(new ClimbPos(m_pivot));
+                // down.whileTrue(new IntakePos(m_pivot));
 
                 /* Operator Buttons */
                 triangle.toggleOnTrue(
@@ -388,8 +388,8 @@ public class RobotContainer {
                                                 m_feeder,
                                                 Constants.PivotConstants.DownLobRotations,
                                                 l_candle));
-                upDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
-                downDawg.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
+                up.onFalse(new InstantCommand(() -> m_pivot.changeYInt(0.003))); // todo
+                down.onFalse(new InstantCommand(() -> m_pivot.changeYInt(-0.003))); // todo
                 leftDawg.onFalse(new InstantCommand(() -> m_pivot.changeAmp(0.005)));
                 rightDawg.onFalse(new InstantCommand(() -> m_pivot.changeAmp(-0.005)));
                 r2.whileTrue(

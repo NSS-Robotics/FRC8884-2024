@@ -42,7 +42,7 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocity(double velocity) {
         double desiredrps = velocity / 60;
-        double mep = velocity / -170; // should be 130 for spin
+        double mep = velocity / -60; // should be 130 for spin
         shooterVelocityVoltage = new VelocityVoltage(desiredrps);
         followerVelocityVoltage = new VelocityVoltage(mep);
         shooterMotor.setControl(shooterVelocityVoltage);
